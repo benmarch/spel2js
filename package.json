@@ -1,0 +1,54 @@
+{
+  "name": "spel2js",
+  "version": "0.1.0",
+  "description": "spel2js scaffolded with generator-microjs v0.1.2.",
+  "author": {
+    "name": "",
+    "email": "",
+    "url": "https://github.com/benmarch"
+  },
+  "homepage": "https://github.com/benmarch/spel2js",
+  "bugs": {
+    "url": "https://github.com/benmarch/spel2js/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://benmarch.mit-license.org"
+    }
+  ],
+  "maintainers": [],
+  "contributors": [{
+    "name": "Daniel Lamb",
+    "email": "dlamb.open.source@gmail.com",
+    "url": "https://github.com/daniellmb"
+  }],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/benmarch/spel2js.git"
+  },
+  "main": "spel2js.js",
+  "scripts": {
+    "test": "grunt"
+  },
+  "keywords": [
+    "micro",
+    "framework",
+    "library"
+  ],
+  "dependencies": {
+  },
+  "devDependencies": {
+    "grunt": "*",
+    "grunt-contrib-jshint": "*",
+    "grunt-complexity": "*",
+    "grunt-contrib-uglify": "*",
+    "grunt-karma": "*",
+    "karma-jasmine": "*",
+    "karma-coverage": "*",
+    "karma-phantomjs-launcher": "*"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  }
+}
