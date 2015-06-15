@@ -18,11 +18,13 @@
     }
   ],
   "maintainers": [],
-  "contributors": [{
-    "name": "Daniel Lamb",
-    "email": "dlamb.open.source@gmail.com",
-    "url": "https://github.com/daniellmb"
-  }],
+  "contributors": [
+    {
+      "name": "Daniel Lamb",
+      "email": "dlamb.open.source@gmail.com",
+      "url": "https://github.com/daniellmb"
+    }
+  ],
   "repository": {
     "type": "git",
     "url": "git://github.com/benmarch/spel2js.git"
@@ -36,17 +38,19 @@
     "framework",
     "library"
   ],
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "grunt": "*",
-    "grunt-contrib-jshint": "*",
     "grunt-complexity": "*",
+    "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-jshint": "*",
     "grunt-contrib-uglify": "*",
     "grunt-karma": "*",
-    "karma-jasmine": "*",
     "karma-coverage": "*",
-    "karma-phantomjs-launcher": "*"
+    "karma-jasmine": "*",
+    "karma-phantomjs-launcher": "*",
+    "load-grunt-tasks": "^3.2.0",
+    "time-grunt": "^1.2.1"
   },
   "engines": {
     "node": ">=0.10.0"
