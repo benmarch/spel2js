@@ -49,7 +49,7 @@ describe('tokenizer', function () {
         expect(tokens).toBeDefined();
         expect(tokens.length).toBe(1);
         expect(tokens[0].getKind()).toBe(TokenKind.LITERAL_HEXINT);
-        expect(tokens[0].stringValue()).toBe('FF\0');
+        expect(tokens[0].stringValue()).toBe('FF');
     });
 
     it('should return an array of one hex long token', function () {
@@ -60,7 +60,7 @@ describe('tokenizer', function () {
         expect(tokens).toBeDefined();
         expect(tokens.length).toBe(1);
         expect(tokens[0].getKind()).toBe(TokenKind.LITERAL_HEXLONG);
-        expect(tokens[0].stringValue()).toBe('FFl\0');
+        expect(tokens[0].stringValue()).toBe('FF');
     });
 
     it('should return an array of one string token', function () {
@@ -266,19 +266,5 @@ describe('tokenizer', function () {
 
         //then
         expect(shouldThrow).toThrow();
-    });
-
-    it('should throw exception if identifier is used on malformed hex literal', function () {
-        //given
-        function shouldThrow1() {
-            tokenize('0xi');
-        }
-        function shouldThrow2() {
-            tokenize('0xL');
-        }
-
-        //then
-        expect(shouldThrow1).toThrow();
-        expect(shouldThrow2).toThrow();
     });
 });

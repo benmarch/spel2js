@@ -455,7 +455,7 @@
                     return;
                 }
             }
-            tokens.push(new Token(TokenKind.IDENTIFIER, substring, start, pos));
+            tokens.push(new Token(TokenKind.IDENTIFIER, substring.replace('\0', ''), start, pos));
         }
 
         function pushIntToken(data, isLong, start, end) {
@@ -500,7 +500,7 @@
         }
 
         function subarray(start, end) {
-            return toProcess.substr(start, end);
+            return toProcess.substring(start, end);
         }
 
         /**
