@@ -24,12 +24,12 @@ Say you are creating a shared to-do list, and you want to allow only the owner o
 @RequestMapping('/todolists')
 public class ListController {
 
-  public static final String ADD_LIST_ITEM_PERMISSION = "#newListItem.owner == principal.name";  
+  public static final String ADD_LIST_ITEM_PERMISSION = "#toDoList.owner == principal.name";  
   ...
   
   @PreAuthorize(ADD_LIST_ITEM_PERMISSION)
-  @RequestMapping(value="/{listId}/items", method=RequestMethod.POST)
-  public ResponseEntity<ListItem> addListItem(@PathVariable Long listId, @RequestBody ListItem newListItem) {
+  @RequestMapping(value="/{toDolistId}/items", method=RequestMethod.POST)
+  public ResponseEntity<ListItem> addListItem(@MagicAnnotation ToDoList toDoList, @RequestBody ListItem newListItem) {
     //add the item to the list
     return new ResponseEntity<ListItem>(newListItem, HttpStatus.CREATED);
   }
@@ -54,8 +54,7 @@ angular.module('ToDo').controller('ListController', ['$http', '$scope', '$window
     owner: 'Ben March',
     items: [
       {
-        text: 'List item number 1!',
-        owner: 'Ben March'
+        text: 'List item number 1!'
       }
     ]
   }
@@ -83,6 +82,8 @@ angular.module('ToDo').controller('ListController', ['$http', '$scope', '$window
   ...
 </div>
 ```
+(Spring isn't my strength here, sorry.)
+
 Seems like it might be a lot of work for such a simple piece of functionality; however, what happens when you add role-based
 permissions as a new feature? If you already have this set up, it's as simple as adding " or hasRole('SuperUser')" to 
 the SpEL, and exposing a minimal projection of the Principal (UserDetails most likely) to Angular (which it probably already
