@@ -1,7 +1,23 @@
 {
   "name": "spel2js",
   "version": "0.1.0",
-  "main": "spel2js.js",
+  "description": "Parse Spring Expression Language in JavaScript",
+  "main": "dist/spel2js.js",
+  "author": {
+      "name": "Ben March",
+      "email": "bmarch89@gmail.com",
+      "url": "https://github.com/benmarch"
+  },
+  "homepage": "https://github.com/benmarch/spel2js",
+  "bugs": {
+      "url": "https://github.com/benmarch/spel2js/issues"
+  },
+  "licenses": [
+      {
+          "type": "MIT",
+          "url": "http://benmarch.mit-license.org"
+      }
+  ],
   "ignore": [
     ".editorconfig",
     ".gitattributes",

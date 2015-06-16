@@ -33,6 +33,18 @@ module.exports = function (grunt) {
             ]
         },
 
+        complexity: {
+            all: {
+                src: ['src/**/*.js'],
+                options: {
+                    breakOnErrors: false,
+                    checkstyleXML: 'complexity/checkstyle.xml', // create checkstyle report
+                    errorsOnly: false,               // show only maintainability errors
+                    maintainability: 100
+                }
+            }
+        },
+
         concat: {
             dist: {
                 src: '<%= config.app %>/**/*.js',
@@ -58,13 +70,22 @@ module.exports = function (grunt) {
         'karma:unit'
     ]);
 
+    grunt.registerTask('lint', [
+        'jshint'
+    ]);
+
+    grunt.registerTask('gpa', [
+        'complexity'
+    ]);
+
     grunt.registerTask('build', [
         'concat',
         'uglify'
     ]);
 
     grunt.registerTask('default', [
-        'jshint',
+        'lint',
+        'gpa',
         'test',
         'build'
     ]);

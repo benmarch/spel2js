@@ -11,20 +11,105 @@
 
 ## About
 
-All about how amazing the spel2js micro-library is.
+SpEL2JS is a plugin that will parse Spring Expression Language within a defined context in JavaScript. This is useful
+in single-page applications where duplication of authorization expressions for UI purposes can lead to inconsistencies.
+Consider the following simple example:
+
+Say you are creating a shared to-do list, and you want to allow only the owner of the list to make changes, but anyone can view: 
+
+```java
+//ListController.java
+
+@Controller
+@RequestMapping('/todolists')
+public class ListController {
+
+  public static final String ADD_LIST_ITEM_PERMISSION = "#newListItem.owner == principal.name";  
+  ...
+  
+  @PreAuthorize(ADD_LIST_ITEM_PERMISSION)
+  @RequestMapping(value="/{listId}/items", method=RequestMethod.POST)
+  public ResponseEntity<ListItem> addListItem(@PathVariable Long listId, @RequestBody ListItem newListItem) {
+    //add the item to the list
+    return new ResponseEntity<ListItem>(newListItem, HttpStatus.CREATED);
+  }
+
+  ...
+}
+```
+
+```javascript
+//list-controller.js
+
+angular.module('ToDo').controller('ListController', ['$http', '$scope', '$window', function ($http, $scope, $window) {
+  
+  $http.get('/todolists/some-way-to-get-the-permissions').success(function (permissions) {
+    angular.forEach(permissions, function (spelExpression, key) {
+      $scope.permissions[key] = $window.spelExpressionParser.compile(spelExpression);
+    });
+  });
+  
+  $scope.list = {
+    name: 'My List',
+    owner: 'Ben March',
+    items: [
+      {
+        text: 'List item number 1!',
+        owner: 'Ben March'
+      }
+    ]
+  }
+  
+  $scope.addListItem = function (list, newListItem) {
+    if ($scope.permissions.ADD_LIST_ITEM_PERMISSION.eval($scope.context) {
+      $http.post('/todolists/' + list.id + '/items', item).success(function () {...});  
+    }
+  }
+}]);
+```
+
+```html
+<!--list-controller.html-->
+
+<div ng-controller="ListController">
+  ...
+  <li ng-repeat="listItem in list.items">
+    <p>{{listItem.text}}</p>
+  </li>
+  <li class="list-actions">
+    <input type="text" ng-model="newListItem.text" />
+    <button ng-click="addListItem(list, newListItem)" ng-if="permissions.ADD_LIST_ITEM_PERMISSION.eval(context)">Add</button>
+  </li>
+  ...
+</div>
+```
+Seems like it might be a lot of work for such a simple piece of functionality; however, what happens when you add role-based
+permissions as a new feature? If you already have this set up, it's as simple as adding " or hasRole('SuperUser')" to 
+the SpEL, and exposing a minimal projection of the Principal (UserDetails most likely) to Angular (which it probably already
+has access to.) Now the UI can always stay in sync with the server-side authorities. 
 
 This repository was scaffolded with [generator-microjs](https://github.com/daniellmb/generator-microjs).
 
-## Examples
+## Left to do
 
-### JavaScript
+This is not currently stable enough to release. The following must be done first:
 
-```JavaScript
-  // TODO
-```
+- [x] Port the tokenizer to JS
+- [ ] Implement the evaluator in JS (in progress)
+- [ ] Implement common functions (hasPermission(), hasRole(), isAuthenticated(), etc.)
+
+Then some (probably separate project) follow-up features:
+
+- [ ] AngularJS service
+- [ ] AngularJS directives (spelShow, spelHide, spelIf, etc.)
+
+If someone wants to implement a REST-compliant way in Spring to expose the permissions (and maybe the custom
+PermissionEvaluators) that would be awesome.
+
 
 ## Install Choices
 - `bower install spel2js`
+- `npm install spel2js`
 - [download the zip](https://github.com/benmarch/spel2js/archive/master.zip)
 
 ## Tasks
@@ -34,7 +119,6 @@ All tasks can be run by simply running `grunt` or with the `npm test` command, o
   * `grunt lint` will lint source code for syntax errors and anti-patterns.
   * `grunt gpa` will analyze source code against complexity thresholds.
   * `grunt test` will run the jasmine unit tests against the source code.
-  * `grunt test-min` will run the jasmine unit tests against the minified code.
 
 ## License
 
