@@ -84,7 +84,15 @@ module.exports = function (config) {
         frameworks: ['jasmine'],
 
         files: [
-            'src/**/*.js',
+            'src/TokenKind.js',
+            'src/Token.js',
+            'src/tokenizer.js',
+
+            'src/ast/SpelNode.js',
+            'src/ast/*.js',
+
+            'src/spelExpressionParser.js',
+
             'test/spec/**/*.spec.js'
         ]
     });
