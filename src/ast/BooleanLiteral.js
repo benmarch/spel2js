@@ -8,8 +8,8 @@
         SpelNode = exports.SpelNode;
     }
 
-    function createNode(value, parent) {
-        var node = SpelNode.create('boolean', parent);
+    function createNode(value, position) {
+        var node = SpelNode.create('boolean', position);
 
         node.getValue = function () {
             return value;
@@ -18,7 +18,7 @@
         return node;
     }
 
-    exports.BooleanNode = {
+    exports.BooleanLiteral = {
         create: createNode
     };
 

@@ -8,8 +8,8 @@
         SpelNode = exports.SpelNode;
     }
 
-    function createNode(value, parent) {
-        var node = SpelNode.create('number', parent);
+    function createNode(value, position) {
+        var node = SpelNode.create('number', position);
 
         node.getValue = function () {
             return value;
@@ -18,7 +18,7 @@
         return node;
     }
 
-    exports.NumberNode = {
+    exports.NumberLiteral = {
         create: createNode
     };
 

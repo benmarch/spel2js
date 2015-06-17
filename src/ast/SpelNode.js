@@ -1,11 +1,13 @@
 (function (exports) {
     'use strict';
 
-    function createSpelNode(nodeType, parentNode, context) {
+    function createSpelNode(nodeType, position /*, operands */) {
         var node = {},
             type = nodeType || 'Abstract',
             children = [],
-            parent = parentNode || null;
+            parent = null,
+            args = Array.prototype.slice.call(arguments),
+            operands = args.length > 2 ? args.slice(2) : null;
 
         node.getType = function () {
             return type;
@@ -36,6 +38,14 @@
             context = nodeContext;
         };
 
+        node.getStartPosition = function () {
+            return (position >> 16);
+        };
+
+        node.getEndPosition = function () {
+            return (position & 0xffff);
+        };
+
         //must override
         node.getValue = function () {
             throw {
@@ -55,9 +65,20 @@
             return s;
         };
 
-        if (parentNode) {
-            parentNode.addChild(node);
+        //constructor
+        if (position === 0) {
+            throw {
+                name: 'Error',
+                message: 'Position cannot be 0'
+            };
         }
+
+        if (operands) {
+            operands.forEach(function (operand) {
+                node.addChild(operand);
+            });
+        }
+
 
         return node;
     }

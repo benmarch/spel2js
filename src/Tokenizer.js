@@ -517,7 +517,7 @@
          * Push a token of just one character in length.
          */
         function pushCharToken(kind) {
-            tokens.push(new Token(kind, pos, pos + 1));
+            tokens.push(new Token(kind, null, pos, pos + 1));
             pos += 1;
         }
 
@@ -525,7 +525,7 @@
          * Push a token of two characters in length.
          */
         function pushPairToken(kind) {
-            tokens.push(new Token(kind, pos, pos + 2));
+            tokens.push(new Token(kind, null, pos, pos + 2));
             pos += 2;
         }
 
@@ -586,6 +586,8 @@
 
     }
 
-    exports.tokenize = tokenize;
+    exports.Tokenizer = {
+        tokenize: tokenize
+    };
 
 }(window || exports));

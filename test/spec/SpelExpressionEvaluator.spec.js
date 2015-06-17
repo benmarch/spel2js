@@ -11,8 +11,8 @@
 'use strict';
 
 /*global spel2js*/
-describe('spel expression parser', function () {
-    var parser = window.spelExpressionParser;
+describe('spel expression evaluator', function () {
+    var evaluator = window.SpelExpressionEvaluator;
 
     beforeEach(function () {
         // add spies
@@ -22,10 +22,10 @@ describe('spel expression parser', function () {
 
         it('should compile an expression an return an evaluator', function () {
             //when
-            var evaluator = parser.compile('1234');
+            var compiledExpression = evaluator.compile('1234');
 
             //then
-            expect(evaluator.eval).toBeDefined();
+            expect(compiledExpression.eval).toBeDefined();
         });
 
     });
@@ -37,8 +37,8 @@ describe('spel expression parser', function () {
 
             it('should evaluate a number', function () {
                 //when
-                var numberInt = parser.parse('123');
-                var numberFloat = parser.parse('123.4');
+                var numberInt = evaluator.eval('123');
+                var numberFloat = evaluator.eval('123.4');
 
                 //then
                 expect(numberInt).toBe(123);
@@ -47,8 +47,8 @@ describe('spel expression parser', function () {
 
             it('should evaluate a string', function () {
                 //when
-                var stringSingle = parser.parse('\'hello world!\'');
-                var stringDouble = parser.parse('"hello world!"');
+                var stringSingle = evaluator.eval('\'hello world!\'');
+                var stringDouble = evaluator.eval('"hello world!"');
 
                 //then
                 expect(stringSingle).toBe('hello world!');
@@ -57,8 +57,8 @@ describe('spel expression parser', function () {
 
             it('should evaluate a boolean', function () {
                 //when
-                var boolTrue = parser.parse('true');
-                var boolFalse = parser.parse('false');
+                var boolTrue = evaluator.eval('true');
+                var boolFalse = evaluator.eval('false');
 
                 //then
                 expect(boolTrue).toBe(true);
@@ -74,18 +74,20 @@ describe('spel expression parser', function () {
             beforeEach(function () {
                 context = {
                     iAmANumber: 1,
+                    iAmANestedPropertyName: 'propLookup',
                     nested: {
                         iAmAString: 'hi',
                         reallyNested: {
                             iAmTrue: true
-                        }
+                        },
+                        propLookup: 'Found!'
                     }
                 };
             });
 
             it('should look up a primitive in the context', function () {
                 //when
-                var number = parser.parse('iAmANumber', context);
+                var number = evaluator.eval('iAmANumber', context);
 
                 //then
                 expect(number).toBe(1);
@@ -93,7 +95,7 @@ describe('spel expression parser', function () {
 
             it('should look up a nested primitive in the context using dot notation', function () {
                 //when
-                var string = parser.parse('nested.iAmAString', context);
+                var string = evaluator.eval('nested.iAmAString', context);
 
                 //then
                 expect(string).toBe('hi');
@@ -101,18 +103,26 @@ describe('spel expression parser', function () {
 
             it('should look up a doubly nested primitive in the context using dot notation', function () {
                 //when
-                var bool = parser.parse('nested.reallyNested.iAmTrue', context);
+                var bool = evaluator.eval('nested.reallyNested.iAmTrue', context);
 
                 //then
                 expect(bool).toBe(true);
             });
 
-            it('should look up a nested primitive in the context using bracket notation', function () {
+            it('should look up a nested primitive in the context using bracket notation literal', function () {
                 //when
-                var string = parser.parse('nested["iAmAString"]', context);
+                var string = evaluator.eval('nested["iAmAString"]', context);
 
                 //then
                 expect(string).toBe('hi');
+            });
+
+            it('should look up a nested primitive in the context using bracket notation', function () {
+                //when
+                var string = evaluator.eval('nested[iAmANestedPropertyName]', context);
+
+                //then
+                expect(string).toBe('Found!');
             });
 
         });

@@ -16,6 +16,9 @@
         if (tokenData) {
             this.data = tokenData;
         }
+        if (!endPos) {
+            debugger;
+        }
     }
 
     Token.prototype.getKind = function () {
@@ -56,6 +59,14 @@
 
     Token.prototype.asBetweenToken = function () {
         return new Token(TokenKind.BETWEEN, this.startPos, this.endPos);
+    };
+
+    Token.prototype.getStartPosition = function () {
+        return this.startPos;
+    };
+
+    Token.prototype.getEndPosition = function () {
+        return this.endPos;
     };
 
     exports.Token = Token;

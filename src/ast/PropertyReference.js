@@ -8,23 +8,26 @@
         SpelNode = exports.SpelNode;
     }
 
-    function createNode(context, propertyName, parent) {
-        var node = SpelNode.create('property', parent);
+    function createNode(propertyName, position) {
+        var node = SpelNode.create('property', position);
 
-        node.getValue = function () {
-            if (node.getChildren()[0]) {
-                return node.getChildren()[0].getValue();
+        node.getValue = function (state) {
+            var context = state.activeContext.peek();
+            if (!context) {
+                throw {
+                    name: 'ContextDoesNotExistException',
+                    message: 'Attempting to look up property \''+ propertyName +'\' for an undefined context.'
+                }
             }
-            else if (context) {
-                return context[propertyName];
+            //not sure if this will ever be the case but ill leave it for now
+            else if (node.getChildren()[0]) {
+                return node.getChildren()[0].getValue(context[propertyName]);
             }
-            throw {
-                name: 'ContextDoesNotExistException',
-                message: 'Attempting to look up property \''+ propertyName +'\' for an undefined context.'
-            }
+
+            return context[propertyName];
         };
 
-        node.setContext(node.getValue());
+        //node.setContext(node.getValue());
 
         return node;
     }

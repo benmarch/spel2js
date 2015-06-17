@@ -8,8 +8,19 @@
         SpelNode = exports.SpelNode;
     }
 
-    function createNode(value, parent) {
-        var node = SpelNode.create('string', parent);
+    function createNode(value, position) {
+        var node = SpelNode.create('string', position);
+
+        function stripQuotes(value) {
+            if ((value[0] === '\'' && value[value.length - 1] === '\'') ||
+                (value[0] === '"' && value[value.length - 1] === '"')) {
+                return value.substring(1, value.length - 1);
+            }
+            return value;
+        }
+
+        //value cannot be null so no check
+        value = stripQuotes(value);
 
         node.getValue = function () {
             return value;
@@ -18,7 +29,7 @@
         return node;
     }
 
-    exports.StringNode = {
+    exports.StringLiteral = {
         create: createNode
     };
 

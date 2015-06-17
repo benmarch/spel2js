@@ -12,7 +12,7 @@
 
 /*global spel2js*/
 describe('tokenizer', function () {
-    var tokenize = window.tokenize,
+    var tokenize = window.Tokenizer.tokenize,
         TokenKind = window.TokenKind;
 
     beforeEach(function () {
