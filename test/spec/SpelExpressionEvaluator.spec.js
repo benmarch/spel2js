@@ -78,7 +78,8 @@ describe('spel expression evaluator', function () {
                     nested: {
                         iAmAString: 'hi',
                         reallyNested: {
-                            iAmTrue: true
+                            iAmTrue: true,
+                            hi: 'bye'
                         },
                         propLookup: 'Found!'
                     }
@@ -123,6 +124,14 @@ describe('spel expression evaluator', function () {
 
                 //then
                 expect(string).toBe('Found!');
+            });
+
+            it('should look up a really nested primitive in the context using bracket notation', function () {
+                //when
+                var string = evaluator.eval('nested.reallyNested[nested.iAmAString]', context);
+
+                //then
+                expect(string).toBe('bye');
             });
 
         });
