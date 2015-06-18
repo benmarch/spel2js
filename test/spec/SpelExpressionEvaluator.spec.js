@@ -227,6 +227,57 @@ describe('spel expression evaluator', function () {
 
         });
 
+
+        describe('method invocation', function () {
+
+            var context = {
+                funky: function () {
+                    return 'fresh';
+                },
+                argumentative: function (arg) {
+                    return arg;
+                },
+                name: 'ben'
+            };
+
+            it('should look up and invoke a function', function () {
+                //when
+                var ret = evaluator.eval('funky()', context);
+
+                //then
+                expect(ret).toBe('fresh');
+            });
+
+            it('should look up and invoke a function with arguments', function () {
+                //when
+                var ret = evaluator.eval('argumentative("i disagree!")', context);
+
+                //then
+                expect(ret).toBe('i disagree!');
+            });
+
+            it('should use a property if getter not available', function () {
+                //when
+                var ret = evaluator.eval('getName()', context);
+
+                //then
+                expect(ret).toBe('ben');
+            });
+
+            it('should set a property if setter not available', function () {
+                //given
+                evaluator.eval('setName("steve")', context);
+
+                //when
+                var ret = evaluator.eval('getName()', context);
+
+                //then
+                expect(ret).toBe('steve');
+            });
+
+
+        });
+
     });
 
 });

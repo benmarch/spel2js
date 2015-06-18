@@ -720,7 +720,8 @@
                     return true;
                 }
                 // methodreference
-                push(new MethodReference(nullSafeNavigation, methodOrPropertyName.data, toPosToken(methodOrPropertyName), args));
+                push(MethodReference.create(methodOrPropertyName.stringValue(), toPosToken(methodOrPropertyName), args));
+                //push(new MethodReference(nullSafeNavigation, methodOrPropertyName.data, toPosToken(methodOrPropertyName), args));
                 // TODO what is the end position for a method reference? the name or the last arg?
                 return true;
             }

@@ -27,8 +27,6 @@
             return context[propertyName];
         };
 
-        //node.setContext(node.getValue());
-
         return node;
     }
 
