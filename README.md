@@ -102,7 +102,7 @@ This is not currently stable enough to release. The following must be done first
   - [x] Property references
   - [x] Compound expressions
   - [x] Comparisons
-  - [ ] Method references
+  - [x] Method references
   - [ ] Local variable reference ("#someVar")
   - [ ] Math
   - [ ] Ternary operators
