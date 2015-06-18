@@ -401,6 +401,37 @@ describe('spel expression evaluator', function () {
 
         });
 
+
+        describe('ternary', function () {
+
+            it('should return first argument if true', function () {
+                //when
+                var tern = evaluator.eval('true ? "yes" : "no"');
+
+                //then
+                expect(tern).toBe('yes');
+            });
+
+            it('should return second argument if false', function () {
+                //when
+                var tern = evaluator.eval('false ? "yes" : "no"');
+
+                //then
+                expect(tern).toBe('no');
+            });
+
+            it('should return expression if truthy, or ifFalseExpression if null ', function () {
+                //when
+                var elvisTruthy = evaluator.eval('"Thank you." ?: "Thank you very much."');
+                var elvisFalsy = evaluator.eval('null ?: "Thank you very much."');
+
+                //then
+                expect(elvisTruthy).toBe('Thank you.');
+                expect(elvisFalsy).toBe('Thank you very much.');
+            });
+
+        });
+
     });
 
 });

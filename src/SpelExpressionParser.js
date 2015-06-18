@@ -6,6 +6,7 @@
         BooleanLiteral,
         NumberLiteral,
         StringLiteral,
+        NullLiteral,
         FunctionReference,
         MethodReference,
         PropertyReference,
@@ -23,6 +24,8 @@
         OpDivide,
         OpModulus,
         OpPower,
+        Ternary,
+        Elvis,
         VariableReference;
 
     try {
@@ -32,6 +35,7 @@
         BooleanLiteral = require('./ast/BooleanLiteral');
         NumberLiteral = require('./ast/NumberLiteral');
         StringLiteral = require('./ast/StringLiteral');
+        NullLiteral = require('./ast/NullLiteral');
         FunctionReference = require('./ast/FunctionReference');
         MethodReference = require('./ast/MethodReference');
         PropertyReference = require('./ast/PropertyReference');
@@ -49,6 +53,8 @@
         OpDivide = require('./ast/OpDivide');
         OpModulus = require('./ast/OpModulus');
         OpPower = require('./ast/OpPower');
+        Ternary = require('./ast/Ternary');
+        Elvis = require('./ast/Elvis');
         VariableReference = require('./ast/VariableReference');
     } catch (e) {
         TokenKind = exports.TokenKind;
@@ -57,6 +63,7 @@
         BooleanLiteral = exports.BooleanLiteral;
         NumberLiteral = exports.NumberLiteral;
         StringLiteral = exports.StringLiteral;
+        NullLiteral = exports.NullLiteral;
         FunctionReference = exports.FunctionReference;
         MethodReference = exports.MethodReference;
         PropertyReference = exports.PropertyReference;
@@ -74,6 +81,8 @@
         OpDivide = exports.OpDivide;
         OpModulus = exports.OpModulus;
         OpPower = exports.OpPower;
+        Ternary = exports.Ternary;
+        Elvis = exports.Elvis;
         VariableReference = exports.VariableReference;
     }
 
@@ -142,7 +151,7 @@
                 var token = peekToken();
                 if (token.getKind() == TokenKind.ASSIGN) {  // a=b
                     if (expr == null) {
-                        expr = new NullLiteral(toPosBounds(token.startPos - 1, token.endPos - 1));
+                        expr = NullLiteral.create(toPosBounds(token.startPos - 1, token.endPos - 1));
                     }
                     nextToken();
                     var assignedValue = eatLogicalOrExpression();
@@ -151,25 +160,25 @@
 
                 if (token.getKind() == TokenKind.ELVIS) {  // a?:b (a if it isn't null, otherwise b)
                     if (expr == null) {
-                        expr = new NullLiteral(toPosBounds(token.startPos - 1, token.endPos - 2));
+                        expr = NullLiteral.create(toPosBounds(token.startPos - 1, token.endPos - 2));
                     }
                     nextToken();  // elvis has left the building
                     var valueIfNull = eatExpression();
                     if (valueIfNull == null) {
-                        valueIfNull = new NullLiteral(toPosBounds(token.startPos + 1, token.endPos + 1));
+                        valueIfNull = NullLiteral.create(toPosBounds(token.startPos + 1, token.endPos + 1));
                     }
-                    return new Elvis(toPosToken(token), expr, valueIfNull);
+                    return Elvis.create(toPosToken(token), expr, valueIfNull);
                 }
 
                 if (token.getKind() == TokenKind.QMARK) {  // a?b:c
                     if (expr == null) {
-                        expr = new NullLiteral(toPosBounds(token.startPos - 1, token.endPos - 1));
+                        expr = NullLiteral.create(toPosBounds(token.startPos - 1, token.endPos - 1));
                     }
                     nextToken();
                     var ifTrueExprValue = eatExpression();
                     eatToken(TokenKind.COLON);
                     var ifFalseExprValue = eatExpression();
-                    return new Ternary(toPosToken(token), expr, ifTrueExprValue, ifFalseExprValue);
+                    return Ternary.create(toPosToken(token), expr, ifTrueExprValue, ifFalseExprValue);
                 }
             }
             return expr;
@@ -579,7 +588,7 @@
                     return false;
                 }
                 nextToken();
-                push(new NullLiteral(toPosToken(nullToken)));
+                push(NullLiteral.create(toPosToken(nullToken)));
                 return true;
             }
             return false;

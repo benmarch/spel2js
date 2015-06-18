@@ -105,7 +105,7 @@ This is not currently stable enough to release. The following must be done first
   - [x] Method references
   - [x] Local variable reference ("#someVar")
   - [x] Math
-  - [ ] Ternary operators
+  - [x] Ternary operators
   - [ ] Qualified identifiers/Type references
   - [ ] Complex literals
   - [ ] Projection/selection
