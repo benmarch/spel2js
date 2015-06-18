@@ -60,7 +60,7 @@ angular.module('ToDo').controller('ListController', ['$http', '$scope', '$window
   }
   
   $scope.addListItem = function (list, newListItem) {
-    if ($scope.permissions.ADD_LIST_ITEM_PERMISSION.eval($scope.context) {
+    if ($scope.permissions.ADD_LIST_ITEM_PERMISSION.eval($scope.context)) {
       $http.post('/todolists/' + list.id + '/items', item).success(function () {...});  
     }
   }
@@ -96,7 +96,20 @@ This repository was scaffolded with [generator-microjs](https://github.com/danie
 This is not currently stable enough to release. The following must be done first:
 
 - [x] Port the tokenizer to JS
-- [ ] Implement the evaluator in JS (in progress)
+- [x] Port the parser to JS
+- [ ] Implement the evaluator in JS
+  - [x] Primitive Literals
+  - [x] Property references
+  - [x] Compound expressions
+  - [x] Comparisons
+  - [ ] Method references
+  - [ ] Local variable reference ("#someVar")
+  - [ ] Math
+  - [ ] Ternary operators
+  - [ ] Qualified identifiers/Type references
+  - [ ] Complex literals
+  - [ ] Projection/selection
+  - [ ] (Something I probably missed)
 - [ ] Implement common functions (hasPermission(), hasRole(), isAuthenticated(), etc.)
 
 Then some (probably separate project) follow-up features:
