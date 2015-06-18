@@ -136,6 +136,97 @@ describe('spel expression evaluator', function () {
 
         });
 
+
+        describe('comparisons', function () {
+
+            it('should evaluate an equality', function () {
+                //when
+                var comp1 = evaluator.eval('1 == 1');
+                var comp2 = evaluator.eval('1 == 2');
+
+                //then
+                expect(comp1).toBe(true);
+                expect(comp2).toBe(false);
+            });
+
+            it('should evaluate an equality with lookups', function () {
+                //given
+                var context = {
+                    left: 1,
+                    right: 1
+                };
+
+                //when
+                var comp = evaluator.eval('left == right', context);
+
+                //then
+                expect(comp).toBe(true);
+            });
+
+            it('should evaluate an inequality (not equal)', function () {
+                //when
+                var comp1 = evaluator.eval('1 != 2');
+                var comp2 = evaluator.eval('1 != 1');
+
+                //then
+                expect(comp1).toBe(true);
+                expect(comp2).toBe(false);
+            });
+
+            it('should evaluate an inequality (greater than)', function () {
+                //when
+                var comp1 = evaluator.eval('2 > 1');
+                var comp2 = evaluator.eval('1 > 1');
+
+                //then
+                expect(comp1).toBe(true);
+                expect(comp2).toBe(false);
+            });
+
+            it('should evaluate an inequality (greater than or equal to)', function () {
+                //when
+                var comp1 = evaluator.eval('1 >= 1');
+                var comp2 = evaluator.eval('2 >= 1');
+                var comp3 = evaluator.eval('1 >= 2');
+
+                //then
+                expect(comp1).toBe(true);
+                expect(comp2).toBe(true);
+                expect(comp3).toBe(false);
+            });
+
+            it('should evaluate an inequality (less than)', function () {
+                //when
+                var comp1 = evaluator.eval('1 < 2');
+                var comp2 = evaluator.eval('1 < 1');
+
+                //then
+                expect(comp1).toBe(true);
+                expect(comp2).toBe(false);
+            });
+
+            it('should evaluate an inequality (less than or equal to)', function () {
+                //when
+                var comp1 = evaluator.eval('1 <= 2');
+                var comp2 = evaluator.eval('1 <= 2');
+                var comp3 = evaluator.eval('2 <= 1');
+
+                //then
+                expect(comp1).toBe(true);
+                expect(comp2).toBe(true);
+                expect(comp3).toBe(false);
+            });
+
+            it('should evaluate a complex inequality', function () {
+                //when
+                var comp = evaluator.eval('"abc".length <= "abcde".length');
+
+                //then
+                expect(comp).toBe(true);
+            });
+
+        });
+
     });
 
 });

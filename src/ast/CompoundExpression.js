@@ -24,11 +24,10 @@
             }
 
             for (i = 0; i < childrenCount; i += 1) {
-                if (node.getChildren()[i].getType() === 'property') {
-                    state.activeContext.push(node.getChildren()[i].getValue(state));
-                }
                 if (node.getChildren()[i].getType() === 'indexer') {
                     state.activeContext.push(state.activeContext.peek()[node.getChildren()[i].getValue(state)]);
+                } else {
+                    state.activeContext.push(node.getChildren()[i].getValue(state));
                 }
             }
 

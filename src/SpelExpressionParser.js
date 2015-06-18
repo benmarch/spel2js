@@ -10,7 +10,13 @@
         MethodReference,
         PropertyReference,
         CompoundExpression,
-        Indexer;
+        Indexer,
+        OpEQ,
+        OpNE,
+        OpGE,
+        OpGT,
+        OpLE,
+        OpLT;
 
     try {
         TokenKind = require('./TokenKind');
@@ -24,6 +30,12 @@
         PropertyReference = require('./ast/PropertyReference');
         CompoundExpression = require('./ast/CompoundExpression');
         Indexer = require('./ast/Indexer');
+        OpEQ = require('./ast/OpEQ');
+        OpNE = require('./ast/OpNE');
+        OpGE = require('./ast/OpGE');
+        OpGT = require('./ast/OpGT');
+        OpLE = require('./ast/OpLE');
+        OpLT = require('./ast/OpLT');
     } catch (e) {
         TokenKind = exports.TokenKind;
         Tokenizer = exports.Tokenizer;
@@ -36,6 +48,12 @@
         PropertyReference = exports.PropertyReference;
         CompoundExpression = exports.CompoundExpression;
         Indexer = exports.Indexer;
+        OpEQ = exports.OpEQ;
+        OpNE = exports.OpNE;
+        OpGE = exports.OpGE;
+        OpGT = exports.OpGT;
+        OpLE = exports.OpLE;
+        OpLT = exports.OpLT;
     }
 
 
@@ -173,22 +191,22 @@
                 if (relationalOperatorToken.isNumericRelationalOperator()) {
                     var pos = toPosToken(token);
                     if (tk == TokenKind.GT) {
-                        return new OpGT(pos, expr, rhExpr);
+                        return OpGT.create(pos, expr, rhExpr);
                     }
                     if (tk == TokenKind.LT) {
-                        return new OpLT(pos, expr, rhExpr);
+                        return OpLT.create(pos, expr, rhExpr);
                     }
                     if (tk == TokenKind.LE) {
-                        return new OpLE(pos, expr, rhExpr);
+                        return OpLE.create(pos, expr, rhExpr);
                     }
                     if (tk == TokenKind.GE) {
-                        return new OpGE(pos, expr, rhExpr);
+                        return OpGE.create(pos, expr, rhExpr);
                     }
                     if (tk == TokenKind.EQ) {
-                        return new OpEQ(pos, expr, rhExpr);
+                        return OpEQ.create(pos, expr, rhExpr);
                     }
                     //Assert.isTrue(tk == TokenKind.NE);
-                    return new OpNE(pos, expr, rhExpr);
+                    return OpNE.create(pos, expr, rhExpr);
                 }
 
                 if (tk == TokenKind.INSTANCEOF) {

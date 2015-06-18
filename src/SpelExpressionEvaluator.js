@@ -24,9 +24,16 @@
     };
 
     function evalCompiled(compiledExpression, context) {
-        var activeContext = new Stack();
+        var activeContext = new Stack(),
+            state;
+
+        if (!context) {
+            context = {};
+        }
+
         activeContext.push(context);
-        var state = {
+
+        state = {
             rootContext: context,
             activeContext: activeContext
         };
