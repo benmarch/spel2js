@@ -16,7 +16,8 @@
         OpGE,
         OpGT,
         OpLE,
-        OpLT;
+        OpLT,
+        VariableReference;
 
     try {
         TokenKind = require('./TokenKind');
@@ -36,6 +37,7 @@
         OpGT = require('./ast/OpGT');
         OpLE = require('./ast/OpLE');
         OpLT = require('./ast/OpLT');
+        VariableReference = require('./ast/VariableReference');
     } catch (e) {
         TokenKind = exports.TokenKind;
         Tokenizer = exports.Tokenizer;
@@ -54,6 +56,7 @@
         OpGT = exports.OpGT;
         OpLE = exports.OpLE;
         OpLT = exports.OpLT;
+        VariableReference = exports.VariableReference;
     }
 
 
@@ -399,7 +402,7 @@
             var functionOrVariableName = eatToken(TokenKind.IDENTIFIER);
             var args = maybeEatMethodArgs();
             if (args == null) {
-                push(new VariableReference(functionOrVariableName.data, toPosBounds(token.startPos, functionOrVariableName.endPos)));
+                push(VariableReference.create(functionOrVariableName.data, toPosBounds(token.startPos, functionOrVariableName.endPos)));
                 return true;
             }
 

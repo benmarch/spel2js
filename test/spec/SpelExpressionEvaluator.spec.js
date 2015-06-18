@@ -278,6 +278,59 @@ describe('spel expression evaluator', function () {
 
         });
 
+
+        describe('locals', function () {
+
+            it('should refer to a local variable', function () {
+                //given
+                var context = {
+                        myString: 'global context'
+                    },
+                    locals = {
+                        myString: 'hello world!'
+                    };
+
+                //when
+                var local = evaluator.eval('#myString == "hello world!"', context, locals);
+
+                //then
+                expect(local).toBe(true);
+            });
+
+            it('should refer to the root context', function () {
+                //given
+                var context = {
+                        myString: 'global context'
+                    },
+                    locals = {
+                        myString: 'hello world!'
+                    };
+
+                //when
+                var root = evaluator.eval('#root', context, locals);
+
+                //then
+                expect(root).toBe(context);
+            });
+
+            it('should refer the "this" context', function () {
+                //given
+                var context = {
+                        myString: 'global context'
+                    },
+                    locals = {
+                        myString: 'hello world!'
+                    };
+
+                //when
+                var that = evaluator.eval('#this', context, locals, this);
+
+                //then
+                expect(that).toBe(this);
+            });
+
+        });
+
     });
 
 });

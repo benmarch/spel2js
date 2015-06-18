@@ -103,6 +103,9 @@
         this.type = type;
         this.tokenChars = types[type];
         this._hasPayload = typeof types[type] !== 'string';
+        if (typeof types[type] === 'number') {
+            this._ordinal = types[type];
+        }
     }
 
     //create enum
@@ -130,6 +133,10 @@
                 return TokenKind[t];
             }
         }
+    };
+
+    TokenKind.prototype.ordinal = function () {
+        return this._ordinal;
     };
 
     exports.TokenKind = TokenKind;
