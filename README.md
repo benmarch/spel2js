@@ -109,7 +109,7 @@ This is not currently stable enough to release. The following must be done first
   - [ ] Qualified identifiers/Type references
   - [ ] Complex literals
   - [ ] Projection/selection
-  - [ ] (Something I probably missed)
+  - [ ] Something I probably missed
 - [ ] Implement common functions (hasPermission(), hasRole(), isAuthenticated(), etc.)
 
 Then some (probably separate project) follow-up features:
