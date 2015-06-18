@@ -17,6 +17,12 @@
         OpGT,
         OpLE,
         OpLT,
+        OpPlus,
+        OpMinus,
+        OpMultiply,
+        OpDivide,
+        OpModulus,
+        OpPower,
         VariableReference;
 
     try {
@@ -37,6 +43,12 @@
         OpGT = require('./ast/OpGT');
         OpLE = require('./ast/OpLE');
         OpLT = require('./ast/OpLT');
+        OpPlus = require('./ast/OpPlus');
+        OpMinus = require('./ast/OpMinus');
+        OpMultiply = require('./ast/OpMultiply');
+        OpDivide = require('./ast/OpDivide');
+        OpModulus = require('./ast/OpModulus');
+        OpPower = require('./ast/OpPower');
         VariableReference = require('./ast/VariableReference');
     } catch (e) {
         TokenKind = exports.TokenKind;
@@ -56,6 +68,12 @@
         OpGT = exports.OpGT;
         OpLE = exports.OpLE;
         OpLT = exports.OpLT;
+        OpPlus = exports.OpPlus;
+        OpMinus = exports.OpMinus;
+        OpMultiply = exports.OpMultiply;
+        OpDivide = exports.OpDivide;
+        OpModulus = exports.OpModulus;
+        OpPower = exports.OpPower;
         VariableReference = exports.VariableReference;
     }
 
@@ -234,10 +252,10 @@
                 var rhExpr = eatProductExpression();
                 checkRightOperand(token, rhExpr);
                 if (token.getKind() == TokenKind.PLUS) {
-                    expr = new OpPlus(toPosToken(token), expr, rhExpr);
+                    expr = OpPlus.create(toPosToken(token), expr, rhExpr);
                 }
                 else if (token.getKind() == TokenKind.MINUS) {
-                    expr = new OpMinus(toPosToken(token), expr, rhExpr);
+                    expr = OpMinus.create(toPosToken(token), expr, rhExpr);
                 }
             }
             return expr;
@@ -251,14 +269,14 @@
                 var rhExpr = eatPowerIncDecExpression();
                 checkOperands(token, expr, rhExpr);
                 if (token.getKind() == TokenKind.STAR) {
-                    expr = new OpMultiply(toPosToken(token), expr, rhExpr);
+                    expr = OpMultiply.create(toPosToken(token), expr, rhExpr);
                 }
                 else if (token.getKind() == TokenKind.DIV) {
-                    expr = new OpDivide(toPosToken(token), expr, rhExpr);
+                    expr = OpDivide.create(toPosToken(token), expr, rhExpr);
                 }
                 else {
                     //Assert.isTrue(token.getKind() == TokenKind.MOD);
-                    expr = new OpModulus(toPosToken(token), expr, rhExpr);
+                    expr = OpModulus.create(toPosToken(token), expr, rhExpr);
                 }
             }
             return expr;
@@ -273,7 +291,7 @@
                 token = nextToken();  //consume POWER
                 var rhExpr = eatUnaryExpression();
                 checkRightOperand(token, rhExpr);
-                return new OperatorPower(toPosToken(token), expr, rhExpr);
+                return OpPower.create(toPosToken(token), expr, rhExpr);
             }
 
             if (expr != null && peekTokenAny(TokenKind.INC, TokenKind.DEC)) {

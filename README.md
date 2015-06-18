@@ -103,8 +103,8 @@ This is not currently stable enough to release. The following must be done first
   - [x] Compound expressions
   - [x] Comparisons
   - [x] Method references
-  - [ ] Local variable reference ("#someVar")
-  - [ ] Math
+  - [x] Local variable reference ("#someVar")
+  - [x] Math
   - [ ] Ternary operators
   - [ ] Qualified identifiers/Type references
   - [ ] Complex literals

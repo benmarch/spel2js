@@ -331,6 +331,76 @@ describe('spel expression evaluator', function () {
 
         });
 
+
+        describe('math', function () {
+
+            it('should add 2 numbers', function () {
+                //when
+                var sum = evaluator.eval('1 + 1');
+
+                //then
+                expect(sum).toBe(2);
+            });
+
+
+            it('should add 3 numbers', function () {
+                //when
+                var sum = evaluator.eval('1 + 1 + 1');
+
+                //then
+                expect(sum).toBe(3);
+            });
+
+            it('should subtract 2 numbers', function () {
+                //when
+                var difference = evaluator.eval('1 + 1');
+
+                //then
+                expect(difference).toBe(2);
+            });
+
+            it('should multiply 2 numbers', function () {
+                //when
+                var product = evaluator.eval('1 + 1');
+
+                //then
+                expect(product).toBe(2);
+            });
+
+            it('should divide 2 numbers', function () {
+                //when
+                var quotient = evaluator.eval('1 + 1');
+
+                //then
+                expect(quotient).toBe(2);
+            });
+
+            it('should find the modulus of 2 numbers', function () {
+                //when
+                var mod = evaluator.eval('10 % 8');
+
+                //then
+                expect(mod).toBe(2);
+            });
+
+            it('should evaluate an exponent', function () {
+                //when
+                var mod = evaluator.eval('10^2');
+
+                //then
+                expect(mod).toBe(100);
+            });
+
+            it('should honor standard order of operations', function () {
+                //when
+                var math = evaluator.eval('8 + 4 * 6 - 2 * 3 / 2'); //8+(4*6)-(2*3/2) = 29
+
+                //then
+                expect(math).toBe(29);
+            });
+
+        });
+
     });
 
 });

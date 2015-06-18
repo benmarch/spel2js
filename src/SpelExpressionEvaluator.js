@@ -18,7 +18,8 @@
                     thisContext = this;
                 }
                 return evalCompiled(compiledExpression, context, locals, thisContext);
-            }
+            },
+            _compiledExpression: compiledExpression
         }
     };
 

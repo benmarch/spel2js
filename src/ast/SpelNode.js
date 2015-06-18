@@ -9,6 +9,8 @@
             args = Array.prototype.slice.call(arguments),
             operands = args.length > 2 ? args.slice(2) : null;
 
+        node._type = type;
+
         node.getType = function () {
             return type;
         };
@@ -59,7 +61,7 @@
             s += ', Value: ' + node.getValue();
             s += ', Children: [';
             for (var i = 0, l = node.getChildren().length; i < l; i += 1) {
-                s += '{' + node.getChildren()[i] + '}';
+                s += '{' + node.getChildren()[i] + '}, ';
             }
             s += ']';
             return s;
