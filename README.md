@@ -108,7 +108,7 @@ This is not currently stable enough to release. The following must be done first
   - [x] Ternary operators
   - [x] Safe navigation
   - [ ] Qualified identifiers/Type references
-  - [ ] Assignment
+  - [x] Assignment
   - [ ] Complex literals
   - [ ] Projection/selection
   - [ ] Something I probably missed

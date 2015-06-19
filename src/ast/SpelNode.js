@@ -7,7 +7,8 @@
             children = [],
             parent = null,
             args = Array.prototype.slice.call(arguments),
-            operands = args.length > 2 ? args.slice(2) : null;
+            operands = args.length > 2 ? args.slice(2) : null,
+            activeContext;
 
         node._type = type;
 
@@ -33,11 +34,11 @@
             parent = parentNode;
         };
 
-        node.getContext = function () {
-            return context || parent.getContext();
+        node.getContext = function (state) {
+            return activeContext || state.activeContext.peek();
         };
         node.setContext = function (nodeContext) {
-            context = nodeContext;
+            activeContext = nodeContext;
         };
 
         node.getStartPosition = function () {

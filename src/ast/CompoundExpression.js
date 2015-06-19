@@ -11,17 +11,9 @@
     function createNode(position, expressionComponents) {
         var node = SpelNode.create.apply(null, ['compound', position].concat(expressionComponents));
 
-        node.getValue = function (state) {
-            var context = state.activeContext.peek(),
-                childrenCount = node.getChildren().length,
-                i,
-                value;
-            if (!context) {
-                throw {
-                    name: 'ContextDoesNotExistException',
-                    message: 'Attempting to evaluate compound expression with an undefined context.'
-                };
-            }
+        function buildContextStack(state) {
+            var childrenCount = node.getChildren().length,
+                i;
 
             for (i = 0; i < childrenCount; i += 1) {
                 if (node.getChildren()[i].getType() === 'indexer') {
@@ -31,16 +23,49 @@
                 }
             }
 
+            return function unbuildContextStack() {
+                for (i = 0; i < childrenCount; i += 1) {
+                    state.activeContext.pop();
+                }
+            }
+        }
+
+        node.getValue = function (state) {
+            var context = state.activeContext.peek(),
+                value;
+
+            if (!context) {
+                throw {
+                    name: 'ContextDoesNotExistException',
+                    message: 'Attempting to evaluate compound expression with an undefined context.'
+                };
+            }
+
+            var unbuildContextStack = buildContextStack(state);
+
             value = state.activeContext.peek();
 
-            for (i = 0; i < childrenCount; i += 1) {
-                state.activeContext.pop();
-            }
+            unbuildContextStack();
 
             return value;
         };
 
-        //node.setContext(node.getValue());
+        node.setValue = function (value, state) {
+            var unbuildContextStack = buildContextStack(state),
+                childCount = node.getChildren().length,
+                value;
+
+            state.activeContext.pop();
+
+            value =node.getChildren()[childCount - 1].setValue(value, state);
+
+            state.activeContext.push(null);
+
+            unbuildContextStack();
+
+            return value;
+
+        };
 
         return node;
     }

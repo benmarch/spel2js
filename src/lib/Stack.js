@@ -1,5 +1,5 @@
-function Stack() {
-    this.elements = [];
+function Stack(startingElements) {
+    this.elements = startingElements || [];
 }
 
 Stack.prototype.push = function (el) {

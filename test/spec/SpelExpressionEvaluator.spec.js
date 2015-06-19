@@ -441,6 +441,46 @@ describe('spel expression evaluator', function () {
 
         });
 
+
+        describe('assignment', function () {
+
+            it('should assign a value to the proper context with the specified property name', function () {
+                //given
+                var context = {
+                    name: 'Nikola Tesla',
+                    heritage: 'Serbian'
+                };
+                var locals = {
+                    newName: 'Mike Tesla'
+                };
+
+                //when
+                evaluator.eval('name = #newName', context, locals);
+
+                //then
+                expect(context.name).toBe('Mike Tesla');
+            });
+
+            it('should assign to a nested context', function () {
+                //given
+                var context = {
+                    nested: {
+                        name: 'Nikola Tesla'
+                    }
+                };
+                var locals = {
+                    newName: 'Mike Tesla'
+                };
+
+                //when
+                evaluator.eval('nested.name = #newName', context, locals);
+
+                //then
+                expect(context.nested.name).toBe('Mike Tesla');
+            });
+
+        });
+
     });
 
 });

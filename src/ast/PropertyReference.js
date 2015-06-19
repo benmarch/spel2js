@@ -13,6 +13,7 @@
 
         node.getValue = function (state) {
             var context = state.activeContext.peek();
+
             if (!context) {
                 throw {
                     name: 'ContextDoesNotExistException',
@@ -33,6 +34,19 @@
             }
 
             return context[propertyName];
+        };
+
+        node.setValue = function (value, state) {
+            var context = state.activeContext.peek();
+
+            if (!context) {
+                throw {
+                    name: 'ContextDoesNotExistException',
+                    message: 'Attempting to assign property \''+ propertyName +'\' for an undefined context.'
+                }
+            }
+
+            return context[propertyName] = value;
         };
 
         return node;

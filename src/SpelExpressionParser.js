@@ -10,8 +10,10 @@
         FunctionReference,
         MethodReference,
         PropertyReference,
+        VariableReference,
         CompoundExpression,
         Indexer,
+        Assign,
         OpEQ,
         OpNE,
         OpGE,
@@ -25,8 +27,7 @@
         OpModulus,
         OpPower,
         Ternary,
-        Elvis,
-        VariableReference;
+        Elvis;
 
     try {
         TokenKind = require('./TokenKind');
@@ -39,8 +40,10 @@
         FunctionReference = require('./ast/FunctionReference');
         MethodReference = require('./ast/MethodReference');
         PropertyReference = require('./ast/PropertyReference');
+        VariableReference = require('./ast/VariableReference');
         CompoundExpression = require('./ast/CompoundExpression');
         Indexer = require('./ast/Indexer');
+        Assign = require('./ast/Assign');
         OpEQ = require('./ast/OpEQ');
         OpNE = require('./ast/OpNE');
         OpGE = require('./ast/OpGE');
@@ -55,7 +58,6 @@
         OpPower = require('./ast/OpPower');
         Ternary = require('./ast/Ternary');
         Elvis = require('./ast/Elvis');
-        VariableReference = require('./ast/VariableReference');
     } catch (e) {
         TokenKind = exports.TokenKind;
         Tokenizer = exports.Tokenizer;
@@ -67,8 +69,10 @@
         FunctionReference = exports.FunctionReference;
         MethodReference = exports.MethodReference;
         PropertyReference = exports.PropertyReference;
+        VariableReference = exports.VariableReference;
         CompoundExpression = exports.CompoundExpression;
         Indexer = exports.Indexer;
+        Assign = exports.Assign;
         OpEQ = exports.OpEQ;
         OpNE = exports.OpNE;
         OpGE = exports.OpGE;
@@ -83,7 +87,6 @@
         OpPower = exports.OpPower;
         Ternary = exports.Ternary;
         Elvis = exports.Elvis;
-        VariableReference = exports.VariableReference;
     }
 
 
@@ -155,7 +158,7 @@
                     }
                     nextToken();
                     var assignedValue = eatLogicalOrExpression();
-                    return new Assign(toPosToken(token), expr, assignedValue);
+                    return Assign.create(toPosToken(token), expr, assignedValue);
                 }
 
                 if (token.getKind() == TokenKind.ELVIS) {  // a?:b (a if it isn't null, otherwise b)
