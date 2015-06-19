@@ -106,7 +106,9 @@ This is not currently stable enough to release. The following must be done first
   - [x] Local variable reference ("#someVar")
   - [x] Math
   - [x] Ternary operators
+  - [x] Safe navigation
   - [ ] Qualified identifiers/Type references
+  - [ ] Assignment
   - [ ] Complex literals
   - [ ] Projection/selection
   - [ ] Something I probably missed

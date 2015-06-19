@@ -745,12 +745,12 @@
                 var args = maybeEatMethodArgs();
                 if (args == null) {
                     // property
-                    push(PropertyReference.create(methodOrPropertyName.stringValue(), toPosToken(methodOrPropertyName)));
+                    push(PropertyReference.create(nullSafeNavigation, methodOrPropertyName.stringValue(), toPosToken(methodOrPropertyName)));
                     //push(new PropertyOrFieldReference(nullSafeNavigation, methodOrPropertyName.data, toPosToken(methodOrPropertyName)));
                     return true;
                 }
                 // methodreference
-                push(MethodReference.create(methodOrPropertyName.stringValue(), toPosToken(methodOrPropertyName), args));
+                push(MethodReference.create(nullSafeNavigation, methodOrPropertyName.stringValue(), toPosToken(methodOrPropertyName), args));
                 //push(new MethodReference(nullSafeNavigation, methodOrPropertyName.data, toPosToken(methodOrPropertyName), args));
                 // TODO what is the end position for a method reference? the name or the last arg?
                 return true;

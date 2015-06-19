@@ -134,6 +134,15 @@ describe('spel expression evaluator', function () {
                 expect(string).toBe('bye');
             });
 
+            it('should return null instead of throw error when using safe navigation', function () {
+                //when
+                var willThrow = function () {evaluator.eval('nested.doesNotExist');}
+                var willBeNull = evaluator.eval('nested?.doesNotExist', context);
+
+                //then
+                expect(willThrow).toThrow();
+                expect(willBeNull).toBe(null);
+            });
         });
 
 

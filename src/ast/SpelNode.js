@@ -58,7 +58,7 @@
 
         node.toString = function () {
             var s = 'Kind: ' + node.getType();
-            s += ', Value: ' + node.getValue();
+            //s += ', Value: ' + node.getValue();
             s += ', Children: [';
             for (var i = 0, l = node.getChildren().length; i < l; i += 1) {
                 s += '{' + node.getChildren()[i] + '}, ';
