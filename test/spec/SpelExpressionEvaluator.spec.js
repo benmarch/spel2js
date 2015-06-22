@@ -481,6 +481,27 @@ describe('spel expression evaluator', function () {
 
         });
 
+
+        describe('complex literals', function () {
+
+            it('should create an array', function () {
+                //when
+                var arr = evaluator.eval('{1, 2, 3, 4}');
+
+                //then
+                expect(arr).toEqual([1, 2, 3, 4]);
+            });
+
+            it('should create a map', function () {
+                //when
+                var map = evaluator.eval("{name:'Nikola',dob:'10-July-1856'}");
+
+                //then
+                expect(map).toEqual({name: 'Nikola', dob: '10-July-1856'});
+            });
+
+        });
+
     });
 
 });

@@ -27,7 +27,9 @@
         OpModulus,
         OpPower,
         Ternary,
-        Elvis;
+        Elvis,
+        InlineList,
+        InlineMap;
 
     try {
         TokenKind = require('./TokenKind');
@@ -58,6 +60,8 @@
         OpPower = require('./ast/OpPower');
         Ternary = require('./ast/Ternary');
         Elvis = require('./ast/Elvis');
+        InlineList = require('./ast/InlineList');
+        InlineMap = require('./ast/InlineMap');
     } catch (e) {
         TokenKind = exports.TokenKind;
         Tokenizer = exports.Tokenizer;
@@ -87,6 +91,8 @@
         OpPower = exports.OpPower;
         Ternary = exports.Ternary;
         Elvis = exports.Elvis;
+        InlineList = exports.InlineList;
+        InlineMap = exports.InlineMap;
     }
 
 
@@ -330,10 +336,10 @@
                 }
 
                 if (token.getKind() == TokenKind.PLUS) {
-                    return new OpPlus(toPosToken(token), expr);
+                    return OpPlus.create(toPosToken(token), expr);
                 }
                 //Assert.isTrue(token.getKind() == TokenKind.MINUS);
-                return new OpMinus(toPosToken(token), expr);
+                return OpMinus.create(toPosToken(token), expr);
 
             }
             if (peekTokenAny(TokenKind.INC, TokenKind.DEC)) {
@@ -436,7 +442,7 @@
                 return true;
             }
 
-            push(new FunctionReference(functionOrVariableName.data, toPosBounds(token.startPos, functionOrVariableName.endPos), args));
+            push(FunctionReference.create(functionOrVariableName.data, toPosBounds(token.startPos, functionOrVariableName.endPos), args));
             return true;
         }
 
@@ -622,12 +628,12 @@
             var closingCurly = peekToken();
             if (peekTokenConsumeIfMatched(TokenKind.RCURLY, true)) {
                 // empty list '{}'
-                expr = new InlineList(toPosBounds(token.startPos, closingCurly.endPos));
+                expr = InlineList.create(toPosBounds(token.startPos, closingCurly.endPos));
             }
             else if (peekTokenConsumeIfMatched(TokenKind.COLON, true)) {
                 closingCurly = eatToken(TokenKind.RCURLY);
                 // empty map '{:}'
-                expr = new InlineMap(toPosBounds(token.startPos, closingCurly.endPos));
+                expr = InlineMap.create(toPosBounds(token.startPos, closingCurly.endPos));
             }
             else {
                 var firstExpression = eatExpression();
@@ -639,7 +645,7 @@
                 if (peekTokenOne(TokenKind.RCURLY)) { // list with one item in it
                     listElements.push(firstExpression);
                     closingCurly = eatToken(TokenKind.RCURLY);
-                    expr = new InlineList(toPosBounds(token.startPos, closingCurly.endPos), listElements);
+                    expr = InlineList.create(toPosBounds(token.startPos, closingCurly.endPos), listElements);
                 }
                 else if (peekTokenConsumeIfMatched(TokenKind.COMMA, true)) { // multi item list
                     listElements.push(firstExpression);
@@ -648,7 +654,7 @@
                     }
                     while (peekTokenConsumeIfMatched(TokenKind.COMMA, true));
                     closingCurly = eatToken(TokenKind.RCURLY);
-                    expr = new InlineList(toPosToken(token.startPos, closingCurly.endPos), listElements);
+                    expr = InlineList.create(toPosToken(token.startPos, closingCurly.endPos), listElements);
 
                 }
                 else if (peekTokenConsumeIfMatched(TokenKind.COLON, true)) {  // map!
@@ -661,7 +667,7 @@
                         mapElements.push(eatExpression());
                     }
                     closingCurly = eatToken(TokenKind.RCURLY);
-                    expr = new InlineMap(toPosBounds(token.startPos, closingCurly.endPos), mapElements);
+                    expr = InlineMap.create(toPosBounds(token.startPos, closingCurly.endPos), mapElements);
                 }
                 else {
                     raiseInternalException(token.startPos, 'OOD');
@@ -749,12 +755,10 @@
                 if (args == null) {
                     // property
                     push(PropertyReference.create(nullSafeNavigation, methodOrPropertyName.stringValue(), toPosToken(methodOrPropertyName)));
-                    //push(new PropertyOrFieldReference(nullSafeNavigation, methodOrPropertyName.data, toPosToken(methodOrPropertyName)));
                     return true;
                 }
                 // methodreference
                 push(MethodReference.create(nullSafeNavigation, methodOrPropertyName.stringValue(), toPosToken(methodOrPropertyName), args));
-                //push(new MethodReference(nullSafeNavigation, methodOrPropertyName.data, toPosToken(methodOrPropertyName), args));
                 // TODO what is the end position for a method reference? the name or the last arg?
                 return true;
             }

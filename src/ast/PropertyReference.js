@@ -49,6 +49,10 @@
             return context[propertyName] = value;
         };
 
+        node.getName = function () {
+            return propertyName;
+        };
+
         return node;
     }
 

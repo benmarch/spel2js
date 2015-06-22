@@ -109,8 +109,10 @@ This is not currently stable enough to release. The following must be done first
   - [x] Safe navigation
   - [ ] Qualified identifiers/Type references
   - [x] Assignment
-  - [ ] Complex literals
+  - [x] Complex literals
   - [ ] Projection/selection
+  - [ ] Increment/Decrement
+  - [ ] Logical operators (and, or, not)
   - [ ] Something I probably missed
 - [ ] Implement common functions (hasPermission(), hasRole(), isAuthenticated(), etc.)
 
