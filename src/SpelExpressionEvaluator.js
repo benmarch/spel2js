@@ -13,21 +13,18 @@
     spelExpressionEvaluator.compile = function (expression) {
         var compiledExpression = SpelExpressionParser().parse(expression);
         return {
-            eval: function (context, locals, thisContext) {
-                if (!thisContext) {
-                    thisContext = this;
-                }
-                return evalCompiled(compiledExpression, context, locals, thisContext);
+            eval: function (context, locals) {
+                return evalCompiled(compiledExpression, context, locals);
             },
             _compiledExpression: compiledExpression
         }
     };
 
-    spelExpressionEvaluator.eval = function (expression, context, locals, thisContext) {
-        return spelExpressionEvaluator.compile(expression).eval(context, locals, thisContext);
+    spelExpressionEvaluator.eval = function (expression, context, locals) {
+        return spelExpressionEvaluator.compile(expression).eval(context, locals);
     };
 
-    function evalCompiled(compiledExpression, context, locals, thisContext) {
+    function evalCompiled(compiledExpression, context, locals) {
         var activeContext = new Stack(),
             state;
 
@@ -40,8 +37,7 @@
         state = {
             rootContext: context,
             activeContext: activeContext,
-            locals: locals,
-            thisContext: thisContext
+            locals: locals
         };
         return compiledExpression.getValue(state);
     }

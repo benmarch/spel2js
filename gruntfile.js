@@ -47,7 +47,19 @@ module.exports = function (grunt) {
 
         concat: {
             dist: {
-                src: '<%= config.app %>/**/*.js',
+                src: [
+                    '<%= config.app %>/lib/**/*.js',
+
+                    '<%= config.app %>/TokenKind.js',
+                    '<%= config.app %>/Token.js',
+                    '<%= config.app %>/Tokenizer.js',
+
+                    '<%= config.app %>/ast/SpelNode.js',
+                    '<%= config.app %>/ast/*.js',
+
+                    '<%= config.app %>/SpelExpressionParser.js',
+                    '<%= config.app %>/SpelExpressionEvaluator.js'
+                ],
                 dest: '<%= config.dist %>/spel2js.js'
             }
         },
