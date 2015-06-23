@@ -112,7 +112,7 @@ This is not currently stable enough to release. The following must be done first
   - [x] Complex literals
   - [ ] Projection/selection
   - [x] Increment/Decrement
-  - [ ] Logical operators (and, or, not)
+  - [x] Logical operators (and, or, not)
   - [ ] Something I probably missed
 - [ ] Implement common functions (hasPermission(), hasRole(), isAuthenticated(), etc.)
 

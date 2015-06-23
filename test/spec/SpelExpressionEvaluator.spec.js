@@ -595,6 +595,39 @@ describe('spel expression evaluator', function () {
 
         });
 
+
+        describe('logical operators', function () {
+
+            it('should evaluate "and" expressions', function () {
+                //when
+                var and1 = evaluator.eval('true && true');
+                var and2 = evaluator.eval('true && false');
+                var and3 = evaluator.eval('false && true');
+                var and4 = evaluator.eval('false && false');
+
+                //then
+                expect(and1).toBe(true);
+                expect(and2).toBe(false);
+                expect(and3).toBe(false);
+                expect(and4).toBe(false);
+            });
+
+            it('should evaluate "and" expressions', function () {
+                //when
+                var or1 = evaluator.eval('true || true');
+                var or2 = evaluator.eval('true || false');
+                var or3 = evaluator.eval('false || true');
+                var or4 = evaluator.eval('false || false');
+
+                //then
+                expect(or1).toBe(true);
+                expect(or2).toBe(true);
+                expect(or3).toBe(true);
+                expect(or4).toBe(false);
+            });
+
+        });
+
     });
 
 });

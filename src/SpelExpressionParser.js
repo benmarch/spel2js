@@ -29,6 +29,8 @@
         OpInc,
         OpDec,
         OpNot,
+        OpAnd,
+        OpOr,
         Ternary,
         Elvis,
         InlineList,
@@ -64,6 +66,8 @@
         OpInc = require('./ast/OpInc');
         OpDec = require('./ast/OpDec');
         OpNot = require('./ast/OpNot');
+        OpAnd = require('./ast/OpAnd');
+        OpOr = require('./ast/OpOr');
         Ternary = require('./ast/Ternary');
         Elvis = require('./ast/Elvis');
         InlineList = require('./ast/InlineList');
@@ -98,6 +102,8 @@
         OpInc = exports.OpInc;
         OpDec = exports.OpDec;
         OpNot = exports.OpNot;
+        OpAnd = exports.OpAnd;
+        OpOr = exports.OpOr;
         Ternary = exports.Ternary;
         Elvis = exports.Elvis;
         InlineList = exports.InlineList;
@@ -209,7 +215,7 @@
                 var token = nextToken();  //consume OR
                 var rhExpr = eatLogicalAndExpression();
                 checkOperands(token, expr, rhExpr);
-                expr = new OpOr(toPosToken(token), expr, rhExpr);
+                expr = OpOr.create(toPosToken(token), expr, rhExpr);
             }
             return expr;
         }
@@ -221,7 +227,7 @@
                 var token = nextToken();  // consume 'AND'
                 var rhExpr = eatRelationalExpression();
                 checkOperands(token, expr, rhExpr);
-                expr = new OpAnd(toPosToken(token), expr, rhExpr);
+                expr = OpAnd.create(toPosToken(token), expr, rhExpr);
             }
             return expr;
         }
