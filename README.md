@@ -112,7 +112,7 @@ This is not currently stable enough to release. The following must be done first
   - [ ] Qualified identifiers/Type references
   - [x] Assignment
   - [x] Complex literals
-  - [ ] Projection/selection
+  - [x] Projection/selection
   - [x] Increment/Decrement
   - [x] Logical operators (and, or, not)
   - [ ] Something I probably missed

@@ -35,7 +35,8 @@
         Elvis,
         InlineList,
         InlineMap,
-        Selection;
+        Selection,
+        Projection;
 
     try {
         TokenKind = require('./TokenKind');
@@ -74,6 +75,7 @@
         InlineList = require('./ast/InlineList');
         InlineMap = require('./ast/InlineMap');
         Selection = require('./ast/Selection');
+        Projection = require('./ast/Projection');
     } catch (e) {
         TokenKind = exports.TokenKind;
         Tokenizer = exports.Tokenizer;
@@ -111,6 +113,7 @@
         InlineList = exports.InlineList;
         InlineMap = exports.InlineMap;
         Selection = exports.Selection;
+        Projection = exports.Projection;
     }
 
 
@@ -629,7 +632,7 @@
             }
             var expr = eatExpression();
             eatToken(TokenKind.RSQUARE);
-            push(new Projection(nullSafeNavigation, toPosToken(token), expr));
+            push(Projection.create(nullSafeNavigation, toPosToken(token), expr));
             return true;
         }
 

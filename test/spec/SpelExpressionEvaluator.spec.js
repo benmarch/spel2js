@@ -709,6 +709,52 @@ describe('spel expression evaluator', function () {
                 expect(mapFirst).toEqual({c: 3});
             });
 
+            it('should return a list of projected values from a list of objects', function () {
+                //given
+                var context = {
+                    list: [
+                        {
+                            name: 'Ben'
+                        },
+                        {
+                            name: 'Kris'
+                        },
+                        {
+                            name: 'Ansy'
+                        }
+                    ]
+                };
+
+                //when
+                var names = evaluator.eval('list.![name]', context);
+
+                //then
+                expect(names).toEqual(['Ben', 'Kris', 'Ansy']);
+            });
+
+            it('should return a list of entries from a map (not quite like in Java because key must be a string)', function () {
+                //given
+                var context = {
+                    map: {
+                        ben: {
+                            hometown: 'Newton'
+                        },
+                        kris: {
+                            hometown: 'Peabody'
+                        },
+                        ansy: {
+                            hometown: 'Brockton'
+                        }
+                    }
+                };
+
+                //when
+                var hometowns = evaluator.eval('map.![hometown]', context);
+
+                //then
+                expect(hometowns).toEqual(['Newton', 'Peabody', 'Brockton']);
+            });
+
         });
 
     });
