@@ -26,6 +26,9 @@
         OpDivide,
         OpModulus,
         OpPower,
+        OpInc,
+        OpDec,
+        OpNot,
         Ternary,
         Elvis,
         InlineList,
@@ -58,6 +61,9 @@
         OpDivide = require('./ast/OpDivide');
         OpModulus = require('./ast/OpModulus');
         OpPower = require('./ast/OpPower');
+        OpInc = require('./ast/OpInc');
+        OpDec = require('./ast/OpDec');
+        OpNot = require('./ast/OpNot');
         Ternary = require('./ast/Ternary');
         Elvis = require('./ast/Elvis');
         InlineList = require('./ast/InlineList');
@@ -89,6 +95,9 @@
         OpDivide = exports.OpDivide;
         OpModulus = exports.OpModulus;
         OpPower = exports.OpPower;
+        OpInc = exports.OpInc;
+        OpDec = exports.OpDec;
+        OpNot = exports.OpNot;
         Ternary = exports.Ternary;
         Elvis = exports.Elvis;
         InlineList = exports.InlineList;
@@ -315,9 +324,9 @@
             if (expr != null && peekTokenAny(TokenKind.INC, TokenKind.DEC)) {
                 token = nextToken();  //consume INC/DEC
                 if (token.getKind() == TokenKind.INC) {
-                    return new OpInc(toPosToken(token), true, expr);
+                    return OpInc.create(toPosToken(token), true, expr);
                 }
-                return new OpDec(toPosToken(token), true, expr);
+                return OpDec.create(toPosToken(token), true, expr);
             }
 
             return expr;
@@ -332,7 +341,7 @@
                 token = nextToken();
                 expr = eatUnaryExpression();
                 if (token.getKind() == TokenKind.NOT) {
-                    return new OperatorNot(toPosToken(token), expr);
+                    return OpNot.create(toPosToken(token), expr);
                 }
 
                 if (token.getKind() == TokenKind.PLUS) {
@@ -346,9 +355,9 @@
                 token = nextToken();
                 expr = eatUnaryExpression();
                 if (token.getKind() == TokenKind.INC) {
-                    return new OpInc(toPosToken(token), false, expr);
+                    return OpInc.create(toPosToken(token), false, expr);
                 }
-                return new OpDec(toPosToken(token), false, expr);
+                return OpDec.create(toPosToken(token), false, expr);
             }
 
             return eatPrimaryExpression();

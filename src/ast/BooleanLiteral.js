@@ -15,6 +15,10 @@
             return value;
         };
 
+        node.setValue = function (newValue) {
+            value = newValue;
+        };
+
         return node;
     }
 

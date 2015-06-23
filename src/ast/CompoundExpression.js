@@ -52,12 +52,11 @@
 
         node.setValue = function (value, state) {
             var unbuildContextStack = buildContextStack(state),
-                childCount = node.getChildren().length,
-                value;
+                childCount = node.getChildren().length;
 
             state.activeContext.pop();
 
-            value =node.getChildren()[childCount - 1].setValue(value, state);
+            value = node.getChildren()[childCount - 1].setValue(value, state);
 
             state.activeContext.push(null);
 

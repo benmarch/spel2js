@@ -30,12 +30,13 @@
                 return context;
             }
 
-            //not sure if this will ever be the case but ill leave it for now
-            if (node.getChildren()[0]) {
-                return node.getChildren()[0].getValue(locals[variableName]);
-            }
-
             return locals[variableName];
+        };
+
+        node.setValue = function (value, state) {
+            var locals = state.locals;
+
+            return locals[variableName] = value;
         };
 
         return node;

@@ -12,8 +12,6 @@
         var node = SpelNode.create('map', position),
             mapPieces = [].concat(elements || []);
 
-        console.log(elements);
-
         node.getValue = function (state) {
             var key = true,
                 keyValue = null,

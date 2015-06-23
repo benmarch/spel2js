@@ -502,6 +502,99 @@ describe('spel expression evaluator', function () {
 
         });
 
+        describe('unary', function () {
+
+            it('should increment an integer but return original value', function () {
+                //given
+                var parsed = evaluator.compile('123++');
+
+                //when
+                var inc1 = parsed.eval();
+                var inc2 = parsed.eval();
+
+                //then
+                expect(inc1).toBe(123);
+                expect(inc2).toBe(124);
+            });
+
+            it('should decrement an integer but return original value', function () {
+                //given
+                var parsed = evaluator.compile('123--');
+
+                //when
+                var dec1 = parsed.eval();
+                var dec2 = parsed.eval();
+
+                //then
+                expect(dec1).toBe(123);
+                expect(dec2).toBe(122);
+            });
+
+            it('should increment an integer and return new value', function () {
+                //given
+                var parsed = evaluator.compile('++123');
+
+                //when
+                var inc1 = parsed.eval();
+                var inc2 = parsed.eval();
+
+                //then
+                expect(inc1).toBe(124);
+                expect(inc2).toBe(125);
+            });
+
+            it('should decrement an integer and return new value', function () {
+                //given
+                var parsed = evaluator.compile('--123');
+
+                //when
+                var dec1 = parsed.eval();
+                var dec2 = parsed.eval();
+
+                //then
+                expect(dec1).toBe(122);
+                expect(dec2).toBe(121);
+            });
+
+            it('should increment a property on the context', function () {
+                //given
+                var context = {
+                    int: 123
+                };
+
+                //when
+                evaluator.eval('int++', context);
+
+                //then
+                expect(context.int).toBe(124);
+            });
+
+            it('should increment a local variable', function () {
+                //given
+                var context = {
+                    int: 123
+                };
+                var locals = {
+                    int: 321
+                };
+
+                //when
+                evaluator.eval('#int++', context, locals);
+
+                //then
+                expect(locals.int).toBe(322);
+            });
+
+            it('should invert a boolean', function () {
+                //when
+                var bool = evaluator.eval('!true');
+
+                //then
+                expect(bool).toBe(false);
+            });
+
+        });
+
     });
 
 });
