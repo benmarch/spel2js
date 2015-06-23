@@ -24,10 +24,10 @@
 
             //there are 2 keywords (root, this) that need to be dealt with
             if (variableName === 'this') {
-                return state.thisContext;
+                return context;
             }
             if (variableName === 'root') {
-                return context;
+                return state.rootContext;
             }
 
             return locals[variableName];

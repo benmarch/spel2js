@@ -34,7 +34,8 @@
         Ternary,
         Elvis,
         InlineList,
-        InlineMap;
+        InlineMap,
+        Selection;
 
     try {
         TokenKind = require('./TokenKind');
@@ -72,6 +73,7 @@
         Elvis = require('./ast/Elvis');
         InlineList = require('./ast/InlineList');
         InlineMap = require('./ast/InlineMap');
+        Selection = require('./ast/Selection');
     } catch (e) {
         TokenKind = exports.TokenKind;
         Tokenizer = exports.Tokenizer;
@@ -108,6 +110,7 @@
         Elvis = exports.Elvis;
         InlineList = exports.InlineList;
         InlineMap = exports.InlineMap;
+        Selection = exports.Selection;
     }
 
 
@@ -715,13 +718,13 @@
             }
             eatToken(TokenKind.RSQUARE);
             if (token.getKind() == TokenKind.SELECT_FIRST) {
-                push(new Selection(nullSafeNavigation, Selection.FIRST, toPosToken(token), expr));
+                push(Selection.create(nullSafeNavigation, Selection.FIRST, toPosToken(token), expr));
             }
             else if (token.getKind() == TokenKind.SELECT_LAST) {
-                push(new Selection(nullSafeNavigation, Selection.LAST, toPosToken(token), expr));
+                push(Selection.create(nullSafeNavigation, Selection.LAST, toPosToken(token), expr));
             }
             else {
-                push(new Selection(nullSafeNavigation, Selection.ALL, toPosToken(token), expr));
+                push(Selection.create(nullSafeNavigation, Selection.ALL, toPosToken(token), expr));
             }
             return true;
         }

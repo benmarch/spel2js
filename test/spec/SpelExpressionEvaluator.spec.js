@@ -332,10 +332,10 @@ describe('spel expression evaluator', function () {
                     };
 
                 //when
-                var that = evaluator.eval('#this', context, locals, this);
+                var that = evaluator.eval('#this', context, locals);
 
                 //then
-                expect(that).toBe(this);
+                expect(that).toBe(context);
             });
 
         });
@@ -624,6 +624,89 @@ describe('spel expression evaluator', function () {
                 expect(or2).toBe(true);
                 expect(or3).toBe(true);
                 expect(or4).toBe(false);
+            });
+
+        });
+
+
+        describe('selection/projection', function () {
+
+            it('should return a new list based on selection expression', function () {
+                //given
+                var context = {
+                    collection: [1, 2, 3, 4, 5, 6]
+                };
+
+                //when
+                var newCollection = evaluator.eval('collection.?[#this <= 3]', context);
+
+                //then
+                expect(newCollection).toEqual([1, 2, 3]);
+            });
+
+            it('should return a new map based on selection expression', function () {
+                //given
+                var context = {
+                    collection: {
+                        a: 1,
+                        b: 2,
+                        c: 3,
+                        d: 4,
+                        e: 5
+                    }
+                };
+
+                //when
+                var newCollection1 = evaluator.eval('collection.?[value <= 3]', context);
+                var newCollection2 = evaluator.eval('collection.?[key == "a"]', context);
+
+                //then
+                expect(newCollection1).toEqual({a: 1, b: 2, c: 3});
+                expect(newCollection2).toEqual({a: 1});
+            });
+
+            it('should return the first element of list or map', function () {
+                //given
+                var context = {
+                    list: [1, 2, 3, 4, 5, 6],
+                    map: {
+                        a: 1,
+                        b: 2,
+                        c: 3,
+                        d: 4,
+                        e: 5
+                    }
+                };
+
+                //when
+                var listFirst = evaluator.eval('list.^[#this <= 3]', context);
+                var mapFirst = evaluator.eval('map.^[value <= 3]', context);
+
+                //then
+                expect(listFirst).toEqual(1);
+                expect(mapFirst).toEqual({a: 1});
+            });
+
+            it('should return the last element of list or map', function () {
+                //given
+                var context = {
+                    list: [1, 2, 3, 4, 5, 6],
+                    map: {
+                        a: 1,
+                        b: 2,
+                        c: 3,
+                        d: 4,
+                        e: 5
+                    }
+                };
+
+                //when
+                var listFirst = evaluator.eval('list.$[#this <= 3]', context);
+                var mapFirst = evaluator.eval('map.$[value <= 3]', context);
+
+                //then
+                expect(listFirst).toEqual(3);
+                expect(mapFirst).toEqual({c: 3});
             });
 
         });
