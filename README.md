@@ -11,6 +11,8 @@
 
 ## About
 
+Quick note: the code is a bit rough ATM, a refactor (ES6, Babel) is on the docket and will happen very soon.
+
 SpEL2JS is a plugin that will parse Spring Expression Language within a defined context in JavaScript. This is useful
 in single-page applications where duplication of authorization expressions for UI purposes can lead to inconsistencies.
 Consider the following simple example:
