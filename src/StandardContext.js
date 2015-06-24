@@ -8,11 +8,22 @@
         context.principal = principal || {};
 
         context.hasRole = function (role) {
-            if (!context.authentication && !context.authentication.authorities) {
+            var hasRole = false;
+
+            if (!role) {
+                return false;
+            }
+            if (!context.authentication && !Array.isArray(context.authentication.authorities)) {
                 return false;
             }
 
-            return !!~context.authentication.authorities.indexOf(role);
+            context.authentication.authorities.forEach(function (grantedAuthority) {
+                if (grantedAuthority.authority.toLowerCase() === role.toLowerCase()) {
+                    hasRole = true;
+                }
+            });
+
+            return hasRole;
         };
 
         context.hasPermission = function (/*variable arguments*/) {
@@ -21,7 +32,9 @@
             if (args.length === 1) {
                 return context.hasRole(args[0]);
             }
-        }
+        };
+
+        return context;
     }
 
     exports.StandardContext = {

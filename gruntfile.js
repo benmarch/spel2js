@@ -58,7 +58,8 @@ module.exports = function (grunt) {
                     '<%= config.app %>/ast/*.js',
 
                     '<%= config.app %>/SpelExpressionParser.js',
-                    '<%= config.app %>/SpelExpressionEvaluator.js'
+                    '<%= config.app %>/SpelExpressionEvaluator.js',
+                    '<%= config.app %>/StandardContext.js'
                 ],
                 dest: '<%= config.dist %>/spel2js.js'
             }

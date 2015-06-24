@@ -95,6 +95,7 @@ module.exports = function (config) {
 
             'src/SpelExpressionParser.js',
             'src/SpelExpressionEvaluator.js',
+            '<%= config.app %>/StandardContext.js',
 
             'test/spec/**/*.spec.js'
         ]

@@ -52,6 +52,11 @@
                 return context[methodName.charAt(3).toLowerCase() + methodName.substring(4)] = compiledArgs[0];
             }
 
+            //size() -> length
+            if (methodName === 'size' && args.length === 0) {
+                return context.length;
+            }
+
             method = maybeHandleNullSafeNavigation(context[methodName]);
             if (method) {
                 return method.apply(context, compiledArgs);

@@ -21,15 +21,21 @@
                 }
             }
 
-            //handle safe navigation
             if (context[propertyName] === undefined) {
+                //handle safe navigation
                 if (nullSafeNavigation) {
                     return null;
                 }
 
+                //handle conversion of Java properties to JavaScript properties
+                //this might cause problems, I'll look into alternatives
+                if (propertyName === 'size') {
+                    return context.length;
+                }
+
                 throw {
                     name: 'NullPointerException',
-                    message: 'Property ' + propertyName + ' does not exist.'
+                    message: 'Property \'' + propertyName + '\' does not exist.'
                 };
             }
 
