@@ -53,7 +53,7 @@
             }
 
             //size() -> length
-            if (methodName === 'size' && args.length === 0) {
+            if (methodName === 'size' && Array.isArray(context)) {
                 return context.length;
             }
 

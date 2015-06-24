@@ -28,8 +28,7 @@
                 }
 
                 //handle conversion of Java properties to JavaScript properties
-                //this might cause problems, I'll look into alternatives
-                if (propertyName === 'size') {
+                if (propertyName === 'size' && Array.isArray(context)) {
                     return context.length;
                 }
 

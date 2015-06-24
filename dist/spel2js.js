@@ -1327,7 +1327,7 @@ Stack.prototype.search = function (el) {
             }
 
             //size() -> length
-            if (methodName === 'size' && args.length === 0) {
+            if (methodName === 'size' && Array.isArray(context)) {
                 return context.length;
             }
 
@@ -1958,7 +1958,7 @@ Stack.prototype.search = function (el) {
 
                 //handle conversion of Java properties to JavaScript properties
                 //this might cause problems, I'll look into alternatives
-                if (propertyName === 'size') {
+                if (propertyName === 'size' && Array.isArray(context)) {
                     return context.length;
                 }
 
