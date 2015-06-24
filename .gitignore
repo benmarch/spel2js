@@ -7,7 +7,6 @@ bower_components/
 # generated files #
 ######################
 coverage/
-dist/
 .idea/
 .DS_Store
 .DS_Store?
