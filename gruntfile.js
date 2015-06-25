@@ -90,10 +90,6 @@ module.exports = function (grunt) {
         'jshint'
     ]);
 
-    grunt.registerTask('gpa', [
-        'complexity'
-    ]);
-
     grunt.registerTask('build', [
         'browserify',
         'uglify'
@@ -101,7 +97,6 @@ module.exports = function (grunt) {
 
     grunt.registerTask('default', [
         'lint',
-        'gpa',
         'test',
         'build'
     ]);
