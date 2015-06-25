@@ -1,17 +1,15 @@
 # spel2js
 [![Build Status][build-image]][build-url]
-[![Code GPA][gpa-image]][gpa-url]
 [![Test Coverage][coverage-image]][coverage-url]
 [![Dependency Status][depstat-image]][depstat-url]
 [![Bower Version][bower-image]][bower-url]
 [![NPM version][npm-image]][npm-url]
+<!--[![Code GPA][gpa-image]][gpa-url]
 [![IRC Channel][irc-image]][irc-url]
 [![Gitter][gitter-image]][gitter-url]
-[![GitTip][tip-image]][tip-url]
+[![GitTip][tip-image]][tip-url]-->
 
 ## About
-
-Quick note: the code is a bit rough ATM, a refactor (ES6, Babel) is on the docket and will happen very soon.
 
 SpEL2JS is a plugin that will parse Spring Expression Language within a defined context in JavaScript. This is useful
 in single-page applications where duplication of authorization expressions for UI purposes can lead to inconsistencies.
@@ -26,7 +24,7 @@ Say you are creating a shared to-do list, and you want to allow only the owner o
 @RequestMapping('/todolists')
 public class ListController {
 
-  public static final String ADD_LIST_ITEM_PERMISSION = "#toDoList.owner == principal.name";  
+  public static final String ADD_LIST_ITEM_PERMISSION = "#toDoList.owner == authentication.details.name";  
   ...
   
   @PreAuthorize(ADD_LIST_ITEM_PERMISSION)
@@ -43,11 +41,11 @@ public class ListController {
 ```javascript
 //list-controller.js
 
-angular.module('ToDo').controller('ListController', ['$http', '$scope', '$window', function ($http, $scope, $window) {
+angular.module('ToDo').controller('ListController', ['$http', '$scope', 'SpelService', function ($http, $scope, SpelService) {
   
-  $http.get('/todolists/some-way-to-get-the-permissions').success(function (permissions) {
+  $http.get('/api/permissions').success(function (permissions) {
     angular.forEach(permissions, function (spelExpression, key) {
-      $scope.permissions[key] = $window.spelExpressionParser.compile(spelExpression);
+      $scope.permissions[key] = SpelService.compile(spelExpression);
     });
   });
   
@@ -62,7 +60,7 @@ angular.module('ToDo').controller('ListController', ['$http', '$scope', '$window
   }
   
   $scope.addListItem = function (list, newListItem) {
-    if ($scope.permissions.ADD_LIST_ITEM_PERMISSION.eval($scope.context)) {
+    if ($scope.permissions.ADD_LIST_ITEM_PERMISSION.eval(SpelService.getContext(), $scope)) {
       $http.post('/todolists/' + list.id + '/items', item).success(function () {...});  
     }
   }
@@ -79,7 +77,7 @@ angular.module('ToDo').controller('ListController', ['$http', '$scope', '$window
   </li>
   <li class="list-actions">
     <input type="text" ng-model="newListItem.text" />
-    <button ng-click="addListItem(list, newListItem)" ng-if="permissions.ADD_LIST_ITEM_PERMISSION.eval(context)">Add</button>
+    <button ng-click="addListItem(list, newListItem)" spel-if="permissions.ADD_LIST_ITEM_PERMISSION">Add</button>
   </li>
   ...
 </div>
@@ -88,40 +86,41 @@ angular.module('ToDo').controller('ListController', ['$http', '$scope', '$window
 
 Seems like it might be a lot of work for such a simple piece of functionality; however, what happens when you add role-based
 permissions as a new feature? If you already have this set up, it's as simple as adding " or hasRole('SuperUser')" to 
-the SpEL, and exposing a minimal projection of the Principal (UserDetails most likely) to Angular (which it probably already
+the SpEL, and exposing a minimal projection of the Authentication to the browser or Node app (which it probably already
 has access to.) Now the UI can always stay in sync with the server-side authorities. 
 
 This repository was scaffolded with [generator-microjs](https://github.com/daniellmb/generator-microjs).
 
 ## Left to do
 
-This is not currently stable enough to release. The following must be done first:
+This is now in a stable state and will be released as 0.2.0. The following features are tested and working:
 
-- [x] Port the tokenizer to JS
-- [x] Port the parser to JS
-- [ ] Implement the evaluator in JS
-  - [x] Primitive Literals
-  - [x] Property references
-  - [x] Compound expressions
-  - [x] Comparisons
-  - [x] Method references
-  - [x] Local variable reference ("#someVar")
-  - [x] Math
-  - [x] Ternary operators
-  - [x] Safe navigation
-  - [ ] Qualified identifiers/Type references
-  - [x] Assignment
-  - [x] Complex literals
-  - [x] Projection/selection
-  - [x] Increment/Decrement
-  - [x] Logical operators (and, or, not)
-  - [ ] Something I probably missed
-- [ ] Implement common functions (hasPermission(), hasRole(), isAuthenticated(), etc.)
+- Primitive Literals
+- Property references
+- Compound expressions
+- Comparisons
+- Method references
+- Local variable reference ("#someVar")
+- Math
+- Ternary operators
+- Safe navigation
+- Assignment
+- Complex literals
+- Projection/selection
+- Increment/Decrement
+- Logical operators (and, or, not)
+- hasRole() (if you use spel2js.StandardContext)
 
-Then some (probably separate project) follow-up features:
+The following are not implemented yet because I'm not sure of the best approach:
 
-- [ ] AngularJS service
-- [ ] AngularJS directives (spelShow, spelHide, spelIf, etc.)
+- Qualified identifiers/Type references/Bean References
+- hasPermission() for custom permission evaluators
+
+There are a few AngularJS directives (I just need to put them on GH):
+
+- spelShow
+- spelHide
+- spelIf
 
 If someone wants to implement a REST-compliant way in Spring to expose the permissions (and maybe the custom
 PermissionEvaluators) that would be awesome.
@@ -137,7 +136,6 @@ PermissionEvaluators) that would be awesome.
 All tasks can be run by simply running `grunt` or with the `npm test` command, or individually:
 
   * `grunt lint` will lint source code for syntax errors and anti-patterns.
-  * `grunt gpa` will analyze source code against complexity thresholds.
   * `grunt test` will run the jasmine unit tests against the source code.
 
 ## License
