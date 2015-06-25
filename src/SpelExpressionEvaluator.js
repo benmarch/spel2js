@@ -1,47 +1,38 @@
-(function (exports) {
-    'use strict';
+import {SpelExpressionParser as spelExpressionParser} from './SpelExpressionParser';
+import {Stack} from './lib/Stack';
 
-    var spelExpressionEvaluator = {},
-        SpelExpressionParser;
+var spelExpressionEvaluator = {};
 
-    try {
-        SpelExpressionParser = require('./SpelExpressionParser').SpelExpressionParser;
-    } catch(e) {
-        SpelExpressionParser = exports.SpelExpressionParser;
+function evalCompiled(compiledExpression, context, locals) {
+    var activeContext = new Stack(),
+        state;
+
+    if (!context) {
+        context = {};
     }
 
-    spelExpressionEvaluator.compile = function (expression) {
-        var compiledExpression = SpelExpressionParser().parse(expression);
-        return {
-            eval: function (context, locals) {
-                return evalCompiled(compiledExpression, context, locals);
-            },
-            _compiledExpression: compiledExpression
-        }
+    activeContext.push(context);
+
+    state = {
+        rootContext: context,
+        activeContext: activeContext,
+        locals: locals
     };
+    return compiledExpression.getValue(state);
+}
 
-    spelExpressionEvaluator.eval = function (expression, context, locals) {
-        return spelExpressionEvaluator.compile(expression).eval(context, locals);
+spelExpressionEvaluator.compile = function (expression) {
+    var compiledExpression = spelExpressionParser().parse(expression);
+    return {
+        eval: function (context, locals) {
+            return evalCompiled(compiledExpression, context, locals);
+        },
+        _compiledExpression: compiledExpression
     };
+};
 
-    function evalCompiled(compiledExpression, context, locals) {
-        var activeContext = new Stack(),
-            state;
+spelExpressionEvaluator.eval = function (expression, context, locals) {
+    return spelExpressionEvaluator.compile(expression).eval(context, locals);
+};
 
-        if (!context) {
-            context = {};
-        }
-
-        activeContext.push(context);
-
-        state = {
-            rootContext: context,
-            activeContext: activeContext,
-            locals: locals
-        };
-        return compiledExpression.getValue(state);
-    }
-
-    exports.SpelExpressionEvaluator = spelExpressionEvaluator;
-
-}(window || exports));
+export {spelExpressionEvaluator as SpelExpressionEvaluator};

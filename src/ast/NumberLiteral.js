@@ -1,29 +1,21 @@
-(function (exports) {
-    'use strict';
+import {SpelNode} from './SpelNode';
 
-    var SpelNode;
-    try {
-        SpelNode = require('./SpelNode').SpelNode;
-    } catch (e) {
-        SpelNode = exports.SpelNode;
-    }
+function createNode(value, position) {
+    var node = SpelNode.create('number', position);
 
-    function createNode(value, position) {
-        var node = SpelNode.create('number', position);
-
-        node.getValue = function () {
-            return value;
-        };
-
-        node.setValue = function (newValue) {
-            value = newValue;
-        };
-
-        return node;
-    }
-
-    exports.NumberLiteral = {
-        create: createNode
+    node.getValue = function () {
+        return value;
     };
 
-}(window || exports));
+    node.setValue = function (newValue) {
+        /*jshint -W093 */
+        return value = newValue;
+        /*jshint +W093 */
+    };
+
+    return node;
+}
+
+export var NumberLiteral =  {
+    create: createNode
+};

@@ -1,28 +1,16 @@
-/**
- * @file
- *
- * ### Responsibilities
- * - unit test spel2js.js
- *
- * Scaffolded with generator-microjs v0.1.2
- *
- * @author  <>
- */
-'use strict';
+import {SpelExpressionEvaluator as evaluator} from '../../src/SpelExpressionEvaluator.js';
 
-/*global spel2js*/
-describe('spel expression evaluator', function () {
-    var evaluator = window.SpelExpressionEvaluator;
+describe('spel expression evaluator', ()=>{
 
-    beforeEach(function () {
+    beforeEach(()=>{
         // add spies
     });
 
-    describe('compile', function () {
+    describe('compile', ()=>{
 
-        it('should compile an expression an return an evaluator', function () {
+        it('should compile an expression an return an evaluator', ()=>{
             //when
-            var compiledExpression = evaluator.compile('1234');
+            let compiledExpression = evaluator.compile('1234');
 
             //then
             expect(compiledExpression.eval).toBeDefined();
@@ -31,34 +19,34 @@ describe('spel expression evaluator', function () {
     });
 
 
-    describe('parse', function () {
+    describe('parse', ()=>{
 
-        describe('primitives', function () {
+        describe('primitives', ()=>{
 
-            it('should evaluate a number', function () {
+            it('should evaluate a number', ()=>{
                 //when
-                var numberInt = evaluator.eval('123');
-                var numberFloat = evaluator.eval('123.4');
+                let numberInt = evaluator.eval('123');
+                let numberFloat = evaluator.eval('123.4');
 
                 //then
                 expect(numberInt).toBe(123);
                 expect(numberFloat).toBe(123.4);
             });
 
-            it('should evaluate a string', function () {
+            it('should evaluate a string', ()=>{
                 //when
-                var stringSingle = evaluator.eval('\'hello world!\'');
-                var stringDouble = evaluator.eval('"hello world!"');
+                let stringSingle = evaluator.eval('\'hello world!\'');
+                let stringDouble = evaluator.eval('"hello world!"');
 
                 //then
                 expect(stringSingle).toBe('hello world!');
                 expect(stringDouble).toBe('hello world!');
             });
 
-            it('should evaluate a boolean', function () {
+            it('should evaluate a boolean', ()=>{
                 //when
-                var boolTrue = evaluator.eval('true');
-                var boolFalse = evaluator.eval('false');
+                let boolTrue = evaluator.eval('true');
+                let boolFalse = evaluator.eval('false');
 
                 //then
                 expect(boolTrue).toBe(true);
@@ -67,11 +55,11 @@ describe('spel expression evaluator', function () {
 
         });
 
-        describe('lookups', function () {
+        describe('lookups', ()=>{
 
-            var context;
+            let context;
 
-            beforeEach(function () {
+            beforeEach(()=>{
                 context = {
                     iAmANumber: 1,
                     iAmANestedPropertyName: 'propLookup',
@@ -86,58 +74,58 @@ describe('spel expression evaluator', function () {
                 };
             });
 
-            it('should look up a primitive in the context', function () {
+            it('should look up a primitive in the context', ()=>{
                 //when
-                var number = evaluator.eval('iAmANumber', context);
+                let number = evaluator.eval('iAmANumber', context);
 
                 //then
                 expect(number).toBe(1);
             });
 
-            it('should look up a nested primitive in the context using dot notation', function () {
+            it('should look up a nested primitive in the context using dot notation', ()=>{
                 //when
-                var string = evaluator.eval('nested.iAmAString', context);
+                let string = evaluator.eval('nested.iAmAString', context);
 
                 //then
                 expect(string).toBe('hi');
             });
 
-            it('should look up a doubly nested primitive in the context using dot notation', function () {
+            it('should look up a doubly nested primitive in the context using dot notation', ()=>{
                 //when
-                var bool = evaluator.eval('nested.reallyNested.iAmTrue', context);
+                let bool = evaluator.eval('nested.reallyNested.iAmTrue', context);
 
                 //then
                 expect(bool).toBe(true);
             });
 
-            it('should look up a nested primitive in the context using bracket notation literal', function () {
+            it('should look up a nested primitive in the context using bracket notation literal', ()=>{
                 //when
-                var string = evaluator.eval('nested["iAmAString"]', context);
+                let string = evaluator.eval('nested["iAmAString"]', context);
 
                 //then
                 expect(string).toBe('hi');
             });
 
-            it('should look up a nested primitive in the context using bracket notation', function () {
+            it('should look up a nested primitive in the context using bracket notation', ()=>{
                 //when
-                var string = evaluator.eval('nested[iAmANestedPropertyName]', context);
+                let string = evaluator.eval('nested[iAmANestedPropertyName]', context);
 
                 //then
                 expect(string).toBe('Found!');
             });
 
-            it('should look up a really nested primitive in the context using bracket notation', function () {
+            it('should look up a really nested primitive in the context using bracket notation', ()=>{
                 //when
-                var string = evaluator.eval('nested.reallyNested[nested.iAmAString]', context);
+                let string = evaluator.eval('nested.reallyNested[nested.iAmAString]', context);
 
                 //then
                 expect(string).toBe('bye');
             });
 
-            it('should return null instead of throw error when using safe navigation', function () {
+            it('should return null instead of throw error when using safe navigation', ()=>{
                 //when
-                var willThrow = function () {evaluator.eval('nested.doesNotExist');}
-                var willBeNull = evaluator.eval('nested?.doesNotExist', context);
+                let willThrow = ()=>{evaluator.eval('nested.doesNotExist');};
+                let willBeNull = evaluator.eval('nested?.doesNotExist', context);
 
                 //then
                 expect(willThrow).toThrow();
@@ -146,57 +134,57 @@ describe('spel expression evaluator', function () {
         });
 
 
-        describe('comparisons', function () {
+        describe('comparisons', ()=>{
 
-            it('should evaluate an equality', function () {
+            it('should evaluate an equality', ()=>{
                 //when
-                var comp1 = evaluator.eval('1 == 1');
-                var comp2 = evaluator.eval('1 == 2');
+                let comp1 = evaluator.eval('1 == 1');
+                let comp2 = evaluator.eval('1 == 2');
 
                 //then
                 expect(comp1).toBe(true);
                 expect(comp2).toBe(false);
             });
 
-            it('should evaluate an equality with lookups', function () {
+            it('should evaluate an equality with lookups', ()=>{
                 //given
-                var context = {
+                let context = {
                     left: 1,
                     right: 1
                 };
 
                 //when
-                var comp = evaluator.eval('left == right', context);
+                let comp = evaluator.eval('left == right', context);
 
                 //then
                 expect(comp).toBe(true);
             });
 
-            it('should evaluate an inequality (not equal)', function () {
+            it('should evaluate an inequality (not equal)', ()=>{
                 //when
-                var comp1 = evaluator.eval('1 != 2');
-                var comp2 = evaluator.eval('1 != 1');
+                let comp1 = evaluator.eval('1 != 2');
+                let comp2 = evaluator.eval('1 != 1');
 
                 //then
                 expect(comp1).toBe(true);
                 expect(comp2).toBe(false);
             });
 
-            it('should evaluate an inequality (greater than)', function () {
+            it('should evaluate an inequality (greater than)', ()=>{
                 //when
-                var comp1 = evaluator.eval('2 > 1');
-                var comp2 = evaluator.eval('1 > 1');
+                let comp1 = evaluator.eval('2 > 1');
+                let comp2 = evaluator.eval('1 > 1');
 
                 //then
                 expect(comp1).toBe(true);
                 expect(comp2).toBe(false);
             });
 
-            it('should evaluate an inequality (greater than or equal to)', function () {
+            it('should evaluate an inequality (greater than or equal to)', ()=>{
                 //when
-                var comp1 = evaluator.eval('1 >= 1');
-                var comp2 = evaluator.eval('2 >= 1');
-                var comp3 = evaluator.eval('1 >= 2');
+                let comp1 = evaluator.eval('1 >= 1');
+                let comp2 = evaluator.eval('2 >= 1');
+                let comp3 = evaluator.eval('1 >= 2');
 
                 //then
                 expect(comp1).toBe(true);
@@ -204,21 +192,21 @@ describe('spel expression evaluator', function () {
                 expect(comp3).toBe(false);
             });
 
-            it('should evaluate an inequality (less than)', function () {
+            it('should evaluate an inequality (less than)', ()=>{
                 //when
-                var comp1 = evaluator.eval('1 < 2');
-                var comp2 = evaluator.eval('1 < 1');
+                let comp1 = evaluator.eval('1 < 2');
+                let comp2 = evaluator.eval('1 < 1');
 
                 //then
                 expect(comp1).toBe(true);
                 expect(comp2).toBe(false);
             });
 
-            it('should evaluate an inequality (less than or equal to)', function () {
+            it('should evaluate an inequality (less than or equal to)', ()=>{
                 //when
-                var comp1 = evaluator.eval('1 <= 2');
-                var comp2 = evaluator.eval('1 <= 2');
-                var comp3 = evaluator.eval('2 <= 1');
+                let comp1 = evaluator.eval('1 <= 2');
+                let comp2 = evaluator.eval('1 <= 2');
+                let comp3 = evaluator.eval('2 <= 1');
 
                 //then
                 expect(comp1).toBe(true);
@@ -226,9 +214,9 @@ describe('spel expression evaluator', function () {
                 expect(comp3).toBe(false);
             });
 
-            it('should evaluate a complex inequality', function () {
+            it('should evaluate a complex inequality', ()=>{
                 //when
-                var comp = evaluator.eval('"abc".length <= "abcde".length');
+                let comp = evaluator.eval('"abc".length <= "abcde".length');
 
                 //then
                 expect(comp).toBe(true);
@@ -237,48 +225,48 @@ describe('spel expression evaluator', function () {
         });
 
 
-        describe('method invocation', function () {
+        describe('method invocation', ()=>{
 
-            var context = {
-                funky: function () {
+            let context = {
+                funky: ()=>{
                     return 'fresh';
                 },
-                argumentative: function (arg) {
+                argumentative: (arg)=>{
                     return arg;
                 },
                 name: 'ben'
             };
 
-            it('should look up and invoke a function', function () {
+            it('should look up and invoke a function', ()=>{
                 //when
-                var ret = evaluator.eval('funky()', context);
+                let ret = evaluator.eval('funky()', context);
 
                 //then
                 expect(ret).toBe('fresh');
             });
 
-            it('should look up and invoke a function with arguments', function () {
+            it('should look up and invoke a function with arguments', ()=>{
                 //when
-                var ret = evaluator.eval('argumentative("i disagree!")', context);
+                let ret = evaluator.eval('argumentative("i disagree!")', context);
 
                 //then
                 expect(ret).toBe('i disagree!');
             });
 
-            it('should use a property if getter not available', function () {
+            it('should use a property if getter not available', ()=>{
                 //when
-                var ret = evaluator.eval('getName()', context);
+                let ret = evaluator.eval('getName()', context);
 
                 //then
                 expect(ret).toBe('ben');
             });
 
-            it('should set a property if setter not available', function () {
+            it('should set a property if setter not available', ()=>{
                 //given
                 evaluator.eval('setName("steve")', context);
 
                 //when
-                var ret = evaluator.eval('getName()', context);
+                let ret = evaluator.eval('getName()', context);
 
                 //then
                 expect(ret).toBe('steve');
@@ -288,11 +276,11 @@ describe('spel expression evaluator', function () {
         });
 
 
-        describe('locals', function () {
+        describe('locals', ()=>{
 
-            it('should refer to a local variable', function () {
+            it('should refer to a local variable', ()=>{
                 //given
-                var context = {
+                let context = {
                         myString: 'global context'
                     },
                     locals = {
@@ -300,15 +288,15 @@ describe('spel expression evaluator', function () {
                     };
 
                 //when
-                var local = evaluator.eval('#myString == "hello world!"', context, locals);
+                let local = evaluator.eval('#myString == "hello world!"', context, locals);
 
                 //then
                 expect(local).toBe(true);
             });
 
-            it('should refer to the root context', function () {
+            it('should refer to the root context', ()=>{
                 //given
-                var context = {
+                let context = {
                         myString: 'global context'
                     },
                     locals = {
@@ -316,15 +304,15 @@ describe('spel expression evaluator', function () {
                     };
 
                 //when
-                var root = evaluator.eval('#root', context, locals);
+                let root = evaluator.eval('#root', context, locals);
 
                 //then
                 expect(root).toBe(context);
             });
 
-            it('should refer the "this" context', function () {
+            it('should refer the "this" context', ()=>{
                 //given
-                var context = {
+                let context = {
                         myString: 'global context'
                     },
                     locals = {
@@ -332,7 +320,7 @@ describe('spel expression evaluator', function () {
                     };
 
                 //when
-                var that = evaluator.eval('#this', context, locals);
+                let that = evaluator.eval('#this', context, locals);
 
                 //then
                 expect(that).toBe(context);
@@ -341,68 +329,68 @@ describe('spel expression evaluator', function () {
         });
 
 
-        describe('math', function () {
+        describe('math', ()=>{
 
-            it('should add 2 numbers', function () {
+            it('should add 2 numbers', ()=>{
                 //when
-                var sum = evaluator.eval('1 + 1');
+                let sum = evaluator.eval('1 + 1');
 
                 //then
                 expect(sum).toBe(2);
             });
 
 
-            it('should add 3 numbers', function () {
+            it('should add 3 numbers', ()=>{
                 //when
-                var sum = evaluator.eval('1 + 1 + 1');
+                let sum = evaluator.eval('1 + 1 + 1');
 
                 //then
                 expect(sum).toBe(3);
             });
 
-            it('should subtract 2 numbers', function () {
+            it('should subtract 2 numbers', ()=>{
                 //when
-                var difference = evaluator.eval('1 + 1');
+                let difference = evaluator.eval('1 + 1');
 
                 //then
                 expect(difference).toBe(2);
             });
 
-            it('should multiply 2 numbers', function () {
+            it('should multiply 2 numbers', ()=>{
                 //when
-                var product = evaluator.eval('1 + 1');
+                let product = evaluator.eval('1 + 1');
 
                 //then
                 expect(product).toBe(2);
             });
 
-            it('should divide 2 numbers', function () {
+            it('should divide 2 numbers', ()=>{
                 //when
-                var quotient = evaluator.eval('1 + 1');
+                let quotient = evaluator.eval('1 + 1');
 
                 //then
                 expect(quotient).toBe(2);
             });
 
-            it('should find the modulus of 2 numbers', function () {
+            it('should find the modulus of 2 numbers', ()=>{
                 //when
-                var mod = evaluator.eval('10 % 8');
+                let mod = evaluator.eval('10 % 8');
 
                 //then
                 expect(mod).toBe(2);
             });
 
-            it('should evaluate an exponent', function () {
+            it('should evaluate an exponent', ()=>{
                 //when
-                var mod = evaluator.eval('10^2');
+                let mod = evaluator.eval('10^2');
 
                 //then
                 expect(mod).toBe(100);
             });
 
-            it('should honor standard order of operations', function () {
+            it('should honor standard order of operations', ()=>{
                 //when
-                var math = evaluator.eval('8 + 4 * 6 - 2 * 3 / 2'); //8+(4*6)-(2*3/2) = 29
+                let math = evaluator.eval('8 + 4 * 6 - 2 * 3 / 2'); //8+(4*6)-(2*3/2) = 29
 
                 //then
                 expect(math).toBe(29);
@@ -411,28 +399,28 @@ describe('spel expression evaluator', function () {
         });
 
 
-        describe('ternary', function () {
+        describe('ternary', ()=>{
 
-            it('should return first argument if true', function () {
+            it('should return first argument if true', ()=>{
                 //when
-                var tern = evaluator.eval('true ? "yes" : "no"');
+                let tern = evaluator.eval('true ? "yes" : "no"');
 
                 //then
                 expect(tern).toBe('yes');
             });
 
-            it('should return second argument if false', function () {
+            it('should return second argument if false', ()=>{
                 //when
-                var tern = evaluator.eval('false ? "yes" : "no"');
+                let tern = evaluator.eval('false ? "yes" : "no"');
 
                 //then
                 expect(tern).toBe('no');
             });
 
-            it('should return expression if truthy, or ifFalseExpression if null ', function () {
+            it('should return expression if truthy, or ifFalseExpression if null ', ()=>{
                 //when
-                var elvisTruthy = evaluator.eval('"Thank you." ?: "Thank you very much."');
-                var elvisFalsy = evaluator.eval('null ?: "Thank you very much."');
+                let elvisTruthy = evaluator.eval('"Thank you." ?: "Thank you very much."');
+                let elvisFalsy = evaluator.eval('null ?: "Thank you very much."');
 
                 //then
                 expect(elvisTruthy).toBe('Thank you.');
@@ -442,15 +430,15 @@ describe('spel expression evaluator', function () {
         });
 
 
-        describe('assignment', function () {
+        describe('assignment', ()=>{
 
-            it('should assign a value to the proper context with the specified property name', function () {
+            it('should assign a value to the proper context with the specified property name', ()=>{
                 //given
-                var context = {
+                let context = {
                     name: 'Nikola Tesla',
                     heritage: 'Serbian'
                 };
-                var locals = {
+                let locals = {
                     newName: 'Mike Tesla'
                 };
 
@@ -461,14 +449,14 @@ describe('spel expression evaluator', function () {
                 expect(context.name).toBe('Mike Tesla');
             });
 
-            it('should assign to a nested context', function () {
+            it('should assign to a nested context', ()=>{
                 //given
-                var context = {
+                let context = {
                     nested: {
                         name: 'Nikola Tesla'
                     }
                 };
-                var locals = {
+                let locals = {
                     newName: 'Mike Tesla'
                 };
 
@@ -482,19 +470,19 @@ describe('spel expression evaluator', function () {
         });
 
 
-        describe('complex literals', function () {
+        describe('complex literals', ()=>{
 
-            it('should create an array', function () {
+            it('should create an array', ()=>{
                 //when
-                var arr = evaluator.eval('{1, 2, 3, 4}');
+                let arr = evaluator.eval('{1, 2, 3, 4}');
 
                 //then
                 expect(arr).toEqual([1, 2, 3, 4]);
             });
 
-            it('should create a map', function () {
+            it('should create a map', ()=>{
                 //when
-                var map = evaluator.eval("{name:'Nikola',dob:'10-July-1856'}");
+                let map = evaluator.eval('{name:"Nikola",dob:"10-July-1856"}');
 
                 //then
                 expect(map).toEqual({name: 'Nikola', dob: '10-July-1856'});
@@ -502,63 +490,63 @@ describe('spel expression evaluator', function () {
 
         });
 
-        describe('unary', function () {
+        describe('unary', ()=>{
 
-            it('should increment an integer but return original value', function () {
+            it('should increment an integer but return original value', ()=>{
                 //given
-                var parsed = evaluator.compile('123++');
+                let parsed = evaluator.compile('123++');
 
                 //when
-                var inc1 = parsed.eval();
-                var inc2 = parsed.eval();
+                let inc1 = parsed.eval();
+                let inc2 = parsed.eval();
 
                 //then
                 expect(inc1).toBe(123);
                 expect(inc2).toBe(124);
             });
 
-            it('should decrement an integer but return original value', function () {
+            it('should decrement an integer but return original value', ()=>{
                 //given
-                var parsed = evaluator.compile('123--');
+                let parsed = evaluator.compile('123--');
 
                 //when
-                var dec1 = parsed.eval();
-                var dec2 = parsed.eval();
+                let dec1 = parsed.eval();
+                let dec2 = parsed.eval();
 
                 //then
                 expect(dec1).toBe(123);
                 expect(dec2).toBe(122);
             });
 
-            it('should increment an integer and return new value', function () {
+            it('should increment an integer and return new value', ()=>{
                 //given
-                var parsed = evaluator.compile('++123');
+                let parsed = evaluator.compile('++123');
 
                 //when
-                var inc1 = parsed.eval();
-                var inc2 = parsed.eval();
+                let inc1 = parsed.eval();
+                let inc2 = parsed.eval();
 
                 //then
                 expect(inc1).toBe(124);
                 expect(inc2).toBe(125);
             });
 
-            it('should decrement an integer and return new value', function () {
+            it('should decrement an integer and return new value', ()=>{
                 //given
-                var parsed = evaluator.compile('--123');
+                let parsed = evaluator.compile('--123');
 
                 //when
-                var dec1 = parsed.eval();
-                var dec2 = parsed.eval();
+                let dec1 = parsed.eval();
+                let dec2 = parsed.eval();
 
                 //then
                 expect(dec1).toBe(122);
                 expect(dec2).toBe(121);
             });
 
-            it('should increment a property on the context', function () {
+            it('should increment a property on the context', ()=>{
                 //given
-                var context = {
+                let context = {
                     int: 123
                 };
 
@@ -569,12 +557,12 @@ describe('spel expression evaluator', function () {
                 expect(context.int).toBe(124);
             });
 
-            it('should increment a local variable', function () {
+            it('should increment a local variable', ()=>{
                 //given
-                var context = {
+                let context = {
                     int: 123
                 };
-                var locals = {
+                let locals = {
                     int: 321
                 };
 
@@ -585,9 +573,9 @@ describe('spel expression evaluator', function () {
                 expect(locals.int).toBe(322);
             });
 
-            it('should invert a boolean', function () {
+            it('should invert a boolean', ()=>{
                 //when
-                var bool = evaluator.eval('!true');
+                let bool = evaluator.eval('!true');
 
                 //then
                 expect(bool).toBe(false);
@@ -596,14 +584,14 @@ describe('spel expression evaluator', function () {
         });
 
 
-        describe('logical operators', function () {
+        describe('logical operators', ()=>{
 
-            it('should evaluate "and" expressions', function () {
+            it('should evaluate "and" expressions', ()=>{
                 //when
-                var and1 = evaluator.eval('true && true');
-                var and2 = evaluator.eval('true && false');
-                var and3 = evaluator.eval('false && true');
-                var and4 = evaluator.eval('false && false');
+                let and1 = evaluator.eval('true && true');
+                let and2 = evaluator.eval('true && false');
+                let and3 = evaluator.eval('false && true');
+                let and4 = evaluator.eval('false && false');
 
                 //then
                 expect(and1).toBe(true);
@@ -612,12 +600,12 @@ describe('spel expression evaluator', function () {
                 expect(and4).toBe(false);
             });
 
-            it('should evaluate "and" expressions', function () {
+            it('should evaluate "and" expressions', ()=>{
                 //when
-                var or1 = evaluator.eval('true || true');
-                var or2 = evaluator.eval('true || false');
-                var or3 = evaluator.eval('false || true');
-                var or4 = evaluator.eval('false || false');
+                let or1 = evaluator.eval('true || true');
+                let or2 = evaluator.eval('true || false');
+                let or3 = evaluator.eval('false || true');
+                let or4 = evaluator.eval('false || false');
 
                 //then
                 expect(or1).toBe(true);
@@ -629,24 +617,24 @@ describe('spel expression evaluator', function () {
         });
 
 
-        describe('selection/projection', function () {
+        describe('selection/projection', ()=>{
 
-            it('should return a new list based on selection expression', function () {
+            it('should return a new list based on selection expression', ()=>{
                 //given
-                var context = {
+                let context = {
                     collection: [1, 2, 3, 4, 5, 6]
                 };
 
                 //when
-                var newCollection = evaluator.eval('collection.?[#this <= 3]', context);
+                let newCollection = evaluator.eval('collection.?[#this <= 3]', context);
 
                 //then
                 expect(newCollection).toEqual([1, 2, 3]);
             });
 
-            it('should return a new map based on selection expression', function () {
+            it('should return a new map based on selection expression', ()=>{
                 //given
-                var context = {
+                let context = {
                     collection: {
                         a: 1,
                         b: 2,
@@ -657,17 +645,17 @@ describe('spel expression evaluator', function () {
                 };
 
                 //when
-                var newCollection1 = evaluator.eval('collection.?[value <= 3]', context);
-                var newCollection2 = evaluator.eval('collection.?[key == "a"]', context);
+                let newCollection1 = evaluator.eval('collection.?[value <= 3]', context);
+                let newCollection2 = evaluator.eval('collection.?[key == "a"]', context);
 
                 //then
                 expect(newCollection1).toEqual({a: 1, b: 2, c: 3});
                 expect(newCollection2).toEqual({a: 1});
             });
 
-            it('should return the first element of list or map', function () {
+            it('should return the first element of list or map', ()=>{
                 //given
-                var context = {
+                let context = {
                     list: [1, 2, 3, 4, 5, 6],
                     map: {
                         a: 1,
@@ -679,17 +667,17 @@ describe('spel expression evaluator', function () {
                 };
 
                 //when
-                var listFirst = evaluator.eval('list.^[#this <= 3]', context);
-                var mapFirst = evaluator.eval('map.^[value <= 3]', context);
+                let listFirst = evaluator.eval('list.^[#this <= 3]', context);
+                let mapFirst = evaluator.eval('map.^[value <= 3]', context);
 
                 //then
                 expect(listFirst).toEqual(1);
                 expect(mapFirst).toEqual({a: 1});
             });
 
-            it('should return the last element of list or map', function () {
+            it('should return the last element of list or map', ()=>{
                 //given
-                var context = {
+                let context = {
                     list: [1, 2, 3, 4, 5, 6],
                     map: {
                         a: 1,
@@ -701,17 +689,17 @@ describe('spel expression evaluator', function () {
                 };
 
                 //when
-                var listFirst = evaluator.eval('list.$[#this <= 3]', context);
-                var mapFirst = evaluator.eval('map.$[value <= 3]', context);
+                let listFirst = evaluator.eval('list.$[#this <= 3]', context);
+                let mapFirst = evaluator.eval('map.$[value <= 3]', context);
 
                 //then
                 expect(listFirst).toEqual(3);
                 expect(mapFirst).toEqual({c: 3});
             });
 
-            it('should return a list of projected values from a list of objects', function () {
+            it('should return a list of projected values from a list of objects', ()=>{
                 //given
-                var context = {
+                let context = {
                     list: [
                         {
                             name: 'Ben'
@@ -726,15 +714,15 @@ describe('spel expression evaluator', function () {
                 };
 
                 //when
-                var names = evaluator.eval('list.![name]', context);
+                let names = evaluator.eval('list.![name]', context);
 
                 //then
                 expect(names).toEqual(['Ben', 'Kris', 'Ansy']);
             });
 
-            it('should return a list of entries from a map (not quite like in Java because key must be a string)', function () {
+            it('should return a list of entries from a map (not quite like in Java because key must be a string)', ()=>{
                 //given
-                var context = {
+                let context = {
                     map: {
                         ben: {
                             hometown: 'Newton'
@@ -749,7 +737,7 @@ describe('spel expression evaluator', function () {
                 };
 
                 //when
-                var hometowns = evaluator.eval('map.![hometown]', context);
+                let hometowns = evaluator.eval('map.![hometown]', context);
 
                 //then
                 expect(hometowns).toEqual(['Newton', 'Peabody', 'Brockton']);

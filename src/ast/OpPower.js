@@ -1,25 +1,15 @@
-(function (exports) {
-    'use strict';
+import {SpelNode} from './SpelNode';
 
-    var SpelNode;
-    try {
-        SpelNode = require('./SpelNode').SpelNode;
-    } catch (e) {
-        SpelNode = exports.SpelNode;
-    }
+function createNode(position, base, exp) {
+    var node = SpelNode.create('op-power', position, base, exp);
 
-    function createNode(position, base, exp) {
-        var node = SpelNode.create('op-power', position, base, exp);
-
-        node.getValue = function (state) {
-            return Math.pow(base.getValue(state), exp.getValue(state));
-        };
-
-        return node;
-    }
-
-    exports.OpPower = {
-        create: createNode
+    node.getValue = function (state) {
+        return Math.pow(base.getValue(state), exp.getValue(state));
     };
 
-}(window || exports));
+    return node;
+}
+
+export var OpPower =  {
+    create: createNode
+};

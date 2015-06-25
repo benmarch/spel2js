@@ -27,7 +27,8 @@ module.exports = function (config) {
          Test pre-processors
          */
         preprocessors: {
-            'spel2js.js': ['coverage']
+            'src/**/*.js': ['browserify'],
+            'test/**/*spec.js': ['browserify']
         },
 
         /*
@@ -42,6 +43,11 @@ module.exports = function (config) {
                 type: 'lcov',
                 dir: 'test/coverage'
             }]
+        },
+
+        browserify: {
+            debug: true,
+            transform: [ 'babelify' ]
         },
 
         /*
@@ -81,22 +87,10 @@ module.exports = function (config) {
          Test framework to use:
          jasmine, mocha, qunit etc.
          */
-        frameworks: ['jasmine'],
+        frameworks: ['browserify', 'jasmine'],
 
         files: [
-            'src/lib/**/*.js',
-
-            'src/TokenKind.js',
-            'src/Token.js',
-            'src/Tokenizer.js',
-
-            'src/ast/SpelNode.js',
-            'src/ast/*.js',
-
-            'src/SpelExpressionParser.js',
-            'src/SpelExpressionEvaluator.js',
-            '<%= config.app %>/StandardContext.js',
-
+            'src/**/*.js',
             'test/spec/**/*.spec.js'
         ]
     });

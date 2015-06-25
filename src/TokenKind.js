@@ -1,144 +1,138 @@
-(function (exports) {
-    'use strict';
+var types = {
 
-    // ordered by priority - operands first
-    var types = {
+    LITERAL_INT: 1,             //tested
 
-        LITERAL_INT: 1,             //tested
+    LITERAL_LONG: 2,            //tested
 
-        LITERAL_LONG: 2,            //tested
+    LITERAL_HEXINT: 3,          //tested
 
-        LITERAL_HEXINT: 3,          //tested
+    LITERAL_HEXLONG: 4,         //tested
 
-        LITERAL_HEXLONG: 4,         //tested
+    LITERAL_STRING: 5,          //tested
 
-        LITERAL_STRING: 5,          //tested
+    LITERAL_REAL: 6,            //tested
 
-        LITERAL_REAL: 6,            //tested
+    LITERAL_REAL_FLOAT: 7,      //tested
 
-        LITERAL_REAL_FLOAT: 7,      //tested
+    LPAREN: '(',                //tested
 
-        LPAREN: "(",                //tested
+    RPAREN: ')',                //tested
 
-        RPAREN: ")",                //tested
+    COMMA: ',',                 //tested
 
-        COMMA: ",",                 //tested
+    IDENTIFIER: 0,              //tested
 
-        IDENTIFIER: 0,              //tested
+    COLON: ':',                 //tested
 
-        COLON: ":",                 //tested
+    HASH: '#',                  //tested
 
-        HASH: "#",                  //tested
+    RSQUARE: ']',               //tested
 
-        RSQUARE: "]",               //tested
+    LSQUARE: '[',               //tested
 
-        LSQUARE: "[",               //tested
+    LCURLY: '{',                //tested
 
-        LCURLY: "{",                //tested
+    RCURLY: '}',                //tested
 
-        RCURLY: "}",                //tested
+    DOT: '.',                   //tested
 
-        DOT: ".",                   //tested
+    PLUS: '+',                  //tested
 
-        PLUS: "+",                  //tested
+    STAR: '*',                  //tested
 
-        STAR: "*",                  //tested
+    MINUS: '-',                 //tested
 
-        MINUS: "-",                 //tested
+    SELECT_FIRST: '^[',         //tested
 
-        SELECT_FIRST: "^[",         //tested
+    SELECT_LAST: '$[',          //tested
 
-        SELECT_LAST: "$[",          //tested
+    QMARK: '?',                 //tested
 
-        QMARK: "?",                 //tested
+    PROJECT: '![',              //tested
 
-        PROJECT: "![",              //tested
+    DIV: '/',                   //tested
 
-        DIV: "/",                   //tested
+    GE: '>=',                   //tested
 
-        GE: ">=",                   //tested
+    GT: '>',                    //tested
 
-        GT: ">",                    //tested
+    LE: '<=',                   //tested
 
-        LE: "<=",                   //tested
+    LT: '<',                    //tested
 
-        LT: "<",                    //tested
+    EQ: '==',                   //tested
 
-        EQ: "==",                   //tested
+    NE: '!=',                   //tested
 
-        NE: "!=",                   //tested
+    MOD: '%',                   //tested
 
-        MOD: "%",                   //tested
+    NOT: '!',                   //tested
 
-        NOT: "!",                   //tested
+    ASSIGN: '=',                //tested
 
-        ASSIGN: "=",                //tested
+    INSTANCEOF: 'instanceof',   //test fails
 
-        INSTANCEOF: "instanceof",   //test fails
+    MATCHES: 'matches',         //test fails
 
-        MATCHES: "matches",         //test fails
+    BETWEEN: 'between',         //test fails
 
-        BETWEEN: "between",         //test fails
+    SELECT: '?[',               //tested
 
-        SELECT: "?[",               //tested
+    POWER: '^',                 //tested
 
-        POWER: "^",                 //tested
+    ELVIS: '?:',                //tested
 
-        ELVIS: "?:",                //tested
+    SAFE_NAVI: '?.',            //tested
 
-        SAFE_NAVI: "?.",            //tested
+    BEAN_REF: '@',              //tested
 
-        BEAN_REF: "@",              //tested
+    SYMBOLIC_OR: '||',          //tested
 
-        SYMBOLIC_OR: "||",          //tested
+    SYMBOLIC_AND: '&&',         //tested
 
-        SYMBOLIC_AND: "&&",         //tested
+    INC: '++',                  //tested
 
-        INC: "++",                  //tested
+    DEC: '--'                   //tested
+};
 
-        DEC: "--"                   //tested
-    };
-
-    function TokenKind(type) {
-        this.type = type;
-        this.tokenChars = types[type];
-        this._hasPayload = typeof types[type] !== 'string';
-        if (typeof types[type] === 'number') {
-            this._ordinal = types[type];
-        }
+function TokenKind(type) {
+    this.type = type;
+    this.tokenChars = types[type];
+    this._hasPayload = typeof types[type] !== 'string';
+    if (typeof types[type] === 'number') {
+        this._ordinal = types[type];
     }
+}
 
-    //create enum
+//create enum
+for (var t in types) {
+    if (types.hasOwnProperty(t)) {
+        TokenKind[t] = new TokenKind(t);
+    }
+}
+
+TokenKind.prototype.toString = function () {
+    return this.type + (this.tokenChars.length !== 0 ? '(' + this.tokenChars + ')' : '');
+};
+
+TokenKind.prototype.getLength = function () {
+    return this.tokenChars.length;
+};
+
+TokenKind.prototype.hasPayload = function () {
+    return this._hasPayload;
+};
+
+TokenKind.prototype.valueOf = function (id) {
     for (var t in types) {
-        if (types.hasOwnProperty(t)) {
-            TokenKind[t] = new TokenKind(t);
+        if (types.hasOwnProperty(t) && types[t] === id) {
+            return TokenKind[t];
         }
     }
+};
 
-    TokenKind.prototype.toString = function () {
-        return this.type + (this.tokenChars.length != 0 ? "(" + this.tokenChars + ")" : "")
-    };
+TokenKind.prototype.ordinal = function () {
+    return this._ordinal;
+};
 
-    TokenKind.prototype.getLength = function () {
-        return this.tokenChars.length;
-    };
-
-    TokenKind.prototype.hasPayload = function () {
-        return this._hasPayload;
-    };
-
-    TokenKind.prototype.valueOf = function (id) {
-        for (var t in types) {
-            if (types.hasOwnProperty(t) && types[t] === id) {
-                return TokenKind[t];
-            }
-        }
-    };
-
-    TokenKind.prototype.ordinal = function () {
-        return this._ordinal;
-    };
-
-    exports.TokenKind = TokenKind;
-
-}(window || exports));
+export {TokenKind};

@@ -1,25 +1,14 @@
-(function (exports) {
-    'use strict';
+import {SpelNode} from './SpelNode';
+function createNode(value, position) {
+    var node = SpelNode.create('null', position);
 
-    var SpelNode;
-    try {
-        SpelNode = require('./SpelNode').SpelNode;
-    } catch (e) {
-        SpelNode = exports.SpelNode;
-    }
-
-    function createNode(value, position) {
-        var node = SpelNode.create('null', position);
-
-        node.getValue = function () {
-            return null;
-        };
-
-        return node;
-    }
-
-    exports.NullLiteral = {
-        create: createNode
+    node.getValue = function () {
+        return null;
     };
 
-}(window || exports));
+    return node;
+}
+
+export var NullLiteral =  {
+    create: createNode
+};

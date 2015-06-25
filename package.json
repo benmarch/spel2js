@@ -1,6 +1,6 @@
 {
   "name": "spel2js",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Parse Spring Expression Language in JavaScript",
   "author": {
     "name": "Ben March",
@@ -38,12 +38,15 @@
   ],
   "dependencies": {},
   "devDependencies": {
+    "babelify": "^6.1.2",
     "grunt": "^0.4.5",
+    "grunt-browserify": "^3.8.0",
     "grunt-complexity": "^0.3.0",
     "grunt-contrib-concat": "^0.5.1",
     "grunt-contrib-jshint": "^0.11.2",
     "grunt-contrib-uglify": "^0.9.1",
     "grunt-karma": "^0.11.0",
+    "karma-browserify": "^4.2.1",
     "karma-coverage": "^0.4.2",
     "karma-jasmine": "^0.3.5",
     "karma-phantomjs-launcher": "^0.2.0",

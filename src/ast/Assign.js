@@ -1,34 +1,24 @@
-(function (exports, undefined) {
-    'use strict';
+import {SpelNode} from './SpelNode';
 
-    var SpelNode;
-    try {
-        SpelNode = require('./SpelNode').SpelNode;
-    } catch (e) {
-        SpelNode = exports.SpelNode;
-    }
+function createNode(position, property, assignedValue) {
+    var node = SpelNode.create('assign', position, property, assignedValue);
 
-    function createNode(position, property, assignedValue) {
-        var node = SpelNode.create('assign', position, property, assignedValue);
+    node.getValue = function (state) {
+        var context = state.activeContext.peek();
 
-        node.getValue = function (state) {
-            var context = state.activeContext.peek();
+        if (!context) {
+            throw {
+                name: 'ContextDoesNotExistException',
+                message: 'Attempting to assign property \''+ property.getValue(state) +'\' for an undefined context.'
+            };
+        }
 
-            if (!context) {
-                throw {
-                    name: 'ContextDoesNotExistException',
-                    message: 'Attempting to assign property \''+ property.getValue(state) +'\' for an undefined context.'
-                }
-            }
-
-            return property.setValue(assignedValue.getValue(state), state);
-        };
-
-        return node;
-    }
-
-    exports.Assign = {
-        create: createNode
+        return property.setValue(assignedValue.getValue(state), state);
     };
 
-}(window || exports));
+    return node;
+}
+
+export var Assign =  {
+    create: createNode
+};

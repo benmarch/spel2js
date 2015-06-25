@@ -1,27 +1,16 @@
-/**
- * @file
- *
- * ### Responsibilities
- * - unit test spel2js.js
- *
- * Scaffolded with generator-microjs v0.1.2
- *
- * @author  <>
- */
-'use strict';
+import {Tokenizer} from '../../src/Tokenizer';
+import {TokenKind} from '../../src/TokenKind';
 
-/*global spel2js*/
-describe('tokenizer', function () {
-    var tokenize = window.Tokenizer.tokenize,
-        TokenKind = window.TokenKind;
+describe('tokenizer', ()=>{
+    let tokenize = Tokenizer.tokenize;
 
-    beforeEach(function () {
+    beforeEach(()=>{
         // add spies
     });
 
-    it('should return an array of one Int token', function () {
+    it('should return an array of one Int token', ()=>{
         //when
-        var tokens = tokenize('123');
+        let tokens = tokenize('123');
 
         //then
         expect(tokens).toBeDefined();
@@ -30,9 +19,9 @@ describe('tokenizer', function () {
         expect(tokens[0].stringValue()).toBe('123');
     });
 
-    it('should return an array of one long token', function () {
+    it('should return an array of one long token', ()=>{
         //when
-        var tokens = tokenize('123l');
+        let tokens = tokenize('123l');
 
         //then
         expect(tokens).toBeDefined();
@@ -41,9 +30,9 @@ describe('tokenizer', function () {
         expect(tokens[0].stringValue()).toBe('123');
     });
 
-    it('should return an array of one hex int token', function () {
+    it('should return an array of one hex int token', ()=>{
         //when
-        var tokens = tokenize('0xFF');
+        let tokens = tokenize('0xFF');
 
         //then
         expect(tokens).toBeDefined();
@@ -52,9 +41,9 @@ describe('tokenizer', function () {
         expect(tokens[0].stringValue()).toBe('FF');
     });
 
-    it('should return an array of one hex long token', function () {
+    it('should return an array of one hex long token', ()=>{
         //when
-        var tokens = tokenize('0xFFl');
+        let tokens = tokenize('0xFFl');
 
         //then
         expect(tokens).toBeDefined();
@@ -63,9 +52,9 @@ describe('tokenizer', function () {
         expect(tokens[0].stringValue()).toBe('FF');
     });
 
-    it('should return an array of one string token', function () {
+    it('should return an array of one string token', ()=>{
         //when
-        var tokens = tokenize('\'hello world!\'');
+        let tokens = tokenize('\'hello world!\'');
 
         //then
         expect(tokens).toBeDefined();
@@ -74,9 +63,9 @@ describe('tokenizer', function () {
         expect(tokens[0].stringValue()).toBe('\'hello world!\'');
     });
 
-    it('should return an array of one real token', function () {
+    it('should return an array of one real token', ()=>{
         //when
-        var tokens = tokenize('123.4');
+        let tokens = tokenize('123.4');
 
         //then
         expect(tokens).toBeDefined();
@@ -85,9 +74,9 @@ describe('tokenizer', function () {
         expect(tokens[0].stringValue()).toBe('123.4');
     });
 
-    it('should return an array of one real float token', function () {
+    it('should return an array of one real float token', ()=>{
         //when
-        var tokens = tokenize('123.4f');
+        let tokens = tokenize('123.4f');
 
         //then
         expect(tokens).toBeDefined();
@@ -98,9 +87,9 @@ describe('tokenizer', function () {
 
 
     //more complex expressions
-    it('should return an array of 4 tokens when given a function with 1 arg', function () {
+    it('should return an array of 4 tokens when given a function with 1 arg', ()=>{
         //when
-        var tokens = tokenize('hasPermission(\'DISCUSSION_POST\')');
+        let tokens = tokenize('hasPermission(\'DISCUSSION_POST\')');
 
         //then
         expect(tokens).toBeDefined();
@@ -111,9 +100,9 @@ describe('tokenizer', function () {
         expect(tokens[3].getKind()).toBe(TokenKind.RPAREN);
     });
 
-    it('should return an array of 11 tokens when given comparison of principal to arg property', function () {
+    it('should return an array of 11 tokens when given comparison of principal to arg property', ()=>{
         //when
-        var tokens = tokenize('principal.email == #comment.user[\'email\']');
+        let tokens = tokenize('principal.email == #comment.user[\'email\']');
 
         //then
         expect(tokens).toBeDefined();
@@ -131,9 +120,9 @@ describe('tokenizer', function () {
         expect(tokens[10].getKind()).toBe(TokenKind.RSQUARE);
     });
 
-    it('should tokenize unary operators', function () {
+    it('should tokenize unary operators', ()=>{
         //when
-        var tokens = tokenize('+ - * / ^ % ++ -- ! =');
+        let tokens = tokenize('+ - * / ^ % ++ -- ! =');
 
         //then
         expect(tokens).toBeDefined();
@@ -150,9 +139,9 @@ describe('tokenizer', function () {
         expect(tokens[9].getKind()).toBe(TokenKind.ASSIGN);
     });
 
-    it('should tokenize comparison operators', function () {
+    it('should tokenize comparison operators', ()=>{
         //when
-        var tokens = tokenize('>= > <= < == != && ||');
+        let tokens = tokenize('>= > <= < == != && ||');
 
         //then
         expect(tokens).toBeDefined();
@@ -168,9 +157,9 @@ describe('tokenizer', function () {
     });
 
     //this test fails. The tokenizer from Spring does not support these
-    /*it('should tokenize keywords', function () {
+    /*it('should tokenize keywords', ()=>{
         //when
-        var tokens = tokenize('instanceOf matches between');
+        let tokens = tokenize('instanceOf matches between');
 
         //then
         expect(tokens).toBeDefined();
@@ -180,9 +169,9 @@ describe('tokenizer', function () {
         expect(tokens[2].getKind()).toBe(TokenKind.BETWEEN);
     });*/
 
-    it('should tokenize regex tokens', function () {
+    it('should tokenize regex tokens', ()=>{
         //when
-        var tokens = tokenize('^[ $[ ? ![ ?[');
+        let tokens = tokenize('^[ $[ ? ![ ?[');
 
         //then
         expect(tokens).toBeDefined();
@@ -194,9 +183,9 @@ describe('tokenizer', function () {
         expect(tokens[4].getKind()).toBe(TokenKind.SELECT);
     });
 
-    it('should tokenize miscellaneous tokens', function () {
+    it('should tokenize miscellaneous tokens', ()=>{
         //when
-        var tokens = tokenize(', : { } ?: ?. @');
+        let tokens = tokenize(', : { } ?: ?. @');
 
         //then
         expect(tokens).toBeDefined();
@@ -210,59 +199,59 @@ describe('tokenizer', function () {
         expect(tokens[6].getKind()).toBe(TokenKind.BEAN_REF);
     });
 
-    it('should throw exception if using bitwise operators', function () {
+    it('should throw exception if using bitwise operators', ()=>{
         //given
-        function shouldThrow1() {
+        let shouldThrow1 = ()=>{
             tokenize('|');
-        }
-        function shouldThrow2() {
+        };
+        let shouldThrow2 = ()=>{
             tokenize('&');
-        }
+        };
 
         //then
         expect(shouldThrow1).toThrow();
         expect(shouldThrow2).toThrow();
     });
 
-    it('should throw exception if escape character is used', function () {
+    it('should throw exception if escape character is used', ()=>{
         //given
-        function shouldThrow() {
+        let shouldThrow = ()=>{
             tokenize('\\hello');
-        }
+        };
 
         //then
         expect(shouldThrow).toThrow();
     });
 
-    it('should throw exception if unsupported character is used', function () {
+    it('should throw exception if unsupported character is used', ()=>{
         //given
-        function shouldThrow() {
+        let shouldThrow = ()=>{
             tokenize('¶');
-        }
+        };
 
         //then
         expect(shouldThrow).toThrow();
     });
 
-    it('should throw exception if string literal is unterminated', function () {
+    it('should throw exception if string literal is unterminated', ()=>{
         //given
-        function shouldThrowSingleQuote() {
+        let shouldThrowSingleQuote = ()=>{
             tokenize('\'this is an unterminated stateme');
-        }
-        function shouldThrowDoubleQuote() {
+        };
+        let shouldThrowDoubleQuote = ()=>{
             tokenize('"this is an unterminated stateme');
-        }
+        };
 
         //then
         expect(shouldThrowSingleQuote).toThrow();
         expect(shouldThrowDoubleQuote).toThrow();
     });
 
-    it('should throw exception if long identifier used on real', function () {
+    it('should throw exception if long identifier used on real', ()=>{
         //given
-        function shouldThrow() {
+        let shouldThrow = ()=>{
             tokenize('3.4L');
-        }
+        };
 
         //then
         expect(shouldThrow).toThrow();

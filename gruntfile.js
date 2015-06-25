@@ -35,33 +35,13 @@ module.exports = function (grunt) {
 
         complexity: {
             all: {
-                src: ['src/**/*.js'],
+                src: ['dist/spel2js.js'],
                 options: {
                     breakOnErrors: false,
                     checkstyleXML: 'complexity/checkstyle.xml', // create checkstyle report
                     errorsOnly: false,               // show only maintainability errors
                     maintainability: 100
                 }
-            }
-        },
-
-        concat: {
-            dist: {
-                src: [
-                    '<%= config.app %>/lib/**/*.js',
-
-                    '<%= config.app %>/TokenKind.js',
-                    '<%= config.app %>/Token.js',
-                    '<%= config.app %>/Tokenizer.js',
-
-                    '<%= config.app %>/ast/SpelNode.js',
-                    '<%= config.app %>/ast/*.js',
-
-                    '<%= config.app %>/SpelExpressionParser.js',
-                    '<%= config.app %>/SpelExpressionEvaluator.js',
-                    '<%= config.app %>/StandardContext.js'
-                ],
-                dest: '<%= config.dist %>/spel2js.js'
             }
         },
 
@@ -76,7 +56,30 @@ module.exports = function (grunt) {
             unit: {
                 configFile: 'test/karma.conf.js'
             }
+        },
+
+
+        browserify: {
+            dist: {
+                options: {
+                    transform: [
+                        [
+                            'babelify',
+                            {
+                                stage: 0
+                            }
+                        ]
+                    ],
+                    browserifyOptions: {
+                        standalone: 'spel2js'
+                    }
+                },
+                files: {
+                    'dist/spel2js.js': 'src/main.js'
+                }
+            }
         }
+
     });
 
     grunt.registerTask('test', [
@@ -92,7 +95,7 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('build', [
-        'concat',
+        'browserify',
         'uglify'
     ]);
 

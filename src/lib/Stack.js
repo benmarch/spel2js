@@ -1,4 +1,4 @@
-function Stack(startingElements) {
+export function Stack(startingElements) {
     this.elements = startingElements || [];
 }
 
