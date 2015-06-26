@@ -1,39 +1,39 @@
 {
-  "name": "spel2js",
-  "version": "0.2.0",
-  "description": "Parse Spring Expression Language in JavaScript",
-  "main": "dist/spel2js.js",
-  "author": {
-      "name": "Ben March",
-      "email": "bmarch89@gmail.com",
-      "url": "https://github.com/benmarch"
-  },
-  "homepage": "https://github.com/benmarch/spel2js",
-  "bugs": {
-      "url": "https://github.com/benmarch/spel2js/issues"
-  },
-  "licenses": [
-      {
-          "type": "MIT",
-          "url": "http://benmarch.mit-license.org"
-      }
-  ],
-  "ignore": [
-    ".editorconfig",
-    ".gitattributes",
-    ".gitignore",
-    ".jshintrc",
-    ".npmignore",
-    ".travis.yml",
-    ".umd",
-    "gulpfile.js",
-    "npm-shrinkwrap.json",
-    "package.json"
-  ],
-  "dependencies": {
+    "name": "spel2js",
+    "version": "0.2.0",
+    "description": "Parse Spring Expression Language in JavaScript",
+    "main": "dist/spel2js.js",
+    "author": {
+        "name": "Ben March",
+        "email": "bmarch89@gmail.com",
+        "url": "https://github.com/benmarch"
+    },
+    "homepage": "https://github.com/benmarch/spel2js",
+    "bugs": {
+        "url": "https://github.com/benmarch/spel2js/issues"
+    },
+    "licenses": [
+        {
+            "type": "Apache v2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0"
+        }
+    ],
+    "ignore": [
+        ".editorconfig",
+        ".gitattributes",
+        ".gitignore",
+        ".jshintrc",
+        ".npmignore",
+        ".travis.yml",
+        ".umd",
+        "gulpfile.js",
+        "npm-shrinkwrap.json",
+        "package.json"
+    ],
+    "dependencies": {
 
-  },
-  "devDependencies": {
+    },
+    "devDependencies": {
 
-  }
+    }
 }

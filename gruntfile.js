@@ -82,6 +82,15 @@ module.exports = function (grunt) {
                     'dist/spel2js.js': 'src/main.js'
                 }
             }
+        },
+
+        release: {
+            options: {
+                additionalFiles: ['bower.json'],
+                indentation: '    ',
+                commitMessage: 'Committing release tag <%= version %>',
+                tagMessage: 'Bumped version to <%= version %>'
+            }
         }
 
     });
