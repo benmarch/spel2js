@@ -1,4 +1,34 @@
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import {SpelNode} from './SpelNode';
+
+/**
+ * Represents selection over a map or collection.
+ * For example: {1,2,3,4,5,6,7,8,9,10}.?{#isEven(#this) == 'y'} returns [2, 4, 6, 8, 10]
+ *
+ * <p>Basically a subset of the input data is returned based on the
+ * evaluation of the expression supplied as selection criteria.
+ *
+ * @author Andy Clement
+ * @author Mark Fisher
+ * @author Sam Brannen
+ * @author Ben March
+ * @since 0.2.0
+ */
 
 function matches(element, expr, state) {
     var doesMatch = false;

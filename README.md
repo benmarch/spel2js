@@ -11,9 +11,13 @@
 
 ## About
 
-SpEL2JS is a plugin that will parse Spring Expression Language within a defined context in JavaScript. This is useful
-in single-page applications where duplication of authorization expressions for UI purposes can lead to inconsistencies.
-Consider the following simple example:
+SpEL2JS is a plugin that will parse [Spring Expression Language](http://docs.spring.io/spring/docs/current/spring-framework-reference/html/expressions.html) 
+within a defined context in JavaScript. This is useful in single-page applications where duplication of authorization 
+expressions for UI purposes can lead to inconsistencies. This library implements a JavaScript version of the parser based
+on the documentation in the link above. I did my best to followed the docs as closely as possible, but if you come accross
+an expression that behaves differently than you would expect then please open an issue.
+
+## Example
 
 Say you are creating a shared to-do list, and you want to allow only the owner of the list to make changes, but anyone can view: 
 
@@ -82,16 +86,13 @@ angular.module('ToDo').controller('ListController', ['$http', '$scope', 'SpelSer
   ...
 </div>
 ```
-(Spring isn't my strength here, sorry.)
 
 Seems like it might be a lot of work for such a simple piece of functionality; however, what happens when you add role-based
 permissions as a new feature? If you already have this set up, it's as simple as adding " or hasRole('SuperUser')" to 
 the SpEL, and exposing a minimal projection of the Authentication to the browser or Node app (which it probably already
-has access to.) Now the UI can always stay in sync with the server-side authorities. 
+has access to.) Now the UI can always stay in sync with the server-side authorities.
 
-This repository was scaffolded with [generator-microjs](https://github.com/daniellmb/generator-microjs).
-
-## Left to do
+## Features
 
 This is now in a stable state and will be released as 0.2.0. The following features are tested and working:
 
@@ -138,32 +139,26 @@ All tasks can be run by simply running `grunt` or with the `npm test` command, o
   * `grunt lint` will lint source code for syntax errors and anti-patterns.
   * `grunt test` will run the jasmine unit tests against the source code.
 
+## Credits
+
+Credit is given to all of the original authors of the Java SpEL implementation at the time of this library's creation:
+
+- Andy Clement
+- Juergen Hoeller
+- Giovanni Dall'Oglio Risso
+- Sam Brannen
+- Mark Fisher
+- Oliver Becker
+- Clark Duplichien
+- Phillip Webb
+- Stephane Nicoll
+- Ivo Smid
+
+This repository was scaffolded with [generator-microjs](https://github.com/daniellmb/generator-microjs).
+
 ## License
 
-(The MIT License)
-
-Copyright (c) 2015  
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-'Software'), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
+Since this was ported from the Spring Framework, this library is under version 2.0 of the [Apache License](http://www.apache.org/licenses/LICENSE-2.0).
 
 [build-url]: https://travis-ci.org/benmarch/spel2js
 [build-image]: http://img.shields.io/travis/benmarch/spel2js.png

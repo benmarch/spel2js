@@ -6,7 +6,7 @@
  *
  * Scaffolded with generator-microjs v0.1.2
  *
- * @author  <>
+ * @author  Ben March <bmarch89@gmail.com>
  */
 'use strict';
 
