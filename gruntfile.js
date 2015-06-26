@@ -46,6 +46,9 @@ module.exports = function (grunt) {
         },
 
         uglify: {
+            options: {
+                banner: grunt.file.read('./license-banner.txt')
+            },
             dist: {
                 src: '<%= config.dist %>/spel2js.js',
                 dest: '<%= config.dist %>/spel2js.min.js'
@@ -72,7 +75,8 @@ module.exports = function (grunt) {
                     ],
                     browserifyOptions: {
                         standalone: 'spel2js'
-                    }
+                    },
+                    banner: grunt.file.read('./license-banner.txt')
                 },
                 files: {
                     'dist/spel2js.js': 'src/main.js'

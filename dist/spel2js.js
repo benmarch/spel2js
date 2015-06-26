@@ -1,4 +1,41 @@
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.spel2js = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * @author Ben March
+ * @since 0.2.0
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -45,7 +82,31 @@ spelExpressionEvaluator.eval = function (expression, context, locals) {
 
 exports.SpelExpressionEvaluator = spelExpressionEvaluator;
 
-},{"./SpelExpressionParser":2,"./lib/Stack":43}],2:[function(require,module,exports){
+},{"./SpelExpressionParser":2,"./lib/Stack":42}],2:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * @author Andy Clement
+ * @author Juergen Hoeller
+ * @author Ben March
+ * @since 0.2.0
+ *
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -55,8 +116,6 @@ Object.defineProperty(exports, '__esModule', {
 var _TokenKind = require('./TokenKind');
 
 var _Tokenizer = require('./Tokenizer');
-
-var _astRootNode = require('./ast/RootNode');
 
 var _astBooleanLiteral = require('./ast/BooleanLiteral');
 
@@ -1030,7 +1089,28 @@ var SpelExpressionParser = function SpelExpressionParser() {
 };
 exports.SpelExpressionParser = SpelExpressionParser;
 
-},{"./TokenKind":5,"./Tokenizer":6,"./ast/Assign":7,"./ast/BooleanLiteral":8,"./ast/CompoundExpression":9,"./ast/Elvis":10,"./ast/FunctionReference":11,"./ast/Indexer":12,"./ast/InlineList":13,"./ast/InlineMap":14,"./ast/MethodReference":15,"./ast/NullLiteral":16,"./ast/NumberLiteral":17,"./ast/OpAnd":18,"./ast/OpDec":19,"./ast/OpDivide":20,"./ast/OpEQ":21,"./ast/OpGE":22,"./ast/OpGT":23,"./ast/OpInc":24,"./ast/OpLE":25,"./ast/OpLT":26,"./ast/OpMinus":27,"./ast/OpModulus":28,"./ast/OpMultiply":29,"./ast/OpNE":30,"./ast/OpNot":31,"./ast/OpOr":32,"./ast/OpPlus":33,"./ast/OpPower":34,"./ast/Projection":35,"./ast/PropertyReference":36,"./ast/RootNode":37,"./ast/Selection":38,"./ast/StringLiteral":40,"./ast/Ternary":41,"./ast/VariableReference":42}],3:[function(require,module,exports){
+},{"./TokenKind":5,"./Tokenizer":6,"./ast/Assign":7,"./ast/BooleanLiteral":8,"./ast/CompoundExpression":9,"./ast/Elvis":10,"./ast/FunctionReference":11,"./ast/Indexer":12,"./ast/InlineList":13,"./ast/InlineMap":14,"./ast/MethodReference":15,"./ast/NullLiteral":16,"./ast/NumberLiteral":17,"./ast/OpAnd":18,"./ast/OpDec":19,"./ast/OpDivide":20,"./ast/OpEQ":21,"./ast/OpGE":22,"./ast/OpGT":23,"./ast/OpInc":24,"./ast/OpLE":25,"./ast/OpLT":26,"./ast/OpMinus":27,"./ast/OpModulus":28,"./ast/OpMultiply":29,"./ast/OpNE":30,"./ast/OpNot":31,"./ast/OpOr":32,"./ast/OpPlus":33,"./ast/OpPower":34,"./ast/Projection":35,"./ast/PropertyReference":36,"./ast/Selection":37,"./ast/StringLiteral":39,"./ast/Ternary":40,"./ast/VariableReference":41}],3:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * @author Ben March
+ * @since 0.2.0
+ */
+
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1079,6 +1159,28 @@ exports.StandardContext = StandardContext;
 /*variable arguments*/
 
 },{}],4:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * @author Andy Clement
+ * @author Ben March
+ * @since 0.2.0
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -1146,6 +1248,28 @@ Token.prototype.getEndPosition = function () {
 exports.Token = Token;
 
 },{"./TokenKind":5}],5:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * @author Andy Clement
+ * @author Ben March
+ * @since 0.2.0
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -1291,6 +1415,29 @@ TokenKind.prototype.ordinal = function () {
 exports.TokenKind = TokenKind;
 
 },{}],6:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * @author Andy Clement
+ * @author Phillip Webb
+ * @author Ben March
+ * @since 0.2.0
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -1852,6 +1999,22 @@ var Tokenizer = {
 exports.Tokenizer = Tokenizer;
 
 },{"./Token":4,"./TokenKind":5}],7:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -1859,6 +2022,17 @@ Object.defineProperty(exports, '__esModule', {
 });
 
 var _SpelNode = require('./SpelNode');
+
+/**
+ * Represents assignment. An alternative to calling setValue() for an expression is to use
+ * an assign.
+ *
+ * <p>Example: 'someNumberProperty=42'
+ *
+ * @author Andy Clement
+ * @author Ben March
+ * @since 0.2.0
+ */
 
 function createNode(position, property, assignedValue) {
     var node = _SpelNode.SpelNode.create('assign', position, property, assignedValue);
@@ -1884,7 +2058,23 @@ var Assign = {
 };
 exports.Assign = Assign;
 
-},{"./SpelNode":39}],8:[function(require,module,exports){
+},{"./SpelNode":38}],8:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -1892,6 +2082,14 @@ Object.defineProperty(exports, '__esModule', {
 });
 
 var _SpelNode = require('./SpelNode');
+
+/**
+ * Represents the literal values TRUE and FALSE.
+ *
+ * @author Andy Clement
+ * @author Ben March
+ * @since 0.2.0
+ */
 
 function createNode(value, position) {
     var node = _SpelNode.SpelNode.create('boolean', position);
@@ -1914,7 +2112,23 @@ var BooleanLiteral = {
 };
 exports.BooleanLiteral = BooleanLiteral;
 
-},{"./SpelNode":39}],9:[function(require,module,exports){
+},{"./SpelNode":38}],9:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -1922,6 +2136,14 @@ Object.defineProperty(exports, '__esModule', {
 });
 
 var _SpelNode = require('./SpelNode');
+
+/**
+ * Represents a DOT separated expression sequence, such as 'property1.property2.methodOne()'
+ *
+ * @author Andy Clement
+ * @author Ben March
+ * @since 0.2.0
+ */
 
 function createNode(position, expressionComponents) {
     var node = _SpelNode.SpelNode.create.apply(null, ['compound', position].concat(expressionComponents));
@@ -1988,7 +2210,23 @@ var CompoundExpression = {
 };
 exports.CompoundExpression = CompoundExpression;
 
-},{"./SpelNode":39}],10:[function(require,module,exports){
+},{"./SpelNode":38}],10:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -1996,6 +2234,16 @@ Object.defineProperty(exports, '__esModule', {
 });
 
 var _SpelNode = require('./SpelNode');
+
+/**
+ * Represents the elvis operator ?:. For an expression "a?:b" if a is not null, the value
+ * of the expression is "a", if a is null then the value of the expression is "b".
+ *
+ * @author Andy Clement
+ * @author Juergen Hoeller
+ * @author Ben March
+ * @since 0.2.0
+ */
 
 function createNode(position, expression, ifFalse) {
     var node = _SpelNode.SpelNode.create('elvis', position, expression, ifFalse);
@@ -2012,7 +2260,23 @@ var Elvis = {
 };
 exports.Elvis = Elvis;
 
-},{"./SpelNode":39}],11:[function(require,module,exports){
+},{"./SpelNode":38}],11:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -2020,6 +2284,22 @@ Object.defineProperty(exports, '__esModule', {
 });
 
 var _SpelNode = require('./SpelNode');
+
+/**
+ * A function reference is of the form "#someFunction(a,b,c)". Functions may be defined in
+ * the context prior to the expression being evaluated or within the expression itself
+ * using a lambda function definition. For example: Lambda function definition in an
+ * expression: "(#max = {|x,y|$x>$y?$x:$y};max(2,3))" Calling context defined function:
+ * "#isEven(37)". Functions may also be static java methods, registered in the context
+ * prior to invocation of the expression.
+ *
+ * <p>Functions are very simplistic, the arguments are not part of the definition (right
+ * now), so the names must be unique.
+ *
+ * @author Andy Clement
+ * @author Ben March
+ * @since 0.2.0
+ */
 
 function createNode(parent, functionName) {
     var node = _SpelNode.SpelNode.create('method', parent);
@@ -2051,7 +2331,23 @@ var FunctionReference = {
 };
 exports.FunctionReference = FunctionReference;
 
-},{"./SpelNode":39}],12:[function(require,module,exports){
+},{"./SpelNode":38}],12:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -2061,6 +2357,17 @@ Object.defineProperty(exports, '__esModule', {
 var _SpelNode = require('./SpelNode');
 
 var _libStack = require('../lib/Stack');
+
+/**
+ * An Indexer can index into some proceeding structure to access a particular piece of it.
+ * Supported structures are: strings / collections (lists/sets) / arrays.
+ *
+ * @author Andy Clement
+ * @author Phillip Webb
+ * @author Stephane Nicoll
+ * @author Ben March
+ * @since 0.2.0
+ */
 
 function createNode(position, expressionComponents) {
     var node = _SpelNode.SpelNode.create.apply(null, ['indexer', position].concat(expressionComponents));
@@ -2109,7 +2416,23 @@ var Indexer = {
 };
 exports.Indexer = Indexer;
 
-},{"../lib/Stack":43,"./SpelNode":39}],13:[function(require,module,exports){
+},{"../lib/Stack":42,"./SpelNode":38}],13:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -2117,6 +2440,14 @@ Object.defineProperty(exports, '__esModule', {
 });
 
 var _SpelNode = require('./SpelNode');
+
+/**
+ * Represent a list in an expression, e.g. '{1,2,3}'
+ *
+ * @author Andy Clement
+ * @author Ben March
+ * @since 0.2.0
+ */
 
 function createNode(position, elements) {
     var node = _SpelNode.SpelNode.create('list', position),
@@ -2136,7 +2467,23 @@ var InlineList = {
 };
 exports.InlineList = InlineList;
 
-},{"./SpelNode":39}],14:[function(require,module,exports){
+},{"./SpelNode":38}],14:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -2144,6 +2491,14 @@ Object.defineProperty(exports, '__esModule', {
 });
 
 var _SpelNode = require('./SpelNode');
+
+/**
+ * Represent a map in an expression, e.g. '{name:'foo',age:12}'
+ *
+ * @author Andy Clement
+ * @author Ben March
+ * @since 0.2.0
+ */
 
 function createNode(position, elements) {
     var node = _SpelNode.SpelNode.create('map', position),
@@ -2179,7 +2534,23 @@ var InlineMap = {
 };
 exports.InlineMap = InlineMap;
 
-},{"./SpelNode":39}],15:[function(require,module,exports){
+},{"./SpelNode":38}],15:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -2187,6 +2558,15 @@ Object.defineProperty(exports, '__esModule', {
 });
 
 var _SpelNode = require('./SpelNode');
+
+/**
+ * Expression language AST node that represents a method reference.
+ *
+ * @author Andy Clement
+ * @author Juergen Hoeller
+ * @author Ben March
+ * @since 0.2.0
+ */
 
 function createNode(nullSafeNavigation, methodName, position, args) {
     var node = _SpelNode.SpelNode.create('method', position);
@@ -2254,7 +2634,23 @@ var MethodReference = {
 };
 exports.MethodReference = MethodReference;
 
-},{"./SpelNode":39}],16:[function(require,module,exports){
+},{"./SpelNode":38}],16:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -2262,6 +2658,14 @@ Object.defineProperty(exports, '__esModule', {
 });
 
 var _SpelNode = require('./SpelNode');
+
+/**
+ * Expression language AST node that represents null.
+ *
+ * @author Andy Clement
+ * @author Ben March
+ * @since 0.2.0
+ */
 
 function createNode(value, position) {
     var node = _SpelNode.SpelNode.create('null', position);
@@ -2278,7 +2682,23 @@ var NullLiteral = {
 };
 exports.NullLiteral = NullLiteral;
 
-},{"./SpelNode":39}],17:[function(require,module,exports){
+},{"./SpelNode":38}],17:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -2286,6 +2706,14 @@ Object.defineProperty(exports, '__esModule', {
 });
 
 var _SpelNode = require('./SpelNode');
+
+/**
+ * Expression language AST node that represents a literal number of any kind (since JavaScript only supports doubles anyway)
+ *
+ * @author Andy Clement
+ * @author Ben March
+ * @since 0.2.0
+ */
 
 function createNode(value, position) {
     var node = _SpelNode.SpelNode.create('number', position);
@@ -2308,7 +2736,23 @@ var NumberLiteral = {
 };
 exports.NumberLiteral = NumberLiteral;
 
-},{"./SpelNode":39}],18:[function(require,module,exports){
+},{"./SpelNode":38}],18:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -2316,6 +2760,16 @@ Object.defineProperty(exports, '__esModule', {
 });
 
 var _SpelNode = require('./SpelNode');
+
+/**
+ * Represents the boolean AND operation.
+ *
+ * @author Andy Clement
+ * @author Mark Fisher
+ * @author Oliver Becker
+ * @author Ben March
+ * @since 0.2.0
+ */
 
 function createNode(position, left, right) {
     var node = _SpelNode.SpelNode.create('op-and', position, left, right);
@@ -2333,7 +2787,23 @@ var OpAnd = {
 };
 exports.OpAnd = OpAnd;
 
-},{"./SpelNode":39}],19:[function(require,module,exports){
+},{"./SpelNode":38}],19:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -2341,6 +2811,17 @@ Object.defineProperty(exports, '__esModule', {
 });
 
 var _SpelNode = require('./SpelNode');
+
+/**
+ * Decrement operator.  Can be used in a prefix or postfix form. This will throw
+ * appropriate exceptions if the operand in question does not support decrement.
+ *
+ * @author Andy Clement
+ * @author Juergen Hoeller
+ * @author Giovanni Dall'Oglio Risso
+ * @author Ben March
+ * @since 0.2.0
+ */
 
 function createNode(position, postfix, int) {
     var node = _SpelNode.SpelNode.create('op-dec', position, int);
@@ -2362,7 +2843,23 @@ var OpDec = {
 };
 exports.OpDec = OpDec;
 
-},{"./SpelNode":39}],20:[function(require,module,exports){
+},{"./SpelNode":38}],20:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -2370,6 +2867,16 @@ Object.defineProperty(exports, '__esModule', {
 });
 
 var _SpelNode = require('./SpelNode');
+
+/**
+ * Implements division operator.
+ *
+ * @author Andy Clement
+ * @author Juergen Hoeller
+ * @author Giovanni Dall'Oglio Risso
+ * @author Ben March
+ * @since 0.2.0
+ */
 
 function createNode(position, left, right) {
     var node = _SpelNode.SpelNode.create('op-divide', position, left, right);
@@ -2386,7 +2893,23 @@ var OpDivide = {
 };
 exports.OpDivide = OpDivide;
 
-},{"./SpelNode":39}],21:[function(require,module,exports){
+},{"./SpelNode":38}],21:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -2394,6 +2917,14 @@ Object.defineProperty(exports, '__esModule', {
 });
 
 var _SpelNode = require('./SpelNode');
+
+/**
+ * Implements the equality operator.
+ *
+ * @author Andy Clement
+ * @author Ben March
+ * @since 0.2.0
+ */
 
 function createNode(position, left, right) {
     var node = _SpelNode.SpelNode.create('op-eq', position, left, right);
@@ -2410,7 +2941,23 @@ var OpEQ = {
 };
 exports.OpEQ = OpEQ;
 
-},{"./SpelNode":39}],22:[function(require,module,exports){
+},{"./SpelNode":38}],22:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -2418,6 +2965,16 @@ Object.defineProperty(exports, '__esModule', {
 });
 
 var _SpelNode = require('./SpelNode');
+
+/**
+ * Implements greater-than-or-equal operator.
+ *
+ * @author Andy Clement
+ * @author Juergen Hoeller
+ * @author Giovanni Dall'Oglio Risso
+ * @author Ben March
+ * @since 0.2.0
+ */
 
 function createNode(position, left, right) {
     var node = _SpelNode.SpelNode.create('op-ge', position, left, right);
@@ -2434,7 +2991,23 @@ var OpGE = {
 };
 exports.OpGE = OpGE;
 
-},{"./SpelNode":39}],23:[function(require,module,exports){
+},{"./SpelNode":38}],23:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -2442,6 +3015,16 @@ Object.defineProperty(exports, '__esModule', {
 });
 
 var _SpelNode = require('./SpelNode');
+
+/**
+ * Implements the greater-than operator.
+ *
+ * @author Andy Clement
+ * @author Juergen Hoeller
+ * @author Giovanni Dall'Oglio Risso
+ * @author Ben March
+ * @since 0.2.0
+ */
 
 function createNode(position, left, right) {
     var node = _SpelNode.SpelNode.create('op-gt', position, left, right);
@@ -2458,7 +3041,23 @@ var OpGT = {
 };
 exports.OpGT = OpGT;
 
-},{"./SpelNode":39}],24:[function(require,module,exports){
+},{"./SpelNode":38}],24:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -2466,6 +3065,17 @@ Object.defineProperty(exports, '__esModule', {
 });
 
 var _SpelNode = require('./SpelNode');
+
+/**
+ * Increment operator. Can be used in a prefix or postfix form. This will throw
+ * appropriate exceptions if the operand in question does not support increment.
+ *
+ * @author Andy Clement
+ * @author Juergen Hoeller
+ * @author Giovanni Dall'Oglio Risso
+ * @author Ben March
+ * @since 0.2.0
+ */
 
 function createNode(position, postfix, int) {
     var node = _SpelNode.SpelNode.create('op-inc', position, int);
@@ -2487,7 +3097,23 @@ var OpInc = {
 };
 exports.OpInc = OpInc;
 
-},{"./SpelNode":39}],25:[function(require,module,exports){
+},{"./SpelNode":38}],25:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -2495,6 +3121,16 @@ Object.defineProperty(exports, '__esModule', {
 });
 
 var _SpelNode = require('./SpelNode');
+
+/**
+ * Implements the less-than-or-equal operator.
+ *
+ * @author Andy Clement
+ * @author Juergen Hoeller
+ * @author Giovanni Dall'Oglio Risso
+ * @author Ben March
+ * @since 0.2.0
+ */
 
 function createNode(position, left, right) {
     var node = _SpelNode.SpelNode.create('op-le', position, left, right);
@@ -2511,7 +3147,23 @@ var OpLE = {
 };
 exports.OpLE = OpLE;
 
-},{"./SpelNode":39}],26:[function(require,module,exports){
+},{"./SpelNode":38}],26:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -2519,6 +3171,16 @@ Object.defineProperty(exports, '__esModule', {
 });
 
 var _SpelNode = require('./SpelNode');
+
+/**
+ * Implements the less-than operator.
+ *
+ * @author Andy Clement
+ * @author Juergen Hoeller
+ * @author Giovanni Dall'Oglio Risso
+ * @author Ben March
+ * @since 0.2.0
+ */
 
 function createNode(position, left, right) {
     var node = _SpelNode.SpelNode.create('op-lt', position, left, right);
@@ -2535,7 +3197,23 @@ var OpLT = {
 };
 exports.OpLT = OpLT;
 
-},{"./SpelNode":39}],27:[function(require,module,exports){
+},{"./SpelNode":38}],27:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -2543,6 +3221,25 @@ Object.defineProperty(exports, '__esModule', {
 });
 
 var _SpelNode = require('./SpelNode');
+
+/**
+ * The minus operator supports:
+ * <ul>
+ * <li>subtraction of numbers
+ * <li>subtraction of an int from a string of one character
+ * (effectively decreasing that character), so 'd'-3='a'
+ * </ul>
+ *
+ * <p>It can be used as a unary operator for numbers.
+ * The standard promotions are performed when the operand types vary (double-int=double).
+ * For other options it defers to the registered overloader.
+ *
+ * @author Andy Clement
+ * @author Juergen Hoeller
+ * @author Giovanni Dall'Oglio Risso
+ * @author Ben March
+ * @since 0.2.0
+ */
 
 function createNode(position, left, right) {
     var node = _SpelNode.SpelNode.create('op-minus', position, left, right);
@@ -2559,7 +3256,23 @@ var OpMinus = {
 };
 exports.OpMinus = OpMinus;
 
-},{"./SpelNode":39}],28:[function(require,module,exports){
+},{"./SpelNode":38}],28:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -2567,6 +3280,16 @@ Object.defineProperty(exports, '__esModule', {
 });
 
 var _SpelNode = require('./SpelNode');
+
+/**
+ * Implements the modulus operator.
+ *
+ * @author Andy Clement
+ * @author Juergen Hoeller
+ * @author Giovanni Dall'Oglio Risso
+ * @author Ben March
+ * @since 0.2.0
+ */
 
 function createNode(position, left, right) {
     var node = _SpelNode.SpelNode.create('op-modulus', position, left, right);
@@ -2583,7 +3306,23 @@ var OpModulus = {
 };
 exports.OpModulus = OpModulus;
 
-},{"./SpelNode":39}],29:[function(require,module,exports){
+},{"./SpelNode":38}],29:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -2591,6 +3330,30 @@ Object.defineProperty(exports, '__esModule', {
 });
 
 var _SpelNode = require('./SpelNode');
+
+/**
+ * Implements the {@code multiply} operator.
+ *
+ * <p>Conversions and promotions are handled as defined in
+ * <a href="http://java.sun.com/docs/books/jls/third_edition/html/conversions.html">Section 5.6.2 of the
+ * Java Language Specification</a>, with the addiction of {@code BigDecimal}/{@code BigInteger} management:
+ *
+ * <p>If any of the operands is of a reference type, unboxing conversion (Section 5.1.8)
+ * is performed. Then:<br>
+ * If either operand is of type {@code BigDecimal}, the other is converted to {@code BigDecimal}.<br>
+ * If either operand is of type double, the other is converted to double.<br>
+ * Otherwise, if either operand is of type float, the other is converted to float.<br>
+ * If either operand is of type {@code BigInteger}, the other is converted to {@code BigInteger}.<br>
+ * Otherwise, if either operand is of type long, the other is converted to long.<br>
+ * Otherwise, both operands are converted to type int.
+ *
+ * @author Andy Clement
+ * @author Juergen Hoeller
+ * @author Sam Brannen
+ * @author Giovanni Dall'Oglio Risso
+ * @author Ben March
+ * @since 0.2.0
+ */
 
 function createNode(position, left, right) {
     var node = _SpelNode.SpelNode.create('op-multiply', position, left, right);
@@ -2624,7 +3387,23 @@ var OpMultiply = {
 };
 exports.OpMultiply = OpMultiply;
 
-},{"./SpelNode":39}],30:[function(require,module,exports){
+},{"./SpelNode":38}],30:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -2632,6 +3411,14 @@ Object.defineProperty(exports, '__esModule', {
 });
 
 var _SpelNode = require('./SpelNode');
+
+/**
+ * Implements the not-equal operator.
+ *
+ * @author Andy Clement
+ * @author Ben March
+ * @since 0.2.0
+ */
 
 function createNode(position, left, right) {
     var node = _SpelNode.SpelNode.create('op-ne', position, left, right);
@@ -2648,7 +3435,23 @@ var OpNE = {
 };
 exports.OpNE = OpNE;
 
-},{"./SpelNode":39}],31:[function(require,module,exports){
+},{"./SpelNode":38}],31:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -2656,6 +3459,16 @@ Object.defineProperty(exports, '__esModule', {
 });
 
 var _SpelNode = require('./SpelNode');
+
+/**
+ * Represents a NOT operation.
+ *
+ * @author Andy Clement
+ * @author Mark Fisher
+ * @author Oliver Becker
+ * @author Ben March
+ * @since 0.2.0
+ */
 
 function createNode(position, expr) {
     var node = _SpelNode.SpelNode.create('op-not', position, expr);
@@ -2672,7 +3485,23 @@ var OpNot = {
 };
 exports.OpNot = OpNot;
 
-},{"./SpelNode":39}],32:[function(require,module,exports){
+},{"./SpelNode":38}],32:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -2680,6 +3509,16 @@ Object.defineProperty(exports, '__esModule', {
 });
 
 var _SpelNode = require('./SpelNode');
+
+/**
+ * Represents the boolean OR operation.
+ *
+ * @author Andy Clement
+ * @author Mark Fisher
+ * @author Oliver Becker
+ * @author Ben March
+ * @since 0.2.0
+ */
 
 function createNode(position, left, right) {
     var node = _SpelNode.SpelNode.create('op-or', position, left, right);
@@ -2697,7 +3536,23 @@ var OpOr = {
 };
 exports.OpOr = OpOr;
 
-},{"./SpelNode":39}],33:[function(require,module,exports){
+},{"./SpelNode":38}],33:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -2705,6 +3560,25 @@ Object.defineProperty(exports, '__esModule', {
 });
 
 var _SpelNode = require('./SpelNode');
+
+/**
+ * The plus operator will:
+ * <ul>
+ * <li>add numbers
+ * <li>concatenate strings
+ * </ul>
+ *
+ * <p>It can be used as a unary operator for numbers.
+ * The standard promotions are performed when the operand types vary (double+int=double).
+ * For other options it defers to the registered overloader.
+ *
+ * @author Andy Clement
+ * @author Juergen Hoeller
+ * @author Ivo Smid
+ * @author Giovanni Dall'Oglio Risso
+ * @author Ben March
+ * @since 0.2.0
+ */
 
 function createNode(position, left, right) {
     var node = _SpelNode.SpelNode.create('op-plus', position, left, right);
@@ -2722,7 +3596,23 @@ var OpPlus = {
 };
 exports.OpPlus = OpPlus;
 
-},{"./SpelNode":39}],34:[function(require,module,exports){
+},{"./SpelNode":38}],34:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -2730,6 +3620,15 @@ Object.defineProperty(exports, '__esModule', {
 });
 
 var _SpelNode = require('./SpelNode');
+
+/**
+ * The power operator.
+ *
+ * @author Andy Clement
+ * @author Giovanni Dall'Oglio Risso
+ * @author Ben March
+ * @since 0.2.0
+ */
 
 function createNode(position, base, exp) {
     var node = _SpelNode.SpelNode.create('op-power', position, base, exp);
@@ -2746,7 +3645,23 @@ var OpPower = {
 };
 exports.OpPower = OpPower;
 
-},{"./SpelNode":39}],35:[function(require,module,exports){
+},{"./SpelNode":38}],35:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -2754,6 +3669,17 @@ Object.defineProperty(exports, '__esModule', {
 });
 
 var _SpelNode = require('./SpelNode');
+
+/**
+ * Represents projection, where a given operation is performed on all elements in some
+ * input sequence, returning a new sequence of the same size. For example:
+ * "{1,2,3,4,5,6,7,8,9,10}.!{#isEven(#this)}" returns "[n, y, n, y, n, y, n, y, n, y]"
+ *
+ * @author Andy Clement
+ * @author Mark Fisher
+ * @author Ben March
+ * @since 0.2.0
+ */
 
 function projectCollection(collection, expr, state) {
     return collection.map(function (element) {
@@ -2795,7 +3721,23 @@ var Projection = {
 };
 exports.Projection = Projection;
 
-},{"./SpelNode":39}],36:[function(require,module,exports){
+},{"./SpelNode":38}],36:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -2803,6 +3745,16 @@ Object.defineProperty(exports, '__esModule', {
 });
 
 var _SpelNode = require('./SpelNode');
+
+/**
+ * Represents a simple property or field reference.
+ *
+ * @author Andy Clement
+ * @author Juergen Hoeller
+ * @author Clark Duplichien
+ * @author Ben March
+ * @since 0.2.0
+ */
 
 function createNode(nullSafeNavigation, propertyName, position) {
     var node = _SpelNode.SpelNode.create('property', position);
@@ -2864,7 +3816,23 @@ var PropertyReference = {
 };
 exports.PropertyReference = PropertyReference;
 
-},{"./SpelNode":39}],37:[function(require,module,exports){
+},{"./SpelNode":38}],37:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -2873,32 +3841,19 @@ Object.defineProperty(exports, '__esModule', {
 
 var _SpelNode = require('./SpelNode');
 
-function createNode(context) {
-    var node = _SpelNode.SpelNode.create('root', null, context);
-
-    node.getValue = function () {
-        if (node.getChildren()[0]) {
-            return node.getChildren()[0].getValue();
-        }
-        return null;
-    };
-
-    return node;
-}
-
-var RootNode = {
-    create: createNode
-};
-exports.RootNode = RootNode;
-
-},{"./SpelNode":39}],38:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-    value: true
-});
-
-var _SpelNode = require('./SpelNode');
+/**
+ * Represents selection over a map or collection.
+ * For example: {1,2,3,4,5,6,7,8,9,10}.?{#isEven(#this) == 'y'} returns [2, 4, 6, 8, 10]
+ *
+ * <p>Basically a subset of the input data is returned based on the
+ * evaluation of the expression supplied as selection criteria.
+ *
+ * @author Andy Clement
+ * @author Mark Fisher
+ * @author Sam Brannen
+ * @author Ben March
+ * @since 0.2.0
+ */
 
 function matches(element, expr, state) {
     var doesMatch = false;
@@ -2998,7 +3953,32 @@ var Selection = {
 };
 exports.Selection = Selection;
 
-},{"./SpelNode":39}],39:[function(require,module,exports){
+},{"./SpelNode":38}],38:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * The common supertype of all AST nodes in a parsed Spring Expression Language
+ * format expression.
+ *
+ * @author Andy Clement
+ * @author Ben March
+ * @since 0.2.0
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -3095,7 +4075,23 @@ var SpelNode = {
 };
 exports.SpelNode = SpelNode;
 
-},{}],40:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -3103,6 +4099,15 @@ Object.defineProperty(exports, '__esModule', {
 });
 
 var _SpelNode = require('./SpelNode');
+
+/**
+ * Expression language AST node that represents a string literal.
+ *
+ * @author Andy Clement
+ * @author Juergen Hoeller
+ * @author Ben March
+ * @since 0.2.0
+ */
 
 function createNode(value, position) {
     var node = _SpelNode.SpelNode.create('string', position);
@@ -3135,7 +4140,23 @@ var StringLiteral = {
 };
 exports.StringLiteral = StringLiteral;
 
-},{"./SpelNode":39}],41:[function(require,module,exports){
+},{"./SpelNode":38}],40:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -3143,6 +4164,15 @@ Object.defineProperty(exports, '__esModule', {
 });
 
 var _SpelNode = require('./SpelNode');
+
+/**
+ * Represents a ternary expression, for example: "someCheck()?true:false".
+ *
+ * @author Andy Clement
+ * @author Juergen Hoeller
+ * @author Ben March
+ * @since 0.2.0
+ */
 
 function createNode(position, expression, ifTrue, ifFalse) {
     var node = _SpelNode.SpelNode.create('ternary', position, expression, ifTrue, ifFalse);
@@ -3159,7 +4189,23 @@ var Ternary = {
 };
 exports.Ternary = Ternary;
 
-},{"./SpelNode":39}],42:[function(require,module,exports){
+},{"./SpelNode":38}],41:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -3167,6 +4213,15 @@ Object.defineProperty(exports, '__esModule', {
 });
 
 var _SpelNode = require('./SpelNode');
+
+/**
+ * Represents a variable reference, eg. #someVar. Note this is different to a *local*
+ * variable like $someVar
+ *
+ * @author Andy Clement
+ * @author Ben March
+ * @since 0.2.0
+ */
 
 function createNode(variableName, position) {
     var node = _SpelNode.SpelNode.create('variable', position);
@@ -3209,7 +4264,28 @@ var VariableReference = {
 };
 exports.VariableReference = VariableReference;
 
-},{"./SpelNode":39}],43:[function(require,module,exports){
+},{"./SpelNode":38}],42:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * @author Ben March
+ * @since 0.2.0
+ */
+
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3242,7 +4318,28 @@ Stack.prototype.search = function (el) {
     return this.elements.length - this.elements.indexOf(el);
 };
 
-},{}],44:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * @author Ben March
+ * @since 0.2.0
+ */
+
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -3256,5 +4353,5 @@ var _StandardContext = require('./StandardContext');
 exports.SpelExpressionEvaluator = _SpelExpressionEvaluator.SpelExpressionEvaluator;
 exports.StandardContext = _StandardContext.StandardContext;
 
-},{"./SpelExpressionEvaluator":1,"./StandardContext":3}]},{},[44])(44)
+},{"./SpelExpressionEvaluator":1,"./StandardContext":3}]},{},[43])(43)
 });
