@@ -31,9 +31,10 @@ function createNode(value, position) {
     function stripQuotes(value) {
         if ((value[0] === '\'' && value[value.length - 1] === '\'') ||
             (value[0] === '"' && value[value.length - 1] === '"')) {
-            return value.substring(1, value.length - 1);
+            value = value.substring(1, value.length - 1);
         }
-        return value;
+
+        return value.replace(/''/g, '\'').replace(/""/g, '"');
     }
 
     //value cannot be null so no check
