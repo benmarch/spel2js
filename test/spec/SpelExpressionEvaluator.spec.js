@@ -43,6 +43,26 @@ describe('spel expression evaluator', ()=>{
                 expect(stringDouble).toBe('hello world!');
             });
 
+            it('should evaluate a string with embedded escaped single quotes', ()=>{
+                //when
+                let stringSingle = evaluator.eval('\'hello \'\'world\'\'!\'');
+                let stringDouble = evaluator.eval('"hello \'\'world\'\'!"');
+
+                //then
+                expect(stringSingle).toBe('hello \'world\'!');
+                expect(stringDouble).toBe('hello \'world\'!');
+            });
+
+            it('should evaluate a string with embedded escaped double quotes', ()=>{
+                //when
+                let stringSingle = evaluator.eval('\'hello ""world""!\'');
+                let stringDouble = evaluator.eval('"hello ""world""!"');
+
+                //then
+                expect(stringSingle).toBe('hello "world"!');
+                expect(stringDouble).toBe('hello "world"!');
+            });
+
             it('should evaluate a boolean', ()=>{
                 //when
                 let boolTrue = evaluator.eval('true');
