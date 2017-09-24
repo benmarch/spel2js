@@ -1141,7 +1141,7 @@ function create(authentication, principal) {
         return hasRole;
     };
 
-    context.hasPermission = function () {
+    context.hasPermission = function () /*variable arguments*/{
         var args = Array.prototype.slice.call(arguments);
 
         if (args.length === 1) {
@@ -1156,7 +1156,6 @@ var StandardContext = {
     create: create
 };
 exports.StandardContext = StandardContext;
-/*variable arguments*/
 
 },{}],4:[function(require,module,exports){
 /*
@@ -1478,7 +1477,7 @@ init();
 
 function tokenize(inputData) {
     var expressionString = inputData,
-        toProcess = inputData + '\u0000',
+        toProcess = inputData + '\0',
         max = toProcess.length,
         pos = 0,
         tokens = [];
@@ -1650,7 +1649,7 @@ function tokenize(inputData) {
                     case '"':
                         lexDoubleQuotedStringLiteral();
                         break;
-                    case '\u0000':
+                    case '\0':
                         // hit sentinel at end of value
                         pos += 1; // will take us to the end
                         break;
@@ -1682,8 +1681,8 @@ function tokenize(inputData) {
                 if (toProcess[pos + 1] === '\'') {
                     pos += 1; // skip over that too, and continue
                 } else {
-                    terminated = true;
-                }
+                        terminated = true;
+                    }
             }
             if (ch.charCodeAt(0) === 0) {
                 throw {
@@ -1708,8 +1707,8 @@ function tokenize(inputData) {
                 if (toProcess[pos + 1] === '"') {
                     pos += 1; // skip over that too, and continue
                 } else {
-                    terminated = true;
-                }
+                        terminated = true;
+                    }
             }
             if (ch.charCodeAt(0) === 0) {
                 throw {
@@ -1867,7 +1866,7 @@ function tokenize(inputData) {
                 return;
             }
         }
-        tokens.push(new _Token.Token(_TokenKind.TokenKind.IDENTIFIER, substring.replace('\u0000', ''), start, pos));
+        tokens.push(new _Token.Token(_TokenKind.TokenKind.IDENTIFIER, substring.replace('\0', ''), start, pos));
     }
 
     function pushIntToken(data, isLong, start, end) {
@@ -4114,9 +4113,10 @@ function createNode(value, position) {
 
     function stripQuotes(value) {
         if (value[0] === '\'' && value[value.length - 1] === '\'' || value[0] === '"' && value[value.length - 1] === '"') {
-            return value.substring(1, value.length - 1);
+            value = value.substring(1, value.length - 1);
         }
-        return value;
+
+        return value.replace(/''/g, '\'').replace(/""/g, '"');
     }
 
     //value cannot be null so no check
