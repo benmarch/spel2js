@@ -9,6 +9,19 @@
  * @author  <>
  */
 'use strict';
+require('babel-register');
+var webpackConfig = require('../webpack.config.babel').default;
+
+webpackConfig.externals = {};
+webpackConfig.module.rules.unshift(
+    //get coverage info from precompiled source code
+    {
+        test: /\.js$/,
+        enforce: 'pre',
+        exclude: /(test|node_modules|bower_components)\//,
+        use: 'babel-istanbul-loader',
+    }
+);
 
 module.exports = function (config) {
     config.set({
@@ -18,18 +31,34 @@ module.exports = function (config) {
         basePath : '../',
 
         /*
-         Test results reporter to use:
-         dots, progress, nyan, story, coverage etc.
+         Test framework to use:
+         jasmine, mocha, qunit etc.
          */
-        reporters: ['dots', 'coverage'],
+        frameworks: ['jasmine', 'source-map-support'],
+
+        files: [
+            'src/main.js',
+            'test/spec/**/*.spec.js'
+        ],
 
         /*
          Test pre-processors
          */
         preprocessors: {
-            'src/**/*.js': ['browserify'],
-            'test/**/*spec.js': ['browserify']
+            'src/**/*.js': ['webpack', 'sourcemap'],
+            'test/**/*spec.js': ['webpack', 'sourcemap']
         },
+
+        webpack: webpackConfig,
+        webpackMiddleware: {
+            noInfo: true,
+        },
+
+        /*
+         Test results reporter to use:
+         dots, progress, nyan, story, coverage etc.
+         */
+        reporters: ['dots', 'coverage'],
 
         /*
          Test coverage reporters:
@@ -43,11 +72,6 @@ module.exports = function (config) {
                 type: 'lcov',
                 dir: 'test/coverage'
             }]
-        },
-
-        browserify: {
-            debug: true,
-            transform: [ 'babelify' ]
         },
 
         /*
@@ -82,16 +106,5 @@ module.exports = function (config) {
          DISABLE, ERROR, WARN, INFO, DEBUG
          */
         logLevel: 'INFO',
-
-        /*
-         Test framework to use:
-         jasmine, mocha, qunit etc.
-         */
-        frameworks: ['browserify', 'jasmine'],
-
-        files: [
-            'src/**/*.js',
-            'test/spec/**/*.spec.js'
-        ]
     });
 };

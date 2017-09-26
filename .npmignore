@@ -2,6 +2,7 @@ node_modules/
 npm-debug.log
 bower_components/
 coverage/
+spel2js.js.map
 .idea/
 .DS_Store
 .DS_Store?
