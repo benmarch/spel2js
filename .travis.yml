@@ -1,14 +1,13 @@
 language: node_js
 
 node_js:
-  - '0.10'
+  - '8'
 
 before_script:
-  - npm install -g grunt-cli
-  #- npm install -g codeclimate-test-reporter
+  - npm install
 
 script:
-  - grunt
+  - npm test
 
 after_script:
   #TODO: enable publishing code coverage reports
