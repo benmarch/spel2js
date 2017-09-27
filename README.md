@@ -17,6 +17,95 @@ expressions for UI purposes can lead to inconsistencies. This library implements
 on the documentation in the link above. I did my best to followed the docs as closely as possible, but if you come accross
 an expression that behaves differently than you would expect then please open an issue.
 
+
+## Getting Started
+
+Install SpEL2JS:
+```sh
+$ npm i -S spel2js 
+# or
+$ bower i -S spel2js
+```
+
+Or [download the zip](https://github.com/benmarch/spel2js/archive/master.zip)
+
+Include the dependency using a module loader or script tag.
+
+## Usage
+
+SpEL2JS exports a singleton with two members:
+```js
+import spel2js from 'spel2js';
+
+console.log(spel2js);
+/*
+{
+  StandardContext,
+  SpelExpressionEvaluator
+}
+*/
+```
+
+### `StandardContext`
+
+The `StandardContext` is a factory that creates a evaluation context for an expression.
+**NOTE:** This is not the same as the Java `EvaluationContext` class, though it serves a similar purpose.
+
+```js
+let spelContext = spel2js.StandardContext.create(authentication, principal);
+```
+
+The `create()` method takes two arguments: `authentication` and `principal`
+
+`authentication` is an instance of Spring's [`Authentication`](https://docs.spring.io/spring-security/site/docs/current/apidocs/org/springframework/security/core/Authentication.html) class from Spring Security.
+
+`principal` is any object representing the user (this is just used for reference, and can be any value or structure)
+
+### `SpelExpressionEvaluator`
+
+The heavy lifting is done using the `SpelExpressionEvaluator` which exposes two functions: `compile()` and `eval()`
+
+`compile()` pre-compiles a SpEL expression, and returns an object with an `eval()` method that takes a context and optional locals:
+
+```js
+import { StandardContext, SpelExpressionEvaluator } from 'spel2js';
+
+const expression = '#toDoList.owner == authentication.details.name';
+const spelContext = StandardContext.create(authentication, principal);
+const locals = {
+  toDoList: {
+    owner: 'Darth Vader'  
+  }
+};
+
+const compiledExpression = SpelExpressionEvaluator.compile(expression);
+
+compiledExpression.eval(spelContext, locals); // true
+```
+
+`eval()` is just a shortcut for immediately evaluating an expression instead of pre-compiling:
+
+```js
+import { StandardContext, SpelExpressionEvaluator } from 'spel2js';
+
+const expression = '#toDoList.owner == authentication.details.name';
+const spelContext = StandardContext.create(authentication, principal);
+const locals = {
+  toDoList: {
+    owner: 'Darth Vader'  
+  }
+};
+
+SpelExpressionEvaluator.eval(expression, spelContext, locals); // true
+```
+
+### Recommended Usage
+
+Create a single context that contains information about the current user and reuse it for all evaluations.
+This way, you only have to supply an expression and locals when evaluating.
+
+Always pre-compile your expressions! Compilation takes much longer than evaluation; doing it up-front saves CPU when evaluating later.
+
 ## Example
 
 Say you are creating a shared to-do list, and you want to allow only the owner of the list to make changes, but anyone can view: 
@@ -42,17 +131,53 @@ public class ListController {
 }
 ```
 
-```javascript
+```js
+//spel-service.js
+
+import { StandardContext, SpelExpressionEvaluator } from 'spel2js';
+
+// wraps spel2js in a stateful service that simplifies evaluation
+angular.module('ToDo').factory('SpelService', function () {
+    
+  return {
+    context: null,
+    
+    // assume this is called on page load
+    setContext(authentication, principal) {
+      this.context = StandardContext.create(authentication, principal);
+    },
+    
+    getContext() { return this.context; },
+    
+    compile(expression) {
+      const compiledExpression = SpelExpressionEvaluator.compile(expression); 
+      return {
+        eval(locals) { 
+          return compiledExpression.eval(this.getContext(), locals);
+        }
+      };
+    },
+    
+    eval(expression, locals) {
+      return SpelExpressionEvaluator.eval(expression, this.getContext(), locals);
+    }
+  };
+  
+});
+
+
 //list-controller.js
 
 angular.module('ToDo').controller('ListController', ['$http', '$scope', 'SpelService', function ($http, $scope, SpelService) {
   
+  // retrieve all permissions and pre-compile them
   $http.get('/api/permissions').success(function (permissions) {
     angular.forEach(permissions, function (spelExpression, key) {
       $scope.permissions[key] = SpelService.compile(spelExpression);
     });
   });
   
+  // $scope will be used as locals
   $scope.list = {
     name: 'My List',
     owner: 'Ben March',
@@ -63,8 +188,9 @@ angular.module('ToDo').controller('ListController', ['$http', '$scope', 'SpelSer
     ]
   }
   
+  // EXPAMPLE 1: authorize a request before making it
   $scope.addListItem = function (list, newListItem) {
-    if ($scope.permissions.ADD_LIST_ITEM_PERMISSION.eval(SpelService.getContext(), $scope)) {
+    if ($scope.permissions.ADD_LIST_ITEM_PERMISSION.eval($scope)) {
       $http.post('/todolists/' + list.id + '/items', item).success(function () {...});  
     }
   }
@@ -81,16 +207,15 @@ angular.module('ToDo').controller('ListController', ['$http', '$scope', 'SpelSer
   </li>
   <li class="list-actions">
     <input type="text" ng-model="newListItem.text" />
-    <button ng-click="addListItem(list, newListItem)" spel-if="permissions.ADD_LIST_ITEM_PERMISSION">Add</button>
+    
+    <!-- EXAMPLE 2: Hide the button if the user does not have permission -->
+    <button ng-click="addListItem(list, newListItem)" ng-if="permissions.ADD_LIST_ITEM_PERMISSION.eval(this)">Add</button>
   </li>
   ...
 </div>
 ```
 
-Seems like it might be a lot of work for such a simple piece of functionality; however, what happens when you add role-based
-permissions as a new feature? If you already have this set up, it's as simple as adding " or hasRole('SuperUser')" to 
-the SpEL, and exposing a minimal projection of the Authentication to the browser or Node app (which it probably already
-has access to.) Now the UI can always stay in sync with the server-side authorities.
+Now the UI can always stay in sync with the server-side authorities.
 
 ## Features
 
@@ -117,27 +242,16 @@ The following are not implemented yet because I'm not sure of the best approach:
 - Qualified identifiers/Type references/Bean References
 - hasPermission() for custom permission evaluators
 
-There are a few AngularJS directives (I just need to put them on GH):
-
-- spelShow
-- spelHide
-- spelIf
-
 If someone wants to implement a REST-compliant way in Spring to expose the permissions (and maybe the custom
 PermissionEvaluators) that would be awesome.
 
+## Building Locally
 
-## Install Choices
-- `bower install spel2js`
-- `npm install spel2js`
-- [download the zip](https://github.com/benmarch/spel2js/archive/master.zip)
-
-## Tasks
-
-All tasks can be run by simply running `grunt` or with the `npm test` command, or individually:
-
-  * `grunt lint` will lint source code for syntax errors and anti-patterns.
-  * `grunt test` will run the jasmine unit tests against the source code.
+```sh
+$ npm i
+$ npm run build
+$ npm test
+```
 
 ## Credits
 
