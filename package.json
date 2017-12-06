@@ -24,11 +24,11 @@
   },
   "main": "dist/spel2js.js",
   "scripts": {
-    "prebuild": "rm -r dist",
     "build": "webpack --progress",
     "build:dev": "webpack -d --progress --devtool cheap-module-source-map",
     "test": "karma start test/karma.conf.js",
-    "lint": "eslint src/ test/"
+    "lint": "eslint src/ test/",
+    "release": "npm test && npm run build && release-it"
   },
   "keywords": [
     "parse",
