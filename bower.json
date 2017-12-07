@@ -1,6 +1,6 @@
 {
   "name": "spel2js",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Parse Spring Expression Language in JavaScript",
   "main": "dist/spel2js.js",
   "author": {
@@ -26,6 +26,7 @@
     ".npmignore",
     ".travis.yml",
     ".umd",
+    ".babelrc",
     "gulpfile.js",
     "npm-shrinkwrap.json",
     "package.json"
