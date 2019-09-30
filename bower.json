@@ -1,6 +1,6 @@
 {
   "name": "spel2js",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Parse Spring Expression Language in JavaScript",
   "main": "dist/spel2js.js",
   "author": {

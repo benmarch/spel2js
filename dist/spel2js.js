@@ -456,7 +456,7 @@ exports.StandardContext = exports.SpelExpressionEvaluator = undefined;
 
 var _SpelExpressionEvaluator = __webpack_require__(4);
 
-var _StandardContext = __webpack_require__(42);
+var _StandardContext = __webpack_require__(50);
 
 /*
  * Copyright 2002-2015 the original author or authors.
@@ -627,19 +627,34 @@ var _OpAnd = __webpack_require__(34);
 
 var _OpOr = __webpack_require__(35);
 
-var _Ternary = __webpack_require__(36);
+var _OperatorMatches = __webpack_require__(36);
 
-var _Elvis = __webpack_require__(37);
+var _Ternary = __webpack_require__(37);
 
-var _InlineList = __webpack_require__(38);
+var _Elvis = __webpack_require__(38);
 
-var _InlineMap = __webpack_require__(39);
+var _InlineList = __webpack_require__(39);
 
-var _Selection = __webpack_require__(40);
+var _InlineMap = __webpack_require__(40);
 
-var _Projection = __webpack_require__(41);
+var _Selection = __webpack_require__(41);
 
-//not yet implemented
+var _Projection = __webpack_require__(42);
+
+var _OperatorInstanceof = __webpack_require__(43);
+
+var _OperatorBetween = __webpack_require__(44);
+
+var _TypeReference = __webpack_require__(45);
+
+var _BeanReference = __webpack_require__(46);
+
+var _Identifier = __webpack_require__(47);
+
+var _QualifiedIdentifier = __webpack_require__(48);
+
+var _ConstructorReference = __webpack_require__(49);
+
 /*
  * Copyright 2002-2015 the original author or authors.
  *
@@ -663,8 +678,6 @@ var _Projection = __webpack_require__(41);
  * @since 0.2.0
  *
  */
-
-var OperatorInstanceof, OperatorMatches, OperatorBetween, BeanReference, TypeReference, QualifiedIdentifier, Identifier, ConstructorReference;
 
 var SpelExpressionParser = exports.SpelExpressionParser = function SpelExpressionParser() {
 
@@ -817,15 +830,15 @@ var SpelExpressionParser = exports.SpelExpressionParser = function SpelExpressio
             }
 
             if (tk === _TokenKind.TokenKind.INSTANCEOF) {
-                return new OperatorInstanceof(toPosToken(token), expr, rhExpr);
+                return _OperatorInstanceof.OperatorInstanceof.create(toPosToken(token), expr, rhExpr);
             }
 
             if (tk === _TokenKind.TokenKind.MATCHES) {
-                return new OperatorMatches(toPosToken(token), expr, rhExpr);
+                return _OperatorMatches.OperatorMatches.create(toPosToken(token), expr, rhExpr);
             }
 
             //Assert.isTrue(tk === TokenKind.BETWEEN);
-            return new OperatorBetween(toPosToken(token), expr, rhExpr);
+            return _OperatorBetween.OperatorBetween.create(toPosToken(token), expr, rhExpr);
         }
         return expr;
     }
@@ -1102,7 +1115,7 @@ var SpelExpressionParser = exports.SpelExpressionParser = function SpelExpressio
                 raiseInternalException(beanRefToken.startPos, 'INVALID_BEAN_REFERENCE');
             }
 
-            var beanReference = new BeanReference(toPosToken(beanNameToken), beanName);
+            var beanReference = _BeanReference.BeanReference.create(toPosToken(beanNameToken), beanName);
             push(beanReference);
             return true;
         }
@@ -1132,7 +1145,7 @@ var SpelExpressionParser = exports.SpelExpressionParser = function SpelExpressio
                 dims++;
             }
             eatToken(_TokenKind.TokenKind.RPAREN);
-            push(new TypeReference(toPosToken(typeName), node, dims));
+            push(_TypeReference.TypeReference.create(toPosToken(typeName), node, dims));
             return true;
         }
         return false;
@@ -1263,7 +1276,7 @@ var SpelExpressionParser = exports.SpelExpressionParser = function SpelExpressio
         while (isValidQualifiedId(node)) {
             nextToken();
             if (node.kind !== _TokenKind.TokenKind.DOT) {
-                qualifiedIdPieces.push(new Identifier(node.stringValue(), toPosToken(node)));
+                qualifiedIdPieces.push(_Identifier.Identifier.create(node.stringValue(), toPosToken(node)));
             }
             node = peekToken();
         }
@@ -1274,7 +1287,7 @@ var SpelExpressionParser = exports.SpelExpressionParser = function SpelExpressio
             raiseInternalException(node.startPos, 'NOT_EXPECTED_TOKEN', 'qualified ID', node.getKind().toString().toLowerCase());
         }
         var pos = toPosBounds(qualifiedIdPieces[0].getStartPosition(), qualifiedIdPieces[qualifiedIdPieces.length - 1].getEndPosition());
-        return new QualifiedIdentifier(pos, qualifiedIdPieces);
+        return _QualifiedIdentifier.QualifiedIdentifier.create(pos, qualifiedIdPieces);
     }
 
     function isValidQualifiedId(node) {
@@ -1335,12 +1348,12 @@ var SpelExpressionParser = exports.SpelExpressionParser = function SpelExpressio
                 if (maybeEatInlineListOrMap()) {
                     nodes.push(pop());
                 }
-                push(new ConstructorReference(toPosToken(newToken), dimensions, nodes));
+                push(_ConstructorReference.ConstructorReference.create(toPosToken(newToken), dimensions, nodes));
             } else {
                 // regular constructor invocation
                 eatConstructorArgs(nodes);
                 // TODO correct end position?
-                push(new ConstructorReference(toPosToken(newToken), nodes));
+                push(_ConstructorReference.ConstructorReference.create(toPosToken(newToken), nodes));
             }
             return true;
         }
@@ -1565,6 +1578,8 @@ var SpelExpressionParser = exports.SpelExpressionParser = function SpelExpressio
         parse: parse
     };
 };
+
+//not yet implemented
 
 /***/ }),
 /* 6 */
@@ -4029,6 +4044,78 @@ var OpOr = exports.OpOr = {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.OperatorMatches = undefined;
+
+var _SpelNode = __webpack_require__(0);
+
+/**
+ * Implements the matches operator. Matches takes two operands:
+ * The first is a String and the second is a Java regex.
+ * It will return {@code true} when {@link #getValue} is called
+ * if the first operand matches the regex.
+ *
+ * @author Andy Clement
+ * @author Juergen Hoeller
+ * @author Chris Thielen
+ * @since 3.0
+ */
+function createNode(position, left, right) {
+    var node = _SpelNode.SpelNode.create('matches', position, left, right);
+
+    /**
+     * Check the first operand matches the regex specified as the second operand.
+     * @param state the expression state
+     * @return {@code true} if the first operand matches the regex specified as the
+     * second operand, otherwise {@code false}
+     * @throws EvaluationException if there is a problem evaluating the expression
+     * (e.g. the regex is invalid)
+     */
+    node.getValue = function (state) {
+        var data = left.getValue(state);
+        var regexpString = right.getValue(state);
+
+        try {
+            var regexp = new RegExp(regexpString);
+            return !!regexp.exec(data);
+        } catch (error) {
+            throw {
+                name: 'EvaluationException',
+                message: error.toString()
+            };
+        }
+    };
+
+    return node;
+} /*
+   * Copyright 2002-2019 the original author or authors.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *      https://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   */
+
+var OperatorMatches = exports.OperatorMatches = {
+    create: createNode
+};
+
+/***/ }),
+/* 37 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 exports.Ternary = undefined;
 
 var _SpelNode = __webpack_require__(0);
@@ -4071,7 +4158,7 @@ var Ternary = exports.Ternary = {
 };
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4123,7 +4210,7 @@ var Elvis = exports.Elvis = {
 };
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4176,7 +4263,7 @@ var InlineList = exports.InlineList = {
 };
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4245,7 +4332,7 @@ var InlineMap = exports.InlineMap = {
 };
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4386,7 +4473,7 @@ var Selection = exports.Selection = {
 };
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4466,7 +4553,396 @@ var Projection = exports.Projection = {
 };
 
 /***/ }),
-/* 42 */
+/* 43 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.OperatorInstanceof = undefined;
+
+var _SpelNode = __webpack_require__(0);
+
+/**
+ * The operator 'instanceof' checks if an object is of the class specified in the right
+ * hand operand, in the same way that {@code instanceof} does in Java.
+ *
+ * THIS OPERATOR IS NOT IMPLEMENTED AND WILL THROW AN EXCEPTION
+ *
+ * @author Andy Clement
+ * @since 3.0
+ */
+function createNode(position, left, right) {
+    var node = _SpelNode.SpelNode.create('instanceof', position, left, right);
+
+    /**
+     * Compare the left operand to see it is an instance of the type specified as the
+     * right operand. The right operand must be a class.
+     * @param state the expression state
+     * @return {@code true} if the left operand is an instanceof of the right operand,
+     * otherwise {@code false}
+     * @throws EvaluationException if there is a problem evaluating the expression
+     */
+    node.getValue = function (state) {
+        throw {
+            name: 'MethodNotImplementedException',
+            message: 'OperatorInstanceOf: Not implemented'
+        };
+    };
+
+    return node;
+} /*
+   * Copyright 2002-2019 the original author or authors.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *      https://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   */
+
+var OperatorInstanceof = exports.OperatorInstanceof = {
+    create: createNode
+};
+
+/***/ }),
+/* 44 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.OperatorBetween = undefined;
+
+var _SpelNode = __webpack_require__(0);
+
+/**
+ * Represents the between operator. The left operand to between must be a single value and
+ * the right operand must be a list - this operator returns true if the left operand is
+ * between (using the registered comparator) the two elements in the list. The definition
+ * of between being inclusive follows the SQL BETWEEN definition.
+ *
+ * @author Andy Clement
+ * @since 3.0
+ */
+function createNode(position, left, right) {
+    var node = _SpelNode.SpelNode.create('between', position, left, right);
+
+    /**
+     * Returns a boolean based on whether a value is in the range expressed. The first
+     * operand is any value whilst the second is a list of two values - those two values
+     * being the bounds allowed for the first operand (inclusive).
+     * @param state the expression state
+     * @return true if the left operand is in the range specified, false otherwise
+     * @throws EvaluationException if there is a problem evaluating the expression
+     */
+    node.getValue = function (state) {
+        throw {
+            name: 'MethodNotImplementedException',
+            message: 'OperatorBetween: Not implemented'
+        };
+    };
+
+    return node;
+} /*
+   * Copyright 2002-2019 the original author or authors.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *      https://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   */
+
+var OperatorBetween = exports.OperatorBetween = {
+    create: createNode
+};
+
+/***/ }),
+/* 45 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.TypeReference = undefined;
+
+var _SpelNode = __webpack_require__(0);
+
+/**
+ * Represents a reference to a type, for example
+ * {@code "T(String)" or "T(com.somewhere.Foo)"}.
+ *
+ * @author Andy Clement
+ */
+function createNode(position, left, right) {
+    var node = _SpelNode.SpelNode.create('typeref', position, left, right);
+
+    node.getValue = function (state) {
+        throw {
+            name: 'MethodNotImplementedException',
+            message: 'TypeReference: Not implemented'
+        };
+    };
+
+    return node;
+} /*
+   * Copyright 2002-2019 the original author or authors.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *      https://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   */
+
+var TypeReference = exports.TypeReference = {
+    create: createNode
+};
+
+/***/ }),
+/* 46 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.BeanReference = undefined;
+
+var _SpelNode = __webpack_require__(0);
+
+/**
+ * Represents a bean reference to a type, for example <tt>@foo</tt> or <tt>@'foo.bar'</tt>.
+ * For a FactoryBean the syntax <tt>&foo</tt> can be used to access the factory itself.
+ *
+ * @author Andy Clement
+ */
+function createNode(position, left, right) {
+    var node = _SpelNode.SpelNode.create('beanref', position, left, right);
+
+    node.getValue = function (state) {
+        throw {
+            name: 'MethodNotImplementedException',
+            message: 'BeanReference: Not implemented'
+        };
+    };
+
+    return node;
+} /*
+   * Copyright 2002-2019 the original author or authors.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *      https://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   */
+
+var BeanReference = exports.BeanReference = {
+    create: createNode
+};
+
+/***/ }),
+/* 47 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.Identifier = undefined;
+
+var _SpelNode = __webpack_require__(0);
+
+/**
+ * An 'identifier' {@link SpelNode}.
+ *
+ * @author Andy Clement
+ * @since 3.0
+ */
+function createNode(position, left, right) {
+    var node = _SpelNode.SpelNode.create('identifier', position, left, right);
+
+    node.getValue = function (state) {
+        throw {
+            name: 'MethodNotImplementedException',
+            message: 'Identifier: Not implemented'
+        };
+    };
+
+    return node;
+} /*
+   * Copyright 2002-2019 the original author or authors.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *      https://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   */
+
+var Identifier = exports.Identifier = {
+    create: createNode
+};
+
+/***/ }),
+/* 48 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.QualifiedIdentifier = undefined;
+
+var _SpelNode = __webpack_require__(0);
+
+/**
+ * Represents a dot separated sequence of strings that indicate a package qualified type
+ * reference.
+ *
+ * <p>Example: "java.lang.String" as in the expression "new java.lang.String('hello')"
+ *
+ * @author Andy Clement
+ * @since 3.0
+ */
+function createNode(position, left, right) {
+    var node = _SpelNode.SpelNode.create('qualifiedidentifier', position, left, right);
+
+    node.getValue = function (state) {
+        throw {
+            name: 'MethodNotImplementedException',
+            message: 'QualifiedIdentifier: Not implemented'
+        };
+    };
+
+    return node;
+} /*
+   * Copyright 2002-2019 the original author or authors.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *      https://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   */
+
+var QualifiedIdentifier = exports.QualifiedIdentifier = {
+    create: createNode
+};
+
+/***/ }),
+/* 49 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.ConstructorReference = undefined;
+
+var _SpelNode = __webpack_require__(0);
+
+/**
+ * Represents the invocation of a constructor. Either a constructor on a regular type or
+ * construction of an array. When an array is constructed, an initializer can be specified.
+ *
+ * <p>Examples:<br>
+ * new String('hello world')<br>
+ * new int[]{1,2,3,4}<br>
+ * new int[3] new int[3]{1,2,3}
+ *
+ * @author Andy Clement
+ * @author Juergen Hoeller
+ * @since 3.0
+ */
+function createNode(position, left, right) {
+    var node = _SpelNode.SpelNode.create('constructorref', position, left, right);
+
+    node.getValue = function (state) {
+        throw {
+            name: 'MethodNotImplementedException',
+            message: 'BeanReference: Not implemented'
+        };
+    };
+
+    return node;
+} /*
+   * Copyright 2002-2019 the original author or authors.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *      https://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   */
+
+var ConstructorReference = exports.ConstructorReference = {
+    create: createNode
+};
+
+/***/ }),
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
