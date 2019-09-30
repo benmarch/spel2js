@@ -53,6 +53,7 @@ import {OpDec} from './ast/OpDec';
 import {OpNot} from './ast/OpNot';
 import {OpAnd} from './ast/OpAnd';
 import {OpOr} from './ast/OpOr';
+import {OperatorMatches} from "./ast/OperatorMatches";
 import {Ternary} from './ast/Ternary';
 import {Elvis} from './ast/Elvis';
 import {InlineList} from './ast/InlineList';
@@ -61,15 +62,13 @@ import {Selection} from './ast/Selection';
 import {Projection} from './ast/Projection';
 
 //not yet implemented
-var OperatorInstanceof,
-    OperatorMatches,
-    OperatorBetween,
-    BeanReference,
-    TypeReference,
-    QualifiedIdentifier,
-    Identifier,
-    ConstructorReference;
-
+import {OperatorInstanceof} from "./ast/OperatorInstanceof";
+import {OperatorBetween} from "./ast/OperatorBetween";
+import {TypeReference} from "./ast/TypeReference";
+import {BeanReference} from "./ast/BeanReference";
+import {Identifier} from "./ast/Identifier";
+import {QualifiedIdentifier} from "./ast/QualifiedIdentifier";
+import {ConstructorReference} from "./ast/ConstructorReference";
 
 export var SpelExpressionParser = function () {
 
@@ -224,15 +223,15 @@ export var SpelExpressionParser = function () {
             }
 
             if (tk === TokenKind.INSTANCEOF) {
-                return new OperatorInstanceof(toPosToken(token), expr, rhExpr);
+                return OperatorInstanceof.create(toPosToken(token), expr, rhExpr);
             }
 
             if (tk === TokenKind.MATCHES) {
-                return new OperatorMatches(toPosToken(token), expr, rhExpr);
+                return OperatorMatches.create(toPosToken(token), expr, rhExpr);
             }
 
             //Assert.isTrue(tk === TokenKind.BETWEEN);
-            return new OperatorBetween(toPosToken(token), expr, rhExpr);
+            return OperatorBetween.create(toPosToken(token), expr, rhExpr);
         }
         return expr;
     }
@@ -526,7 +525,7 @@ export var SpelExpressionParser = function () {
                 raiseInternalException(beanRefToken.startPos, 'INVALID_BEAN_REFERENCE');
             }
 
-            var beanReference = new BeanReference(toPosToken(beanNameToken), beanName);
+            var beanReference = BeanReference.create(toPosToken(beanNameToken), beanName);
             push(beanReference);
             return true;
         }
@@ -556,7 +555,7 @@ export var SpelExpressionParser = function () {
                 dims++;
             }
             eatToken(TokenKind.RPAREN);
-            push(new TypeReference(toPosToken(typeName), node, dims));
+            push(TypeReference.create(toPosToken(typeName), node, dims));
             return true;
         }
         return false;
@@ -693,7 +692,7 @@ export var SpelExpressionParser = function () {
         while (isValidQualifiedId(node)) {
             nextToken();
             if (node.kind !== TokenKind.DOT) {
-                qualifiedIdPieces.push(new Identifier(node.stringValue(), toPosToken(node)));
+                qualifiedIdPieces.push(Identifier.create(node.stringValue(), toPosToken(node)));
             }
             node = peekToken();
         }
@@ -704,7 +703,7 @@ export var SpelExpressionParser = function () {
             raiseInternalException(node.startPos, 'NOT_EXPECTED_TOKEN', 'qualified ID', node.getKind().toString().toLowerCase());
         }
         var pos = toPosBounds(qualifiedIdPieces[0].getStartPosition(), qualifiedIdPieces[qualifiedIdPieces.length - 1].getEndPosition());
-        return new QualifiedIdentifier(pos, qualifiedIdPieces);
+        return QualifiedIdentifier.create(pos, qualifiedIdPieces);
     }
 
     function isValidQualifiedId(node) {
@@ -766,13 +765,13 @@ export var SpelExpressionParser = function () {
                 if (maybeEatInlineListOrMap()) {
                     nodes.push(pop());
                 }
-                push(new ConstructorReference(toPosToken(newToken), dimensions, nodes));
+                push(ConstructorReference.create(toPosToken(newToken), dimensions, nodes));
             }
             else {
                 // regular constructor invocation
                 eatConstructorArgs(nodes);
                 // TODO correct end position?
-                push(new ConstructorReference(toPosToken(newToken), nodes));
+                push(ConstructorReference.create(toPosToken(newToken), nodes));
             }
             return true;
         }

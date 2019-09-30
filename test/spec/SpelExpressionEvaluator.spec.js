@@ -418,6 +418,36 @@ describe('spel expression evaluator', ()=>{
 
         });
 
+        describe('matches', ()=>{
+
+            it('should return true if the left side matches the regexp string on the right side', ()=>{
+                //when
+                let matches = evaluator.eval('"the quick brown fox" matches "^the.*fox$"');
+
+                //then
+                expect(matches).toBe(true);
+            });
+
+            it('should return false if the left side does not match the regexp string on the right side', ()=>{
+                //when
+                let matches = evaluator.eval('"the quick brown dog" matches "^the.*fox$"');
+
+                //then
+                expect(matches).toBe(false);
+            });
+
+
+            it('should throw if the regexp is invalid', ()=>{
+                //when
+                let willthrow = ()=>evaluator.eval('"foo" matches "["');
+
+                //then
+                expect(willthrow).toThrow();
+            });
+
+
+        });
+
 
         describe('ternary', ()=>{
 
