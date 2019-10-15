@@ -17,35 +17,35 @@
 import {SpelNode} from './SpelNode';
 
 /**
- * The operator 'instanceof' checks if an object is of the class specified in the right
- * hand operand, in the same way that {@code instanceof} does in Java.
- *
- * THIS OPERATOR IS NOT IMPLEMENTED AND WILL THROW AN EXCEPTION
+ * Represents the between operator. The left operand to between must be a single value and
+ * the right operand must be a list - this operator returns true if the left operand is
+ * between (using the registered comparator) the two elements in the list. The definition
+ * of between being inclusive follows the SQL BETWEEN definition.
  *
  * @author Andy Clement
  * @since 3.0
  */
 function createNode(position, left, right) {
-    var node = SpelNode.create('instanceof', position, left, right);
+    var node = SpelNode.create('between', position, left, right);
 
     /**
-     * Compare the left operand to see it is an instance of the type specified as the
-     * right operand. The right operand must be a class.
+     * Returns a boolean based on whether a value is in the range expressed. The first
+     * operand is any value whilst the second is a list of two values - those two values
+     * being the bounds allowed for the first operand (inclusive).
      * @param state the expression state
-     * @return {@code true} if the left operand is an instanceof of the right operand,
-     * otherwise {@code false}
+     * @return true if the left operand is in the range specified, false otherwise
      * @throws EvaluationException if there is a problem evaluating the expression
      */
     node.getValue = function (state) {
         throw {
             name: 'MethodNotImplementedException',
-            message: 'OperatorInstanceOf: Not implemented'
+            message: 'OperatorBetween: Not implemented'
         }
     };
 
     return node;
 }
 
-export var OperatorInstanceof =  {
+export var OpBetween =  {
     create: createNode
 };

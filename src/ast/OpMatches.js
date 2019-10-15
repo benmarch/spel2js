@@ -17,35 +17,45 @@
 import {SpelNode} from './SpelNode';
 
 /**
- * Represents the between operator. The left operand to between must be a single value and
- * the right operand must be a list - this operator returns true if the left operand is
- * between (using the registered comparator) the two elements in the list. The definition
- * of between being inclusive follows the SQL BETWEEN definition.
+ * Implements the matches operator. Matches takes two operands:
+ * The first is a String and the second is a Java regex.
+ * It will return {@code true} when {@link #getValue} is called
+ * if the first operand matches the regex.
  *
  * @author Andy Clement
+ * @author Juergen Hoeller
+ * @author Chris Thielen
  * @since 3.0
  */
 function createNode(position, left, right) {
-    var node = SpelNode.create('between', position, left, right);
+    var node = SpelNode.create('matches', position, left, right);
 
     /**
-     * Returns a boolean based on whether a value is in the range expressed. The first
-     * operand is any value whilst the second is a list of two values - those two values
-     * being the bounds allowed for the first operand (inclusive).
+     * Check the first operand matches the regex specified as the second operand.
      * @param state the expression state
-     * @return true if the left operand is in the range specified, false otherwise
+     * @return {@code true} if the first operand matches the regex specified as the
+     * second operand, otherwise {@code false}
      * @throws EvaluationException if there is a problem evaluating the expression
+     * (e.g. the regex is invalid)
      */
     node.getValue = function (state) {
-        throw {
-            name: 'MethodNotImplementedException',
-            message: 'OperatorBetween: Not implemented'
+        var data = left.getValue(state);
+        var regexpString = right.getValue(state);
+
+        try {
+            var regexp = new RegExp(regexpString);
+            return !!regexp.exec(data)
+        } catch (error) {
+            throw {
+                name: 'EvaluationException',
+                message: error.toString()
+            }
         }
     };
 
     return node;
 }
 
-export var OperatorBetween =  {
+export var OpMatches =  {
     create: createNode
 };

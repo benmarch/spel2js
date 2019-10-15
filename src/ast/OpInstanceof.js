@@ -17,45 +17,35 @@
 import {SpelNode} from './SpelNode';
 
 /**
- * Implements the matches operator. Matches takes two operands:
- * The first is a String and the second is a Java regex.
- * It will return {@code true} when {@link #getValue} is called
- * if the first operand matches the regex.
+ * The operator 'instanceof' checks if an object is of the class specified in the right
+ * hand operand, in the same way that {@code instanceof} does in Java.
+ *
+ * THIS OPERATOR IS NOT IMPLEMENTED AND WILL THROW AN EXCEPTION
  *
  * @author Andy Clement
- * @author Juergen Hoeller
- * @author Chris Thielen
  * @since 3.0
  */
 function createNode(position, left, right) {
-    var node = SpelNode.create('matches', position, left, right);
+    var node = SpelNode.create('instanceof', position, left, right);
 
     /**
-     * Check the first operand matches the regex specified as the second operand.
+     * Compare the left operand to see it is an instance of the type specified as the
+     * right operand. The right operand must be a class.
      * @param state the expression state
-     * @return {@code true} if the first operand matches the regex specified as the
-     * second operand, otherwise {@code false}
+     * @return {@code true} if the left operand is an instanceof of the right operand,
+     * otherwise {@code false}
      * @throws EvaluationException if there is a problem evaluating the expression
-     * (e.g. the regex is invalid)
      */
     node.getValue = function (state) {
-        var data = left.getValue(state);
-        var regexpString = right.getValue(state);
-
-        try {
-            var regexp = new RegExp(regexpString);
-            return !!regexp.exec(data)
-        } catch (error) {
-            throw {
-                name: 'EvaluationException',
-                message: error.toString()
-            }
+        throw {
+            name: 'MethodNotImplementedException',
+            message: 'OpInstanceOf: Not implemented'
         }
     };
 
     return node;
 }
 
-export var OperatorMatches =  {
+export var OpInstanceof =  {
     create: createNode
 };

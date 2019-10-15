@@ -53,7 +53,7 @@ import {OpDec} from './ast/OpDec';
 import {OpNot} from './ast/OpNot';
 import {OpAnd} from './ast/OpAnd';
 import {OpOr} from './ast/OpOr';
-import {OperatorMatches} from "./ast/OperatorMatches";
+import {OpMatches} from "./ast/OpMatches";
 import {Ternary} from './ast/Ternary';
 import {Elvis} from './ast/Elvis';
 import {InlineList} from './ast/InlineList';
@@ -62,13 +62,13 @@ import {Selection} from './ast/Selection';
 import {Projection} from './ast/Projection';
 
 //not yet implemented
-import {OperatorInstanceof} from "./ast/OperatorInstanceof";
-import {OperatorBetween} from "./ast/OperatorBetween";
-import {TypeReference} from "./ast/TypeReference";
-import {BeanReference} from "./ast/BeanReference";
-import {Identifier} from "./ast/Identifier";
-import {QualifiedIdentifier} from "./ast/QualifiedIdentifier";
-import {ConstructorReference} from "./ast/ConstructorReference";
+import {OpInstanceof} from './ast/OpInstanceof';
+import {OpBetween} from './ast/OpBetween';
+import {TypeReference} from './ast/TypeReference';
+import {BeanReference} from './ast/BeanReference';
+import {Identifier} from './ast/Identifier';
+import {QualifiedIdentifier} from './ast/QualifiedIdentifier';
+import {ConstructorReference} from './ast/ConstructorReference';
 
 export var SpelExpressionParser = function () {
 
@@ -223,15 +223,15 @@ export var SpelExpressionParser = function () {
             }
 
             if (tk === TokenKind.INSTANCEOF) {
-                return OperatorInstanceof.create(toPosToken(token), expr, rhExpr);
+                return OpInstanceof.create(toPosToken(token), expr, rhExpr);
             }
 
             if (tk === TokenKind.MATCHES) {
-                return OperatorMatches.create(toPosToken(token), expr, rhExpr);
+                return OpMatches.create(toPosToken(token), expr, rhExpr);
             }
 
             //Assert.isTrue(tk === TokenKind.BETWEEN);
-            return OperatorBetween.create(toPosToken(token), expr, rhExpr);
+            return OpBetween.create(toPosToken(token), expr, rhExpr);
         }
         return expr;
     }
