@@ -39,7 +39,7 @@ function createNode(position, left, right) {
     node.getValue = function (state) {
         throw {
             name: 'MethodNotImplementedException',
-            message: 'OperatorBetween: Not implemented'
+            message: 'OpBetween: Not implemented'
         }
     };
 
