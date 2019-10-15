@@ -12,6 +12,7 @@
 require('babel-register');
 var webpackConfig = require('../webpack.config.babel').default;
 
+webpackConfig.devtool = 'inline-source-map';
 webpackConfig.externals = {};
 webpackConfig.module.rules.unshift(
     //get coverage info from precompiled source code
@@ -78,7 +79,7 @@ module.exports = function (config) {
          Locally installed browsers
          Chrome, ChromeCanary, PhantomJS, Firefox, Opera, IE, Safari, iOS etc.
          */
-        browsers: ['PhantomJS'],
+        browsers: ['ChromeHeadless'],
 
         /*
          Enable / disable watching file and executing tests whenever any file changes

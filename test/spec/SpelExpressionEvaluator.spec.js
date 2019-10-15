@@ -531,6 +531,27 @@ describe('spel expression evaluator', ()=>{
                 expect(arr).toEqual([1, 2, 3, 4]);
             });
 
+            it('should get the size of an array', ()=>{
+                //when
+                let size = evaluator.eval('{1, 2, 3, 4}.size()');
+
+                //then
+                expect(size).toEqual(4);
+            });
+
+            it('should check whether an array contains an element', ()=>{
+                //given
+                let context = {
+                    classification: 'PHONE',
+                };
+
+                //when
+                let shouldBeTrue = evaluator.eval(`{'PHONE','EMPLOYMENT_PHONE','WORK_PHONE'}.contains(classification)`, context);
+
+                //then
+                expect(shouldBeTrue).toEqual(true)
+            });
+
             it('should create a map', ()=>{
                 //when
                 let map = evaluator.eval('{name:"Nikola",dob:"10-July-1856"}');

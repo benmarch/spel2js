@@ -15,6 +15,7 @@
  */
 
 import {SpelNode} from './SpelNode';
+import {Stack} from '../lib/Stack'
 
 /**
  * Expression language AST node that represents a method reference.
@@ -59,7 +60,16 @@ function createNode(nullSafeNavigation, methodName, position, args) {
 
         //populate arguments
         args.forEach(function (arg) {
+            // reset the active context to root context for evaluating argument
+            const currentActiveContext = state.activeContext
+            state.activeContext = new Stack();
+            state.activeContext.push(state.rootContext);
+
+            // evaluate argument
             compiledArgs.push(arg.getValue(state));
+
+            // reset the active context
+            state.activeContext = currentActiveContext;
         });
 
         //accessors might not be available
@@ -72,9 +82,16 @@ function createNode(nullSafeNavigation, methodName, position, args) {
             /*jshint +W093 */
         }
 
-        //size() -> length
-        if (methodName === 'size' && Array.isArray(context)) {
-            return context.length;
+        //array methods
+        if (Array.isArray(context)) {
+            //size() -> length
+            if (methodName === 'size') {
+                return context.length;
+            }
+
+            if (methodName === 'contains') {
+                return context.includes(compiledArgs[0])
+            }
         }
 
         method = maybeHandleNullSafeNavigation(context[methodName]);
