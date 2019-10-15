@@ -146,6 +146,7 @@ describe('spel expression evaluator', ()=>{
                 //when
                 let willThrow = ()=>{evaluator.eval('nested.doesNotExist');};
                 let willBeNull = evaluator.eval('nested?.doesNotExist', context);
+                let willAlsoBeNull = evaluator.eval('nested?.doesNotExist?.definitelyDoesNotExist', context);
 
                 //then
                 expect(willThrow).toThrow();

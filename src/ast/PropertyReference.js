@@ -33,13 +33,17 @@ function createNode(nullSafeNavigation, propertyName, position) {
         var context = state.activeContext.peek();
 
         if (!context) {
+            if (nullSafeNavigation) {
+                return null;
+            }
+
             throw {
                 name: 'ContextDoesNotExistException',
                 message: 'Attempting to look up property \''+ propertyName +'\' for an undefined context.'
             };
         }
 
-        if (context[propertyName] === undefined) {
+        if (context[propertyName] === undefined || context[propertyName] === null) {
             //handle safe navigation
             if (nullSafeNavigation) {
                 return null;
