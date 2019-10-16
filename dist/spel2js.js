@@ -224,6 +224,63 @@ var SpelNode = exports.SpelNode = {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.Stack = Stack;
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * @author Ben March
+ * @since 0.2.0
+ */
+
+function Stack(startingElements) {
+    this.elements = startingElements || [];
+}
+
+Stack.prototype.push = function (el) {
+    this.elements.push(el);
+    return el;
+};
+
+Stack.prototype.pop = function () {
+    return this.elements.pop();
+};
+
+Stack.prototype.peek = function () {
+    return this.elements[this.elements.length - 1];
+};
+
+Stack.prototype.empty = function () {
+    return this.elements.length > 0;
+};
+
+Stack.prototype.search = function (el) {
+    return this.elements.length - this.elements.indexOf(el);
+};
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 /*
  * Copyright 2002-2015 the original author or authors.
  *
@@ -386,63 +443,6 @@ TokenKind.prototype.ordinal = function () {
 exports.TokenKind = TokenKind;
 
 /***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.Stack = Stack;
-/*
- * Copyright 2002-2015 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-/**
- * @author Ben March
- * @since 0.2.0
- */
-
-function Stack(startingElements) {
-    this.elements = startingElements || [];
-}
-
-Stack.prototype.push = function (el) {
-    this.elements.push(el);
-    return el;
-};
-
-Stack.prototype.pop = function () {
-    return this.elements.pop();
-};
-
-Stack.prototype.peek = function () {
-    return this.elements[this.elements.length - 1];
-};
-
-Stack.prototype.empty = function () {
-    return this.elements.length > 0;
-};
-
-Stack.prototype.search = function (el) {
-    return this.elements.length - this.elements.indexOf(el);
-};
-
-/***/ }),
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -496,7 +496,7 @@ exports.SpelExpressionEvaluator = undefined;
 
 var _SpelExpressionParser = __webpack_require__(5);
 
-var _Stack = __webpack_require__(2);
+var _Stack = __webpack_require__(1);
 
 /*
  * Copyright 2002-2015 the original author or authors.
@@ -567,7 +567,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.SpelExpressionParser = undefined;
 
-var _TokenKind = __webpack_require__(1);
+var _TokenKind = __webpack_require__(2);
 
 var _Tokenizer = __webpack_require__(6);
 
@@ -627,7 +627,7 @@ var _OpAnd = __webpack_require__(34);
 
 var _OpOr = __webpack_require__(35);
 
-var _OperatorMatches = __webpack_require__(36);
+var _OpMatches = __webpack_require__(36);
 
 var _Ternary = __webpack_require__(37);
 
@@ -641,9 +641,9 @@ var _Selection = __webpack_require__(41);
 
 var _Projection = __webpack_require__(42);
 
-var _OperatorInstanceof = __webpack_require__(43);
+var _OpInstanceof = __webpack_require__(43);
 
-var _OperatorBetween = __webpack_require__(44);
+var _OpBetween = __webpack_require__(44);
 
 var _TypeReference = __webpack_require__(45);
 
@@ -830,15 +830,15 @@ var SpelExpressionParser = exports.SpelExpressionParser = function SpelExpressio
             }
 
             if (tk === _TokenKind.TokenKind.INSTANCEOF) {
-                return _OperatorInstanceof.OperatorInstanceof.create(toPosToken(token), expr, rhExpr);
+                return _OpInstanceof.OpInstanceof.create(toPosToken(token), expr, rhExpr);
             }
 
             if (tk === _TokenKind.TokenKind.MATCHES) {
-                return _OperatorMatches.OperatorMatches.create(toPosToken(token), expr, rhExpr);
+                return _OpMatches.OpMatches.create(toPosToken(token), expr, rhExpr);
             }
 
             //Assert.isTrue(tk === TokenKind.BETWEEN);
-            return _OperatorBetween.OperatorBetween.create(toPosToken(token), expr, rhExpr);
+            return _OpBetween.OpBetween.create(toPosToken(token), expr, rhExpr);
         }
         return expr;
     }
@@ -1595,7 +1595,7 @@ exports.Tokenizer = undefined;
 
 var _Token = __webpack_require__(7);
 
-var _TokenKind = __webpack_require__(1);
+var _TokenKind = __webpack_require__(2);
 
 /*
  * Copyright 2002-2015 the original author or authors.
@@ -2181,7 +2181,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Token = undefined;
 
-var _TokenKind = __webpack_require__(1);
+var _TokenKind = __webpack_require__(2);
 
 function Token(tokenKind, tokenData, startPos, endPos) {
     this.kind = tokenKind;
@@ -2505,6 +2505,8 @@ exports.FunctionReference = undefined;
 
 var _SpelNode = __webpack_require__(0);
 
+var _Stack = __webpack_require__(1);
+
 /**
  * A function reference is of the form "#someFunction(a,b,c)". Functions may be defined in
  * the context prior to the expression being evaluated or within the expression itself
@@ -2521,22 +2523,48 @@ var _SpelNode = __webpack_require__(0);
  * @since 0.2.0
  */
 
-function createNode(parent, functionName) {
-    var node = _SpelNode.SpelNode.create('method', parent);
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-    node.getValue = function () {
-        var refNode = node,
-            context = null;
-        do {
-            if (refNode.getParent()) {
-                refNode = refNode.getParent();
-            } else {
-                context = refNode.getContext();
-            }
-        } while (refNode);
-        if (context[functionName]) {
-            return context[functionName].call(context);
+function createNode(functionName, position, args) {
+    var node = _SpelNode.SpelNode.create('function', position);
+
+    node.getValue = function (state) {
+        var locals = state.locals || {},
+            context = state.rootContext,
+            compiledArgs = [];
+
+        //populate arguments
+        args.forEach(function (arg) {
+            // reset the active context to root context for evaluating argument
+            var currentActiveContext = state.activeContext;
+            state.activeContext = new _Stack.Stack();
+            state.activeContext.push(state.rootContext);
+
+            // evaluate argument
+            compiledArgs.push(arg.getValue(state));
+
+            // reset the active context
+            state.activeContext = currentActiveContext;
+        });
+
+        if (locals[functionName]) {
+            return locals[functionName].apply(context, compiledArgs);
         }
+
         throw {
             name: 'FunctionDoesNotExistException',
             message: 'Function \'' + functionName + '\' does not exist.'
@@ -2544,21 +2572,7 @@ function createNode(parent, functionName) {
     };
 
     return node;
-} /*
-   * Copyright 2002-2015 the original author or authors.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License");
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   *      http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
+}
 
 var FunctionReference = exports.FunctionReference = {
     create: createNode
@@ -2578,6 +2592,8 @@ exports.MethodReference = undefined;
 
 var _SpelNode = __webpack_require__(0);
 
+var _Stack = __webpack_require__(1);
+
 /**
  * Expression language AST node that represents a method reference.
  *
@@ -2585,6 +2601,22 @@ var _SpelNode = __webpack_require__(0);
  * @author Juergen Hoeller
  * @author Ben March
  * @since 0.2.0
+ */
+
+/*
+ * Copyright 2002-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 function createNode(nullSafeNavigation, methodName, position, args) {
@@ -2604,7 +2636,7 @@ function createNode(nullSafeNavigation, methodName, position, args) {
 
         //handle safe navigation
         function maybeHandleNullSafeNavigation(member) {
-            if (member === undefined) {
+            if (member === undefined || member === null) {
                 if (nullSafeNavigation) {
                     return null;
                 }
@@ -2620,7 +2652,16 @@ function createNode(nullSafeNavigation, methodName, position, args) {
 
         //populate arguments
         args.forEach(function (arg) {
+            // reset the active context to root context for evaluating argument
+            var currentActiveContext = state.activeContext;
+            state.activeContext = new _Stack.Stack();
+            state.activeContext.push(state.rootContext);
+
+            // evaluate argument
             compiledArgs.push(arg.getValue(state));
+
+            // reset the active context
+            state.activeContext = currentActiveContext;
         });
 
         //accessors might not be available
@@ -2633,9 +2674,16 @@ function createNode(nullSafeNavigation, methodName, position, args) {
             /*jshint +W093 */
         }
 
-        //size() -> length
-        if (methodName === 'size' && Array.isArray(context)) {
-            return context.length;
+        //array methods
+        if (Array.isArray(context)) {
+            //size() -> length
+            if (methodName === 'size') {
+                return context.length;
+            }
+
+            if (methodName === 'contains') {
+                return context.includes(compiledArgs[0]);
+            }
         }
 
         method = maybeHandleNullSafeNavigation(context[methodName]);
@@ -2646,21 +2694,7 @@ function createNode(nullSafeNavigation, methodName, position, args) {
     };
 
     return node;
-} /*
-   * Copyright 2002-2015 the original author or authors.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License");
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   *      http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
+}
 
 var MethodReference = exports.MethodReference = {
     create: createNode
@@ -2697,13 +2731,17 @@ function createNode(nullSafeNavigation, propertyName, position) {
         var context = state.activeContext.peek();
 
         if (!context) {
+            if (nullSafeNavigation) {
+                return null;
+            }
+
             throw {
                 name: 'ContextDoesNotExistException',
                 message: 'Attempting to look up property \'' + propertyName + '\' for an undefined context.'
             };
         }
 
-        if (context[propertyName] === undefined) {
+        if (context[propertyName] === undefined || context[propertyName] === null) {
             //handle safe navigation
             if (nullSafeNavigation) {
                 return null;
@@ -2954,7 +2992,7 @@ exports.Indexer = undefined;
 
 var _SpelNode = __webpack_require__(0);
 
-var _Stack = __webpack_require__(2);
+var _Stack = __webpack_require__(1);
 
 /**
  * An Indexer can index into some proceeding structure to access a particular piece of it.
@@ -4044,7 +4082,7 @@ var OpOr = exports.OpOr = {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.OperatorMatches = undefined;
+exports.OpMatches = undefined;
 
 var _SpelNode = __webpack_require__(0);
 
@@ -4102,7 +4140,7 @@ function createNode(position, left, right) {
    * limitations under the License.
    */
 
-var OperatorMatches = exports.OperatorMatches = {
+var OpMatches = exports.OpMatches = {
     create: createNode
 };
 
@@ -4562,7 +4600,7 @@ var Projection = exports.Projection = {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.OperatorInstanceof = undefined;
+exports.OpInstanceof = undefined;
 
 var _SpelNode = __webpack_require__(0);
 
@@ -4589,7 +4627,7 @@ function createNode(position, left, right) {
     node.getValue = function (state) {
         throw {
             name: 'MethodNotImplementedException',
-            message: 'OperatorInstanceOf: Not implemented'
+            message: 'OpInstanceOf: Not implemented'
         };
     };
 
@@ -4610,7 +4648,7 @@ function createNode(position, left, right) {
    * limitations under the License.
    */
 
-var OperatorInstanceof = exports.OperatorInstanceof = {
+var OpInstanceof = exports.OpInstanceof = {
     create: createNode
 };
 
@@ -4624,7 +4662,7 @@ var OperatorInstanceof = exports.OperatorInstanceof = {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.OperatorBetween = undefined;
+exports.OpBetween = undefined;
 
 var _SpelNode = __webpack_require__(0);
 
@@ -4651,7 +4689,7 @@ function createNode(position, left, right) {
     node.getValue = function (state) {
         throw {
             name: 'MethodNotImplementedException',
-            message: 'OperatorBetween: Not implemented'
+            message: 'OpBetween: Not implemented'
         };
     };
 
@@ -4672,7 +4710,7 @@ function createNode(position, left, right) {
    * limitations under the License.
    */
 
-var OperatorBetween = exports.OperatorBetween = {
+var OpBetween = exports.OpBetween = {
     create: createNode
 };
 

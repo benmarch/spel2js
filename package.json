@@ -1,6 +1,6 @@
 {
   "name": "spel2js",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "Parse Spring Expression Language in JavaScript",
   "author": {
     "name": "Ben March",
