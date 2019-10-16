@@ -1,4 +1,5 @@
 import {SpelExpressionEvaluator as evaluator} from '../../src/SpelExpressionEvaluator.js';
+import {StandardContext} from '../../src/StandardContext'
 
 describe('spel expression evaluator', ()=>{
 
@@ -242,7 +243,6 @@ describe('spel expression evaluator', ()=>{
                 //then
                 expect(comp).toBe(true);
             });
-
         });
 
 
@@ -346,6 +346,22 @@ describe('spel expression evaluator', ()=>{
                 //then
                 expect(that).toBe(context);
             });
+
+            it('should call a local function', ()=>{
+                //given
+                let context = {};
+                let locals = {
+                    foo(echo) {
+                        return echo;
+                    }
+                };
+
+                //when
+                const result = evaluator.eval('#foo("123") == "123"', context, locals);
+
+                //then
+                expect(result).toEqual(true);
+            })
 
         });
 
