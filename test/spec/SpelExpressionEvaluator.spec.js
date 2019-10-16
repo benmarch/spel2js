@@ -1,4 +1,5 @@
 import {SpelExpressionEvaluator as evaluator} from '../../src/SpelExpressionEvaluator.js';
+import {StandardContext} from '../../src/StandardContext'
 
 describe('spel expression evaluator', ()=>{
 
@@ -146,6 +147,7 @@ describe('spel expression evaluator', ()=>{
                 //when
                 let willThrow = ()=>{evaluator.eval('nested.doesNotExist');};
                 let willBeNull = evaluator.eval('nested?.doesNotExist', context);
+                let willAlsoBeNull = evaluator.eval('nested?.doesNotExist?.definitelyDoesNotExist', context);
 
                 //then
                 expect(willThrow).toThrow();
@@ -241,7 +243,6 @@ describe('spel expression evaluator', ()=>{
                 //then
                 expect(comp).toBe(true);
             });
-
         });
 
 
@@ -345,6 +346,22 @@ describe('spel expression evaluator', ()=>{
                 //then
                 expect(that).toBe(context);
             });
+
+            it('should call a local function', ()=>{
+                //given
+                let context = {};
+                let locals = {
+                    foo(echo) {
+                        return echo;
+                    }
+                };
+
+                //when
+                const result = evaluator.eval('#foo("123") == "123"', context, locals);
+
+                //then
+                expect(result).toEqual(true);
+            })
 
         });
 
@@ -528,6 +545,27 @@ describe('spel expression evaluator', ()=>{
 
                 //then
                 expect(arr).toEqual([1, 2, 3, 4]);
+            });
+
+            it('should get the size of an array', ()=>{
+                //when
+                let size = evaluator.eval('{1, 2, 3, 4}.size()');
+
+                //then
+                expect(size).toEqual(4);
+            });
+
+            it('should check whether an array contains an element', ()=>{
+                //given
+                let context = {
+                    classification: 'PHONE',
+                };
+
+                //when
+                let shouldBeTrue = evaluator.eval(`{'PHONE','EMPLOYMENT_PHONE','WORK_PHONE'}.contains(classification)`, context);
+
+                //then
+                expect(shouldBeTrue).toEqual(true)
             });
 
             it('should create a map', ()=>{

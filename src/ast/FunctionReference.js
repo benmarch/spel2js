@@ -15,6 +15,7 @@
  */
 
 import {SpelNode} from './SpelNode';
+import {Stack} from '../lib/Stack';
 
 /**
  * A function reference is of the form "#someFunction(a,b,c)". Functions may be defined in
@@ -32,22 +33,32 @@ import {SpelNode} from './SpelNode';
  * @since 0.2.0
  */
 
-function createNode(parent, functionName) {
-    var node = SpelNode.create('method', parent);
+function createNode(functionName, position, args) {
+    var node = SpelNode.create('function', position);
 
-    node.getValue = function () {
-        var refNode = node,
-            context = null;
-        do {
-            if (refNode.getParent()) {
-                refNode = refNode.getParent();
-            } else {
-                context = refNode.getContext();
-            }
-        } while (refNode);
-        if (context[functionName]) {
-            return context[functionName].call(context);
+    node.getValue = function (state) {
+        var locals = state.locals || {},
+            context = state.rootContext,
+            compiledArgs = [];
+
+            //populate arguments
+        args.forEach(function (arg) {
+            // reset the active context to root context for evaluating argument
+            const currentActiveContext = state.activeContext
+            state.activeContext = new Stack();
+            state.activeContext.push(state.rootContext);
+
+            // evaluate argument
+            compiledArgs.push(arg.getValue(state));
+
+            // reset the active context
+            state.activeContext = currentActiveContext;
+        });
+
+        if (locals[functionName]) {
+            return locals[functionName].apply(context, compiledArgs);
         }
+
         throw {
             name: 'FunctionDoesNotExistException',
             message: 'Function \'' + functionName + '\' does not exist.'
