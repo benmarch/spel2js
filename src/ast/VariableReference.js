@@ -28,6 +28,10 @@ import {SpelNode} from './SpelNode';
 function createNode(variableName, position) {
     var node = SpelNode.create('variable', position);
 
+    node.getRaw = function () {
+        return variableName;
+    };
+
     node.getValue = function (state) {
         var context = state.activeContext.peek(),
             locals = state.locals;
