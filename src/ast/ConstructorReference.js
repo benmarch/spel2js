@@ -29,13 +29,26 @@ import {SpelNode} from './SpelNode';
  * @author Juergen Hoeller
  * @since 3.0
  */
-function createNode(position, nodes) {
-    var node = SpelNode.create('constructorref', position);
+ function createNode(position, dimensions, nodes) {
+    var isArray = nodes !== undefined;
+    var dimension;
+    if (isArray) {
+        dimension = dimensions.length && dimensions[0] && dimensions[0].type === 'number' ? dimensions[0].getValue() : null;
+    } else {
+        nodes = dimensions;
+        dimensions = undefined;
+    }
+    
+    var node = SpelNode.create('constructorref', position, ...nodes);
+
+    node.getRaw = function () {
+        return dimension;
+    };
 
     node.getValue = function (state) {
         throw {
             name: 'MethodNotImplementedException',
-            message: 'BeanReference: Not implemented'
+            message: 'ConstructorReference: Not implemented'
         }
     };
 

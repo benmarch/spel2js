@@ -25,6 +25,22 @@ describe('spel expression evaluator', ()=>{
             expect(compiledExpression.eval).toBeDefined();
         });
 
+        it('should compile expression with array constructor without dimensions', ()=>{
+            //when
+            let compiledExpression = evaluator.compile('new int[]{1,2,3}');
+
+            //then
+            expect(compiledExpression.eval).toBeDefined();
+        });
+
+        it('should compile expression with array constructor with dimensions', ()=>{
+            //when
+            let compiledExpression = evaluator.compile('new int[3]{1,2,3}');
+
+            //then
+            expect(compiledExpression.eval).toBeDefined();
+        });
+
         it('should compile expression with type reference', ()=>{
             //when
             let compiledExpression = evaluator.compile('T(java.time.LocalTime).parse("11:22")');

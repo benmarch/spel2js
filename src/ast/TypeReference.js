@@ -22,8 +22,8 @@ import {SpelNode} from './SpelNode';
  *
  * @author Andy Clement
  */
-function createNode(position, node, dims) {
-    var node = SpelNode.create('typeref', position, node, dims);
+function createNode(position, node, _dims) {
+    var node = SpelNode.create('typeref', position, node);
 
     node.getValue = function (state) {
         throw {

@@ -26,7 +26,7 @@ import {SpelNode} from './SpelNode';
  * @since 3.0
  */
 function createNode(position, pieces) {
-    var node = SpelNode.create('qualifiedidentifier', position);
+    var node = SpelNode.create('qualifiedidentifier', position, ...pieces);
 
     node.getValue = function (state) {
         throw {
