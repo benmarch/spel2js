@@ -22,8 +22,8 @@ import {SpelNode} from './SpelNode';
  *
  * @author Andy Clement
  */
-function createNode(position, left, right) {
-    var node = SpelNode.create('beanref', position, left, right);
+function createNode(position, beanName) {
+    var node = SpelNode.create('beanref', position);
 
     node.getValue = function (state) {
         throw {

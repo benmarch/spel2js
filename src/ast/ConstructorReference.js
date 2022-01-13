@@ -29,8 +29,8 @@ import {SpelNode} from './SpelNode';
  * @author Juergen Hoeller
  * @since 3.0
  */
-function createNode(position, left, right) {
-    var node = SpelNode.create('constructorref', position, left, right);
+function createNode(position, nodes) {
+    var node = SpelNode.create('constructorref', position);
 
     node.getValue = function (state) {
         throw {

@@ -714,7 +714,7 @@ export var SpelExpressionParser = function () {
             return true;
         }
         var value = node.stringValue();
-        return (value.length && VALID_QUALIFIED_ID_PATTERN.test(value));
+        return (value && value.length && VALID_QUALIFIED_ID_PATTERN.test(value));
     }
 
     // This is complicated due to the support for dollars in identifiers.  Dollars are normally separate tokens but

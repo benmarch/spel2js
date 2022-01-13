@@ -17,6 +17,22 @@ describe('spel expression evaluator', ()=>{
             expect(compiledExpression.eval).toBeDefined();
         });
 
+        it('should compile expression with constructor', ()=>{
+            //when
+            let compiledExpression = evaluator.compile('new java.text.SimpleDateFormat("yyyy-MM-dd").parse("2022-01-01")');
+
+            //then
+            expect(compiledExpression.eval).toBeDefined();
+        });
+
+        it('should compile expression with type reference', ()=>{
+            //when
+            let compiledExpression = evaluator.compile('T(java.time.LocalTime).parse("11:22")');
+
+            //then
+            expect(compiledExpression.eval).toBeDefined();
+        });
+
     });
 
 
