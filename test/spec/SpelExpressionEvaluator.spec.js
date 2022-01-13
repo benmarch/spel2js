@@ -865,6 +865,52 @@ describe('spel expression evaluator', ()=>{
 
         });
 
+        describe('constructor', ()=>{
+            it('should create new int array', ()=>{
+                //given
+                let context = {};
+
+                //when
+                let newArray = evaluator.eval('new int[]{1, 2, 3}', context);
+
+                //then
+                expect(newArray).toEqual([1, 2, 3]);
+            });
+
+            it('should create new int array with dimension', ()=>{
+                //given
+                let context = {};
+
+                //when
+                let newArray = evaluator.eval('new int[3]{1, 2, 3}', context);
+
+                //then
+                expect(newArray).toEqual([1, 2, 3]);
+            });
+
+            it('should create new empty array', ()=>{
+                //given
+                let context = {};
+
+                //when
+                let newArray = evaluator.eval('new int[]', context);
+
+                //then
+                expect(newArray).toEqual([]);
+            });
+
+            it('should create new empty array with dimension', ()=>{
+                //given
+                let context = {};
+
+                //when
+                let newArray = evaluator.eval('new int[3]', context);
+
+                //then
+                expect(newArray.length).toEqual(3);
+            });
+        });
+
     });
 
 });

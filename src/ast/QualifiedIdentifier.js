@@ -28,6 +28,10 @@ import {SpelNode} from './SpelNode';
 function createNode(position, pieces) {
     var node = SpelNode.create('qualifiedidentifier', position, ...pieces);
 
+    node.getRaw = function () {
+        return pieces.map(p => p.getRaw());
+    };
+
     node.getValue = function (state) {
         throw {
             name: 'MethodNotImplementedException',
