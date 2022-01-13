@@ -60,10 +60,14 @@ describe('spel expression evaluator', ()=>{
                 //when
                 let numberInt = evaluator.eval('123');
                 let numberFloat = evaluator.eval('123.4');
+                let negativeNumberInt = evaluator.eval('-123');
+                let negativeNumberFloat = evaluator.eval('-123.4');
 
                 //then
                 expect(numberInt).toBe(123);
                 expect(numberFloat).toBe(123.4);
+                expect(negativeNumberInt).toBe(-123);
+                expect(negativeNumberFloat).toBe(-123.4);
             });
 
             it('should evaluate a string', ()=>{
