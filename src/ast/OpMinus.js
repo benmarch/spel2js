@@ -39,8 +39,9 @@ function createNode(position, left, right) {
     var node = SpelNode.create('op-minus', position, left, right);
 
     node.getValue = function (state) {
-        if (!right)
+        if (!right) {
             return - left.getValue(state);
+        }
         return left.getValue(state) - right.getValue(state);
     };
 

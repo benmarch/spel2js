@@ -65,7 +65,7 @@ import {Stack} from '../lib/Stack';
                 state.activeContext = currentActiveContext;
             });
 
-            if (args.length == 1) {
+            if (args.length === 1) {
                 return compiledArgs[0];
             } else {
                 return dimension ? new Array(dimension) : [];
