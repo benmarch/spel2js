@@ -15,6 +15,7 @@
  */
 
 import {SpelNode} from './SpelNode';
+import {Stack} from '../lib/Stack';
 
 /**
  * Represents the invocation of a constructor. Either a constructor on a regular type or
@@ -29,13 +30,51 @@ import {SpelNode} from './SpelNode';
  * @author Juergen Hoeller
  * @since 3.0
  */
-function createNode(position, left, right) {
-    var node = SpelNode.create('constructorref', position, left, right);
+ function createNode(position, dimensions, nodes) {
+    var isArray = nodes !== undefined;
+    var dimension;
+    if (isArray) {
+        dimension = dimensions.length && dimensions[0] && dimensions[0].getType() === 'number' ? dimensions[0].getValue() : null;
+    } else {
+        nodes = dimensions;
+        dimensions = undefined;
+    }
+    const [_qualifiedIdentifier, ...args] = nodes;
+    
+    var node = SpelNode.create('constructorref', position, ...nodes);
+
+    node.getRaw = function () {
+        return dimension;
+    };
 
     node.getValue = function (state) {
+        if (isArray && args.length <= 1) {
+            var compiledArgs = [];
+
+            //populate arguments
+            args.forEach(function (arg) {
+                // reset the active context to root context for evaluating argument
+                const currentActiveContext = state.activeContext
+                state.activeContext = new Stack();
+                state.activeContext.push(state.rootContext);
+
+                // evaluate argument
+                compiledArgs.push(arg.getValue(state));
+
+                // reset the active context
+                state.activeContext = currentActiveContext;
+            });
+
+            if (args.length === 1) {
+                return compiledArgs[0];
+            } else {
+                return dimension ? new Array(dimension) : [];
+            }
+        }
+
         throw {
             name: 'MethodNotImplementedException',
-            message: 'BeanReference: Not implemented'
+            message: 'ConstructorReference: Not implemented'
         }
     };
 

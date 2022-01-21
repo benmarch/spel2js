@@ -29,6 +29,10 @@ import {SpelNode} from './SpelNode';
 function createNode(nullSafeNavigation, propertyName, position) {
     var node = SpelNode.create('property', position);
 
+    node.getRaw = function () {
+        return propertyName;
+    };
+
     node.getValue = function (state) {
         var context = state.activeContext.peek();
 

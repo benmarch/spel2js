@@ -28,6 +28,10 @@ function createNode(position, elements) {
     var node = SpelNode.create('list', position),
         list = [].concat(elements || []);
 
+    node.getRaw = function () {
+        return list;
+    };
+    
     node.getValue = function (state) {
         return list.map(function (element) {
             return element.getValue(state);

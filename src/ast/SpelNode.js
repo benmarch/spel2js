@@ -43,6 +43,16 @@ function createSpelNode(nodeType, position, ...operands) {
         return children;
     };
     node.addChild = function (childNode) {
+        if (!childNode) {
+            // See OpMinus and OpPlus: right node can be null for unary mode
+            return;
+        }
+        if (!childNode.setParent) {
+            throw {
+                name: 'Error',
+                message: 'Trying to add a child which is not a node: ' + JSON.stringify(childNode)
+            };
+        }
         childNode.setParent(node);
         children.push(childNode);
     };

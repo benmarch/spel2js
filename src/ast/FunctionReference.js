@@ -36,6 +36,13 @@ import {Stack} from '../lib/Stack';
 function createNode(functionName, position, args) {
     var node = SpelNode.create('function', position);
 
+    node.getRaw = function () {
+        return {
+            functionName,
+            args
+        };
+    };
+
     node.getValue = function (state) {
         var locals = state.locals || {},
             context = state.rootContext,

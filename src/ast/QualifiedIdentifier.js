@@ -25,8 +25,12 @@ import {SpelNode} from './SpelNode';
  * @author Andy Clement
  * @since 3.0
  */
-function createNode(position, left, right) {
-    var node = SpelNode.create('qualifiedidentifier', position, left, right);
+function createNode(position, pieces) {
+    var node = SpelNode.create('qualifiedidentifier', position, ...pieces);
+
+    node.getRaw = function () {
+        return pieces.map(p => p.getRaw());
+    };
 
     node.getValue = function (state) {
         throw {

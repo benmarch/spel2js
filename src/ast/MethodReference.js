@@ -30,6 +30,13 @@ import {Stack} from '../lib/Stack'
 function createNode(nullSafeNavigation, methodName, position, args) {
     var node = SpelNode.create('method', position);
 
+    node.getRaw = function () {
+        return {
+            methodName,
+            args
+        };
+    };
+
     node.getValue = function (state) {
         var context = state.activeContext.peek(),
             compiledArgs = [],

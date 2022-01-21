@@ -39,6 +39,9 @@ function createNode(position, left, right) {
     var node = SpelNode.create('op-plus', position, left, right);
 
     node.getValue = function (state) {
+        if (!right) {
+            return + left.getValue(state);
+        }
         //javascript will handle string concatenation or addition depending on types
         return left.getValue(state) + right.getValue(state);
     };

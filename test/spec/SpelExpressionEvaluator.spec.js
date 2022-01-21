@@ -17,6 +17,38 @@ describe('spel expression evaluator', ()=>{
             expect(compiledExpression.eval).toBeDefined();
         });
 
+        it('should compile expression with constructor', ()=>{
+            //when
+            let compiledExpression = evaluator.compile('new java.text.SimpleDateFormat("yyyy-MM-dd").parse("2022-01-01")');
+
+            //then
+            expect(compiledExpression.eval).toBeDefined();
+        });
+
+        it('should compile expression with array constructor without dimensions', ()=>{
+            //when
+            let compiledExpression = evaluator.compile('new int[]{1,2,3}');
+
+            //then
+            expect(compiledExpression.eval).toBeDefined();
+        });
+
+        it('should compile expression with array constructor with dimensions', ()=>{
+            //when
+            let compiledExpression = evaluator.compile('new int[3]{1,2,3}');
+
+            //then
+            expect(compiledExpression.eval).toBeDefined();
+        });
+
+        it('should compile expression with type reference', ()=>{
+            //when
+            let compiledExpression = evaluator.compile('T(java.time.LocalTime).parse("11:22")');
+
+            //then
+            expect(compiledExpression.eval).toBeDefined();
+        });
+
     });
 
 
@@ -28,10 +60,14 @@ describe('spel expression evaluator', ()=>{
                 //when
                 let numberInt = evaluator.eval('123');
                 let numberFloat = evaluator.eval('123.4');
+                let negativeNumberInt = evaluator.eval('-123');
+                let negativeNumberFloat = evaluator.eval('-123.4');
 
                 //then
                 expect(numberInt).toBe(123);
                 expect(numberFloat).toBe(123.4);
+                expect(negativeNumberInt).toBe(-123);
+                expect(negativeNumberFloat).toBe(-123.4);
             });
 
             it('should evaluate a string', ()=>{
@@ -831,6 +867,52 @@ describe('spel expression evaluator', ()=>{
                 expect(hometowns).toEqual(['Newton', 'Peabody', 'Brockton']);
             });
 
+        });
+
+        describe('constructor', ()=>{
+            it('should create new int array', ()=>{
+                //given
+                let context = {};
+
+                //when
+                let newArray = evaluator.eval('new int[]{1, 2, 3}', context);
+
+                //then
+                expect(newArray).toEqual([1, 2, 3]);
+            });
+
+            it('should create new int array with dimension', ()=>{
+                //given
+                let context = {};
+
+                //when
+                let newArray = evaluator.eval('new int[3]{1, 2, 3}', context);
+
+                //then
+                expect(newArray).toEqual([1, 2, 3]);
+            });
+
+            it('should create new empty array', ()=>{
+                //given
+                let context = {};
+
+                //when
+                let newArray = evaluator.eval('new int[]', context);
+
+                //then
+                expect(newArray).toEqual([]);
+            });
+
+            it('should create new empty array with dimension', ()=>{
+                //given
+                let context = {};
+
+                //when
+                let newArray = evaluator.eval('new int[3]', context);
+
+                //then
+                expect(newArray.length).toEqual(3);
+            });
         });
 
     });
