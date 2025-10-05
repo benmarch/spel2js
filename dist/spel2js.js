@@ -2651,7 +2651,7 @@ function createNode(nullSafeNavigation, methodName, position, args) {
             compiledArgs = [],
             method;
 
-        if (!context) {
+        if (context === null || context === undefined) {
             throw {
                 name: 'ContextDoesNotExistException',
                 message: 'Attempting to look up property \'' + methodName + '\' for an undefined context.'
