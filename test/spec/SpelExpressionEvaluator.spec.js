@@ -127,7 +127,11 @@ describe('spel expression evaluator', ()=>{
                             hi: 'bye'
                         },
                         propLookup: 'Found!'
-                    }
+                    },
+                    emptyString: '',
+                    zeroNumber: 0,
+                    falseBool: false,
+                    normalString: 'hello'
                 };
             });
 
@@ -188,6 +192,31 @@ describe('spel expression evaluator', ()=>{
                 //then
                 expect(willThrow).toThrow();
                 expect(willBeNull).toBe(null);
+            });
+
+            it('should allow .toUpperCase() on empty string', () => {
+                const result = evaluator.eval('emptyString.toUpperCase()', context);
+                expect(result).toBe(''); // "" -> ""
+            });
+
+            it('should allow .toUpperCase() on normal string', () => {
+                const result = evaluator.eval('normalString.toUpperCase()', context);
+                expect(result).toBe('HELLO');
+            });
+
+            it('should allow .toString() on number 0', () => {
+                const result = evaluator.eval('zeroNumber.toString()', context);
+                expect(result).toBe('0');
+            });
+
+            it('should allow .toString() on boolean false', () => {
+                const result = evaluator.eval('falseBool.toString()', context);
+                expect(result).toBe('false');
+            });
+
+            it('should allow safe navigation on primitive method calls', () => {
+                const result = evaluator.eval('emptyString?.toUpperCase()', context);
+                expect(result).toBe('');
             });
         });
 
